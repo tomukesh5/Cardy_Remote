@@ -29,4 +29,8 @@ public interface IWebServicesAPI {
     @FormUrlEncoded
     @POST("users_api/login")
     Call<ResponseBody> signIn(@Field("email") String email, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
+
+    @FormUrlEncoded
+    @POST("users_api/updateusersettings")
+    Call<ResponseBody> updateLocation(@Field("userid") String userid, @Field("latitude") String latitude, @Field("longitude")String longitude);
 }

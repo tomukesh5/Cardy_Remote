@@ -5,6 +5,7 @@ import com.cardyapp.App.Cardy;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by webwerks on 04/12/17.
@@ -34,5 +35,9 @@ public class CardySingleton {
     public void callToSignInAPI(String email, String password, String socialusertype, String socialUserData, Callback callback) {
         Call<ResponseBody> call = Cardy.instance().getApi().signIn(email, password, socialusertype, socialUserData, AppConstants.DEVICE_AOS);
         call.enqueue(callback);
+    }
+
+    public void callToUpdateUserLocationAPI(String userid, String latitude, String longitude) {
+        Call<ResponseBody> call = Cardy.instance().getApi().updateLocation(userid, latitude, longitude);
     }
 }

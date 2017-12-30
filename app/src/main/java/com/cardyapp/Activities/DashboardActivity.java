@@ -1,7 +1,9 @@
 package com.cardyapp.Activities;
 
+import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,6 +22,7 @@ import com.cardyapp.R;
 import com.cardyapp.fragments.ConnectionListFragment;
 import com.cardyapp.fragments.HomeFragment;
 import com.cardyapp.fragments.ProfileFragment;
+import com.cardyapp.services.LocationService;
 
 public class DashboardActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -38,6 +41,8 @@ public class DashboardActivity extends BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        getPermissions();
+
         homeFragment = HomeFragment.newInstance();
         profileFragment = ProfileFragment.newInstance();
         connectionListFragment = ConnectionListFragment.newInstance();
@@ -51,6 +56,24 @@ public class DashboardActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         getFragmentManager().beginTransaction().replace(R.id.container, homeFragment, "homeFragment").addToBackStack("homeFragment").commit();
+    }
+
+    private void getPermissions() {
+        String[] permissions = new String[]{
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        };
+        requestForPermissions(permissions, getResources().getString(R.string.LocationPermissionMessage), new BaseActivity.PermissionCallback() {
+            @Override
+            public void onAllPermissionGranted() {
+                startService(new Intent(DashboardActivity.this, LocationService.class));
+            }
+
+            @Override
+            public void onPermissionsDenied(String[] deniedPermissions) {
+                getPermissions();
+            }
+        });
     }
 
     @Override

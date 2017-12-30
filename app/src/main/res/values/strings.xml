@@ -79,4 +79,9 @@
     <string name="Female">Female</string>
     <string name="Male">Male</string>
 
+    <string name="permission_required">Permission Required</string>
+    <string name="ok">OK</string>
+
+    <string name="LocationPermissionMessage">To search near by connection app needs your location permission.</string>
+
 </resources>

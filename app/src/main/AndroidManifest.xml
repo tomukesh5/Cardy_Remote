@@ -3,6 +3,10 @@
     package="com.cardyapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".App.Cardy"
@@ -51,6 +55,11 @@
             android:name=".Activities.DashboardActivity"
             android:label="@string/title_activity_dasboard"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".services.LocationService"
+            android:exported="false"
+            android:enabled="true"/>
     </application>
 
 </manifest>

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="F:\Projects\CAppR\CApp\linkedin-sdk\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="F:\Projects\CAppR\CApp\linkedin-sdk\src\debug\jniLibs"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="F:\Projects\Cardy_Remote\linkedin-sdk\src\main\jniLibs"/></dataSet><dataSet config="debug"><source path="F:\Projects\Cardy_Remote\linkedin-sdk\src\debug\jniLibs"/></dataSet></merger>
