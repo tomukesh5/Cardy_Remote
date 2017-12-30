@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Action Bar/App Bar Color -->
+    <color name="colorPrimary">#3F51B5</color>
+    <!-- Status bar color -->
+    <color name="colorPrimaryDark">#303F9F</color>
+    <!-- Text Color -->
+    <color name="colorAccent">#000</color>
+
+
+    <color name="hintColor">#6a6a6b</color>
+    <color name="editTextColor">#000</color>
+
+    <color name="fb_btn_color">#3b5998</color>
+    <color name="fb_btn_border_color">#3b6698</color>
+    <color name="google_btn_color">#d34836</color>
+    <color name="google_btn_border_color">#d33836</color>
+    <color name="linkedin_btn_color">#00A0DC</color>
+    <color name="linkedin_btn_border_color">#00AAFF</color>
+
+    <color name="white">#fff</color>
+</resources>

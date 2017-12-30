@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "67507786598",
+    "project_id": "api-project-67507786598"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:67507786598:android:0ae392c3b3b12458",
+        "android_client_info": {
+          "package_name": "com.cardyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "67507786598-tmausn6vslr90rvklhfsj7fuuvq5nm66.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "67507786598-ghasov5qrrldqe2fjcdu56e31v95f33p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cardyapp",
+            "certificate_hash": "9331e01de8fda5933323f99a4640346f79d544f8"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrtk4z-VcYvJcbnAxxeqXdI13KYgxm8wI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
