@@ -4,7 +4,10 @@
     <modules>
       <module fileurl="file://F:\Projects\CApp\CardyApp.iml" filepath="F:\Projects\CApp\CardyApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/Cardy_Remote.iml" filepath="$PROJECT_DIR$/Cardy_Remote.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Cardy_Remote.iml" filepath="$PROJECT_DIR$/Cardy_Remote.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" filepath="$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" filepath="$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" />
     </modules>
   </component>
