@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cardyapp.Models.SignUpModel;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.CardySingleton;
@@ -142,32 +143,8 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
     public void signUp(String email, String password, String socialusertype, String socialUserData) {
         mProgress.setVisibility(View.VISIBLE);
-        CardySingleton.getInstance().callToSignUpAPI(email, password, socialusertype, socialUserData, new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                mProgress.setVisibility(View.GONE);
-                Log.d(AppConstants.TAG, response.toString());
-                Toast.makeText(SignUpActivity.this, "onResponse", Toast.LENGTH_SHORT).show();
-                DialogUtils.show(SignUpActivity.this, response.message(), "CARDY", "OK", false, false, new DialogUtils.ActionListner() {
-                    @Override
-                    public void onPositiveAction() {
-                        startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
-                    }
 
-                    @Override
-                    public void onNegativeAction() {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                mProgress.setVisibility(View.GONE);
-                Log.d(AppConstants.TAG, "onFailure");
-                Toast.makeText(SignUpActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
-            }
-        });
+        CardySingleton.getInstance().callToSignUpAPI(email,password,socialusertype,socialUserData, Callback_SignUp);
     }
 
     public void validate() {
@@ -193,4 +170,38 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
             }
         }
     }
+
+    Callback<SignUpModel> Callback_SignUp =  new Callback<SignUpModel>() {
+        @Override
+        public void onResponse(Call<SignUpModel> call, Response<SignUpModel> response) {
+
+            mProgress.setVisibility(View.GONE);
+            Log.d(AppConstants.TAG, response.toString());
+
+            SignUpModel signUpModel = response.body();
+
+            Log.e(AppConstants.TAG,"Response :"+signUpModel.toString());
+
+            Toast.makeText(SignUpActivity.this, "onResponse", Toast.LENGTH_SHORT).show();
+            DialogUtils.show(SignUpActivity.this, response.message(), "CARDY", "OK", false, false, new DialogUtils.ActionListner() {
+                @Override
+                public void onPositiveAction() {
+                    startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+                }
+
+                @Override
+                public void onNegativeAction() {
+
+                }
+            });
+        }
+
+        @Override
+        public void onFailure(Call<SignUpModel> call, Throwable t) {
+            mProgress.setVisibility(View.GONE);
+            Log.d(AppConstants.TAG, "onFailure");
+            Toast.makeText(SignUpActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
+        }
+    };
 }
+

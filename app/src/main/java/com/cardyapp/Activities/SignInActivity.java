@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.cardyapp.Models.SignInModel;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.CardySingleton;
@@ -52,6 +53,8 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
     public CardyProgressBar mProgress;
 
     private Validator mValidator;
+
+    private String TAG = getClass().getSimpleName();
 
     @Override
     protected void getSocialData(String email, String password, String socialType, String socialUserData) {
@@ -163,31 +166,42 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
 
     private void signInWithSocial(String email, String password, String socialusertype, String socialUserData) {
         mProgress.setVisibility(View.VISIBLE);
-        CardySingleton.getInstance().callToSignInAPI(email, password, socialusertype, socialUserData, new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                mProgress.setVisibility(View.GONE);
-                Log.d(AppConstants.TAG, response.toString());
-                Toast.makeText(SignInActivity.this, "onResponse", Toast.LENGTH_SHORT).show();
-                DialogUtils.show(SignInActivity.this, response.message(), "CARDY", "OK", false, false, new DialogUtils.ActionListner() {
-                    @Override
-                    public void onPositiveAction() {
-                        startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
-                    }
 
-                    @Override
-                    public void onNegativeAction() {
-
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                mProgress.setVisibility(View.GONE);
-                Log.d(AppConstants.TAG, "onFailure");
-                Toast.makeText(SignInActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
-            }
-        });
+        CardySingleton.getInstance().callToSignInAPI(email,password,socialusertype,socialUserData,Callback_SignIn);
     }
+
+
+    Callback<SignInModel> Callback_SignIn = new Callback<SignInModel>() {
+        @Override
+        public void onResponse(Call<SignInModel> call, Response<SignInModel> response) {
+
+            mProgress.setVisibility(View.GONE);
+            Log.d(AppConstants.TAG, response.toString());
+
+            SignInModel signInModel = response.body();
+            Log.e(TAG,"Response : "+signInModel.toString());
+
+            Toast.makeText(SignInActivity.this, "onResponse", Toast.LENGTH_SHORT).show();
+            DialogUtils.show(SignInActivity.this, response.message(), "CARDY", "OK", false, false, new DialogUtils.ActionListner() {
+                @Override
+                public void onPositiveAction() {
+                    startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
+                }
+
+                @Override
+                public void onNegativeAction() {
+
+                }
+            });
+        }
+
+        @Override
+        public void onFailure(Call<SignInModel> call, Throwable t) {
+
+            mProgress.setVisibility(View.GONE);
+            Log.d(AppConstants.TAG, "onFailure");
+            Toast.makeText(SignInActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
+
+        }
+    };
 }

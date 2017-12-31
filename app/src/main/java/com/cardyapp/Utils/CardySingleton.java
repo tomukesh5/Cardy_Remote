@@ -1,6 +1,8 @@
 package com.cardyapp.Utils;
 
 import com.cardyapp.App.Cardy;
+import com.cardyapp.Models.SignInModel;
+import com.cardyapp.Models.SignUpModel;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -28,12 +30,12 @@ public class CardySingleton {
     }
 
     public void callToSignUpAPI(String email, String password, String socialusertype, String socialUserData, Callback callback) {
-        Call<ResponseBody> call = Cardy.instance().getApi().signUp(email, password, socialusertype, socialUserData, AppConstants.DEVICE_AOS);
+        Call<SignUpModel> call = Cardy.instance().getApi().signUp(email, password, socialusertype, socialUserData, AppConstants.DEVICE_AOS);
         call.enqueue(callback);
     }
 
     public void callToSignInAPI(String email, String password, String socialusertype, String socialUserData, Callback callback) {
-        Call<ResponseBody> call = Cardy.instance().getApi().signIn(email, password, socialusertype, socialUserData, AppConstants.DEVICE_AOS);
+        Call<SignInModel> call = Cardy.instance().getApi().signIn(email, password, socialusertype, socialUserData, AppConstants.DEVICE_AOS);
         call.enqueue(callback);
     }
 

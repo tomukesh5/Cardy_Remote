@@ -1,6 +1,9 @@
 package com.cardyapp.Webservices;
 
 
+import com.cardyapp.Models.SignInModel;
+import com.cardyapp.Models.SignUpModel;
+
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -24,11 +27,11 @@ public interface IWebServicesAPI {
 
     @FormUrlEncoded
     @POST("users_api/createuser")
-    Call<ResponseBody> signUp(@Field("email") String email, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
+    Call<SignUpModel> signUp(@Field("email") String email, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
 
     @FormUrlEncoded
     @POST("users_api/login")
-    Call<ResponseBody> signIn(@Field("email") String email, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
+    Call<SignInModel> signIn(@Field("email") String email, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
 
     @FormUrlEncoded
     @POST("users_api/updateusersettings")
