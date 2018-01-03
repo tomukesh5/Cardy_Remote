@@ -8,6 +8,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
+import com.cardyapp.App.Cardy;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.DialogUtils;
@@ -18,6 +19,8 @@ import java.util.List;
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
+
+    private Cardy app;
 
     public interface PermissionCallback {
         /**
@@ -39,6 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutResourceId());
         ButterKnife.bind(this);
+        app = (Cardy) getApplication();
     }
 
     protected abstract int getLayoutResourceId();
@@ -95,5 +99,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             return;
         }
         permissionCallback.onPermissionsDenied(deniedPermissions.toArray(new String[deniedPermissions.size()]));
+    }
+
+    public Cardy getApp() {
+        return app;
     }
 }

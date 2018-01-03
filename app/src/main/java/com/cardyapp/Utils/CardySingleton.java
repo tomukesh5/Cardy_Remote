@@ -39,7 +39,8 @@ public class CardySingleton {
         call.enqueue(callback);
     }
 
-    public void callToUpdateUserLocationAPI(String userid, String latitude, String longitude) {
+    public void callToUpdateUserLocationAPI(String userid, String latitude, String longitude, Callback callback) {
         Call<ResponseBody> call = Cardy.instance().getApi().updateLocation(userid, latitude, longitude);
+        call.enqueue(callback);
     }
 }

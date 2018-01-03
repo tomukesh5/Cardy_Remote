@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/row_padding_left_right"
+    android:paddingLeft="@dimen/row_padding_left_right"
+    android:paddingRight="@dimen/row_padding_left_right"
+    android:paddingTop="@dimen/row_padding_left_right">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/civ_profile"
+                android:layout_width="@dimen/connection_row_profile_width"
+                android:layout_height="@dimen/connection_row_profile_height"
+                android:background="@drawable/connection_row_bg"
+                android:src="@color/hintColor" />
+
+            <View
+                android:layout_width="@dimen/connection_row_profile_width"
+                android:layout_height="@dimen/connection_row_profile_height"
+                android:background="@drawable/connection_row_bg" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical">
+
+            <com.cardyapp.Views.CustomTextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="Priyanka"
+                android:textStyle="bold" />
+
+            <com.cardyapp.Views.CustomTextView
+                android:id="@+id/tv_role"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:text="Priyanka" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="3">
+
+        <com.cardyapp.Views.CustomTextView
+            android:id="@+id/tv_accept"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_accept_bg"
+            android:gravity="center"
+            android:text="@string/Accept_text" />
+
+        <com.cardyapp.Views.CustomTextView
+            android:id="@+id/tv_reject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_reject_bg"
+            android:gravity="center"
+            android:text="@string/Reject_text" />
+
+        <com.cardyapp.Views.CustomTextView
+            android:id="@+id/tv_acceptAndRevert"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/btn_accept_revert_bg"
+            android:gravity="center"
+            android:text="@string/btn_accept_revert" />
+    </LinearLayout>
+
+</LinearLayout>

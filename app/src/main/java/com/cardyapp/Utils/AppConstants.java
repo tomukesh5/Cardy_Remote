@@ -18,4 +18,18 @@ public class AppConstants {
     public static final long LOCATION_UPDATE_INTERVAL_MILLIS = 20000;
     public static final long LOCATION_UPDATE_DISTANCE_METERS = 0;
     public static final int REQUEST_PERMISSION = 100;
+
+    public enum DashboardMenu {
+        CONNECTION,
+        SEARCH,
+        QR_SANNER,
+        PENDING_REQUST,
+        PROFILE
+    }
+
+    public enum PendingRequestAction {
+        ACCEPT,
+        REJECT,
+        ACCEPT_AND_REVERT
+    }
 }

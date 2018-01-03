@@ -1,25 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/webwerks/Documents/MukeshData/AndroidProjects/Cardy_Local/Cardy_Remote/F:\\Projects\\Cardy_Remote\\linkedin-sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
+            "outputFile": "F:\\Projects\\Cardy_Remote\\linkedin-sdk\\build\\intermediates\\res\\merged\\androidTest\\debug\\values_values.arsc.flat",
             "map": [
                 {
-                    "source": "/Users/webwerks/Documents/MukeshData/AndroidProjects/Cardy_Local/Cardy_Remote/F:\\Projects\\Cardy_Remote\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,117,183,322",
-                        "endColumns": "61,65,138,73",
-                        "endOffsets": "112,178,317,391"
-                    }
-                }
-            ]
-        },
-        {
-            "outputFile": "/Users/webwerks/Documents/MukeshData/AndroidProjects/Cardy_Local/Cardy_Remote/linkedin-sdk/build/intermediates/res/merged/androidTest/debug/values_values.arsc.flat",
-            "map": [
-                {
-                    "source": "/Users/webwerks/Documents/MukeshData/AndroidProjects/Cardy_Local/Cardy_Remote/linkedin-sdk/build/intermediates/bundles/debug/res/values/values.xml",
+                    "source": "F:\\Projects\\Cardy_Remote\\linkedin-sdk\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "from": {
                         "startLines": "2,3,4,5",
                         "startColumns": "4,4,4,4",

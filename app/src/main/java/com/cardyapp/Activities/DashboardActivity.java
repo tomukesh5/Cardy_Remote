@@ -1,127 +1,66 @@
 package com.cardyapp.Activities;
 
-import android.Manifest;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.view.Gravity;
-import android.view.View;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.annotation.Nullable;
 
 import com.cardyapp.R;
-import com.cardyapp.fragments.ConnectionListFragment;
-import com.cardyapp.fragments.HomeFragment;
-import com.cardyapp.fragments.ProfileFragment;
-import com.cardyapp.services.LocationService;
+import com.cardyapp.Utils.AppConstants;
+import com.cardyapp.Utils.IntentExtras;
 
-public class DashboardActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import butterknife.OnClick;
 
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction = null;
+/**
+ * Created by Priyanka on 12/31/2017.
+ */
 
-    private HomeFragment homeFragment;
-    private ProfileFragment profileFragment;
-    private ConnectionListFragment connectionListFragment;
+public class DashboardActivity extends BaseActivity {
+
+    private String menuAction;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getPermissions();
-
-        homeFragment = HomeFragment.newInstance();
-        profileFragment = ProfileFragment.newInstance();
-        connectionListFragment = ConnectionListFragment.newInstance();
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        getFragmentManager().beginTransaction().replace(R.id.container, homeFragment, "homeFragment").addToBackStack("homeFragment").commit();
-    }
-
-    private void getPermissions() {
-        String[] permissions = new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-        };
-        requestForPermissions(permissions, getResources().getString(R.string.LocationPermissionMessage), new BaseActivity.PermissionCallback() {
-            @Override
-            public void onAllPermissionGranted() {
-                startService(new Intent(DashboardActivity.this, LocationService.class));
-            }
-
-            @Override
-            public void onPermissionsDenied(String[] deniedPermissions) {
-                getPermissions();
-            }
-        });
     }
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_dasboard;
+        return R.layout.activity_dashboard;
     }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(Gravity.RIGHT)) {
-            drawer.closeDrawer(Gravity.RIGHT);
-        } else {
-            super.onBackPressed();
-        }
+    @OnClick(R.id.tv_connections)
+    public void onClickConnectionMenu() {
+        menuAction = AppConstants.DashboardMenu.CONNECTION.name();
+        openDrawerActivity();
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+    @OnClick(R.id.tv_search)
+    public void onClickSearhMenu() {
+        menuAction = AppConstants.DashboardMenu.SEARCH.name();
+        openDrawerActivity();
+    }
 
-        fragmentManager = getFragmentManager();
-        fragmentTransaction = null;
+    @OnClick(R.id.tv_qrScanner)
+    public void oonClickQRScannerMenu() {
+        menuAction = AppConstants.DashboardMenu.QR_SANNER.name();
+        openDrawerActivity();
+    }
 
-        int id = item.getItemId();
+    @OnClick(R.id.tv_pendingRequest)
+    public void onClickPendingREquestMenu() {
+        menuAction = AppConstants.DashboardMenu.PENDING_REQUST.name();
+        openDrawerActivity();
+    }
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-            fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, homeFragment, "homeFragment");
-        } else if (id == R.id.nav_gallery) {
-            fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, profileFragment, "profileFragment");
-        } else if (id == R.id.nav_slideshow) {
-            fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, connectionListFragment, "connectionListFragment");
-        } else if (id == R.id.nav_manage) {
+    @OnClick(R.id.tv_profile)
+    public void onClickProfileMenu() {
+        menuAction = AppConstants.DashboardMenu.PROFILE.name();
+        openDrawerActivity();
+    }
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(Gravity.RIGHT);
-
-        if (null != fragmentTransaction) {
-            fragmentTransaction.addToBackStack("Later Transaction").commit();
-        }
-        return true;
+    private void openDrawerActivity() {
+        Intent intent = new Intent(DashboardActivity.this, DrawerActivity.class);
+        intent.putExtra(IntentExtras.DRAWER_MENU, menuAction);
+        startActivity(intent);
     }
 }

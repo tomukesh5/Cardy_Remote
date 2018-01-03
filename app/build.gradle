@@ -49,6 +49,11 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:4.7.0'
     implementation 'com.google.android.gms:play-services-auth:11.8.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.7.0'
+
+
+    implementation 'org.codehaus.jackson:jackson-mapper-asl:1.9.13'
+    implementation 'org.codehaus.jackson:jackson-core-asl:1.9.13'
+
     implementation project(':linkedin-sdk')
 }
 apply plugin: 'com.google.gms.google-services'

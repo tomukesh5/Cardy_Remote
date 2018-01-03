@@ -186,7 +186,7 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
             DialogUtils.show(SignUpActivity.this, response.message(), "CARDY", "OK", false, false, new DialogUtils.ActionListner() {
                 @Override
                 public void onPositiveAction() {
-                    startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+                    startActivity(new Intent(SignUpActivity.this, DrawerActivity.class));
                 }
 
                 @Override

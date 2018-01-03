@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 
 public class SplashActivity extends BaseFullScreenActivity {
@@ -18,7 +19,12 @@ public class SplashActivity extends BaseFullScreenActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+
+                Userdata userdata = getApp().getPreferences().getLoggedInUser(getApp());
+
+                if (userdata == null)
+                    startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                else startActivity(new Intent(SplashActivity.this, DashboardActivity.class));
                 finish();
             }
         }, 1000);
