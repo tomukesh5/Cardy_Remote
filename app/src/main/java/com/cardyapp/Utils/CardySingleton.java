@@ -1,8 +1,10 @@
 package com.cardyapp.Utils;
 
 import com.cardyapp.App.Cardy;
+import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
+import com.cardyapp.Models.Userdata;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -40,7 +42,12 @@ public class CardySingleton {
     }
 
     public void callToUpdateUserLocationAPI(String userid, String latitude, String longitude, Callback callback) {
-        Call<ResponseBody> call = Cardy.instance().getApi().updateLocation(userid, latitude, longitude);
+        Call<BaseResponse> call = Cardy.instance().getApi().updateLocation(userid, latitude, longitude);
+        call.enqueue(callback);
+    }
+
+    public void callToUpdateUserProfileAPI(Userdata userdata, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().updateProfile(userdata);
         call.enqueue(callback);
     }
 }

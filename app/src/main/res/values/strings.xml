@@ -86,4 +86,9 @@
 
     <string name="Dashboard_label">Dashboard</string>
     <string name="btn_accept_revert">Accept &amp; Revert</string>
+
+    <string name="Network_error">Please check your internet connection and try again.</string>
+    <string name="Dialog_title">Cardy</string>
+    <string name="OK">OK</string>
+
 </resources>

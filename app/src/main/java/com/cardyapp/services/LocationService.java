@@ -16,6 +16,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 
 import com.cardyapp.App.Cardy;
+import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.CardySingleton;
@@ -105,14 +106,14 @@ public class LocationService extends Service {
 
     public void updateLocation(final double lat, final double lng) {
         // TODO: 12/30/2017 update location api integration
-        CardySingleton.getInstance().callToUpdateUserLocationAPI(userdata.getUserid(), lat + "", lng + "", new Callback() {
+        CardySingleton.getInstance().callToUpdateUserLocationAPI(userdata.getUserid(), lat + "", lng + "", new Callback<BaseResponse>() {
             @Override
-            public void onResponse(Call call, Response response) {
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
 
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
 
             }
         });

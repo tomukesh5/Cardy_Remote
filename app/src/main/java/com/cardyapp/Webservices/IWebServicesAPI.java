@@ -1,11 +1,14 @@
 package com.cardyapp.Webservices;
 
 
+import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
+import com.cardyapp.Models.Userdata;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
@@ -35,5 +38,8 @@ public interface IWebServicesAPI {
 
     @FormUrlEncoded
     @POST("users_api/updateusersettings")
-    Call<ResponseBody> updateLocation(@Field("userid") String userid, @Field("latitude") String latitude, @Field("longitude")String longitude);
+    Call<BaseResponse> updateLocation(@Field("userid") String userid, @Field("latitude") String latitude, @Field("longitude")String longitude);
+
+    @POST("users_api/updateprofile")
+    Call<BaseResponse> updateProfile(@Body Userdata userData);
 }

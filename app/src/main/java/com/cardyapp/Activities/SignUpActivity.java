@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.cardyapp.Models.SignUpModel;
+import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.CardySingleton;
@@ -46,7 +47,7 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
     @Order(2)
     @NotEmpty(sequence = 1, message = "Please enter Password")
-    @Password(min = 5, scheme = Password.Scheme.NUMERIC, message = "Please enter a min 5 digit Password")
+    @Password(min = 5, scheme = Password.Scheme.ALPHA_NUMERIC_MIXED_CASE_SYMBOLS, message = "Please enter a min 5 digit Password")
     @BindView(R.id.et_password)
     public EditText mEtPassword;
 
@@ -58,6 +59,8 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
     @BindView(R.id.progressBar)
     public CardyProgressBar mProgress;
+
+    private String email;
 
     private Validator mValidator;
 
@@ -142,9 +145,10 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
     }
 
     public void signUp(String email, String password, String socialusertype, String socialUserData) {
+        this.email = email;
         mProgress.setVisibility(View.VISIBLE);
 
-        CardySingleton.getInstance().callToSignUpAPI(email,password,socialusertype,socialUserData, Callback_SignUp);
+        CardySingleton.getInstance().callToSignUpAPI(email, password, socialusertype, socialUserData, Callback_SignUp);
     }
 
     public void validate() {
@@ -171,22 +175,46 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
         }
     }
 
-    Callback<SignUpModel> Callback_SignUp =  new Callback<SignUpModel>() {
+    Callback<SignUpModel> Callback_SignUp = new Callback<SignUpModel>() {
         @Override
         public void onResponse(Call<SignUpModel> call, Response<SignUpModel> response) {
 
             mProgress.setVisibility(View.GONE);
             Log.d(AppConstants.TAG, response.toString());
 
-            SignUpModel signUpModel = response.body();
+            final SignUpModel signUpModel = response.body();
 
-            Log.e(AppConstants.TAG,"Response :"+signUpModel.toString());
+            Log.e(AppConstants.TAG, "Response :" + signUpModel.toString());
 
-            Toast.makeText(SignUpActivity.this, "onResponse", Toast.LENGTH_SHORT).show();
-            DialogUtils.show(SignUpActivity.this, response.message(), "CARDY", "OK", false, false, new DialogUtils.ActionListner() {
+            if (signUpModel.getIsStatus()) {
+                Userdata userdata = new Userdata();
+                userdata.setUser_email(email);
+                userdata.setUserid(signUpModel.getUserid());
+                getApp().getPreferences().setLoggedInUser(userdata, getApp());
+                startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+            } else {
+                DialogUtils.show(SignUpActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onFailure(Call<SignUpModel> call, Throwable t) {
+            mProgress.setVisibility(View.GONE);
+            Log.d(AppConstants.TAG, "onFailure");
+            DialogUtils.show(SignUpActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                 @Override
                 public void onPositiveAction() {
-                    startActivity(new Intent(SignUpActivity.this, DrawerActivity.class));
+
                 }
 
                 @Override
@@ -194,13 +222,6 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
                 }
             });
-        }
-
-        @Override
-        public void onFailure(Call<SignUpModel> call, Throwable t) {
-            mProgress.setVisibility(View.GONE);
-            Log.d(AppConstants.TAG, "onFailure");
-            Toast.makeText(SignUpActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
         }
     };
 }

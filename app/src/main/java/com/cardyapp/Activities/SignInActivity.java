@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.R;
@@ -45,7 +44,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
 
     @Order(2)
     @NotEmpty(sequence = 1, message = "Please enter Password")
-    @Password(min = 5, scheme = Password.Scheme.NUMERIC, message = "Please enter a min 5 digit Password")
+    @Password(min = 5, scheme = Password.Scheme.ALPHA_NUMERIC_MIXED_CASE_SYMBOLS, message = "Please enter a min 5 digit Password")
     @BindView(R.id.et_password)
     public EditText mEtPassword;
 
@@ -167,7 +166,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
     private void signInWithSocial(String email, String password, String socialusertype, String socialUserData) {
         mProgress.setVisibility(View.VISIBLE);
 
-        CardySingleton.getInstance().callToSignInAPI(email,password,socialusertype,socialUserData,Callback_SignIn);
+        CardySingleton.getInstance().callToSignInAPI(email, password, socialusertype, socialUserData, Callback_SignIn);
     }
 
 
@@ -178,14 +177,35 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
             mProgress.setVisibility(View.GONE);
             Log.d(AppConstants.TAG, response.toString());
 
-            SignInModel signInModel = response.body();
-            Log.e(TAG,"Response : "+signInModel.toString());
+            final SignInModel signInModel = response.body();
+            Log.e(TAG, "Response : " + signInModel.toString());
 
-            Toast.makeText(SignInActivity.this, "onResponse", Toast.LENGTH_SHORT).show();
-            DialogUtils.show(SignInActivity.this, response.message(), "CARDY", "OK", false, false, new DialogUtils.ActionListner() {
+            if (signInModel.getIsStatus()) {
+                getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
+                startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
+            } else {
+                DialogUtils.show(SignInActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onFailure(Call<SignInModel> call, Throwable t) {
+            mProgress.setVisibility(View.GONE);
+            Log.d(AppConstants.TAG, "onFailure");
+            DialogUtils.show(SignInActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                 @Override
                 public void onPositiveAction() {
-                    startActivity(new Intent(SignInActivity.this, DrawerActivity.class));
+
                 }
 
                 @Override
@@ -193,15 +213,6 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
 
                 }
             });
-        }
-
-        @Override
-        public void onFailure(Call<SignInModel> call, Throwable t) {
-
-            mProgress.setVisibility(View.GONE);
-            Log.d(AppConstants.TAG, "onFailure");
-            Toast.makeText(SignInActivity.this, "onFailure", Toast.LENGTH_SHORT).show();
-
         }
     };
 }
