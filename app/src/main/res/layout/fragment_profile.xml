@@ -50,15 +50,27 @@
                 android:orientation="vertical"
                 android:paddingBottom="80dp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/civ_profile"
-                    android:layout_width="@dimen/connection_row_profile_width"
-                    android:layout_height="@dimen/connection_row_profile_height"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="16dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/connection_row_bg"
-                    android:src="@color/hintColor" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/civ_profile"
+                        android:layout_width="@dimen/connection_row_profile_width"
+                        android:layout_height="@dimen/connection_row_profile_height"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/connection_row_bg"
+                        android:src="@drawable/blank_profile" />
+                    <ImageView
+                        android:id="@+id/iv_camera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginTop="35dp"
+                        android:background="@drawable/profile_camera" />
+                </FrameLayout>
 
                 <com.cardyapp.Views.CustomEditText
                     android:id="@+id/et_firstName"

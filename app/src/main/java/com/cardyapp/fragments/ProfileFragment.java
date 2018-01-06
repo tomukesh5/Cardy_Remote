@@ -1,38 +1,59 @@
 package com.cardyapp.fragments;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.app.Fragment;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
+import com.cardyapp.Activities.BaseActivity;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.CardySingleton;
+import com.cardyapp.Utils.CommonUtil;
 import com.cardyapp.Utils.DialogUtils;
+import com.cardyapp.Utils.PictureSourceChooser;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
+import com.soundcloud.android.crop.Crop;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
 import static com.cardyapp.Utils.AppConstants.F_GENDER;
 import static com.cardyapp.Utils.AppConstants.M_GENDER;
 
@@ -40,7 +61,8 @@ import static com.cardyapp.Utils.AppConstants.M_GENDER;
  * Created by rac on 27/12/17.
  */
 
-public class ProfileFragment extends Fragment implements Validator.ValidationListener {
+public class ProfileFragment extends Fragment implements Validator.ValidationListener, PictureSourceChooser.OnGallerySource,
+        PictureSourceChooser.OnCameraSource {
 
     @Order(1)
     @NotEmpty(sequence = 1, message = "Please enter first name")
@@ -125,9 +147,14 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
     @BindView(R.id.rb_Female)
     public RadioButton mRBFemale;
 
+    @BindView(R.id.civ_profile)
+    public CircleImageView mCIVProfilePic;
+
     private Userdata userdata;
     private Cardy app;
     private Validator mValidator;
+    private PictureSourceChooser pictureSourceChooser;
+    private File profilePic;
 
     public ProfileFragment() {
 
@@ -178,6 +205,40 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
         } else {
             mRBMale.setChecked(true);
         }
+        loadProfilePic(userdata.getProfilepic());
+    }
+
+    private void loadProfilePic(String url) {
+
+        if (!CommonUtil.isEmpty(url)) {
+            Glide.with(getActivity()).load(getResources().getString(R.string.BASE_URL) + url).signature(new StringSignature(new Date() + "")).error(setDefaultProfilePic()).into(mCIVProfilePic);
+        } else {
+            mCIVProfilePic.setImageResource(setDefaultProfilePic());
+        }
+    }
+
+    private int setDefaultProfilePic() {
+        return R.drawable.blank_profile;
+    }
+
+    private void getPermissions() {
+        String[] permissions = new String[]{
+                "android.permission.CAMERA",
+                "android.permission.WRITE_EXTERNAL_STORAGE"
+        };
+        BaseActivity activity = (BaseActivity) getActivity();
+        activity.requestForPermissions(permissions, getString(R.string.Camera_permission_dialog), new BaseActivity.PermissionCallback() {
+            @Override
+            public void onAllPermissionGranted() {
+                pictureSourceChooser = new PictureSourceChooser(getActivity(), ProfileFragment.this, ProfileFragment.this);
+                pictureSourceChooser.show();
+            }
+
+            @Override
+            public void onPermissionsDenied(String[] deniedPermissions) {
+                getPermissions();
+            }
+        });
     }
 
     @OnClick({R.id.rb_Female, R.id.rb_Male})
@@ -192,6 +253,11 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                     break;
             }
         }
+    }
+
+    @OnClick(R.id.iv_camera)
+    public void onClickProfileCamera() {
+        getPermissions();
     }
 
     @OnClick(R.id.btn_submit)
@@ -368,6 +434,157 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                 EditText text = ((EditText) view);
                 text.setError(message);
             }
+        }
+    }
+
+    @Override
+    public void onCameraSelected() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File croppedFile = new File(getCroppedImagePath().getPath());
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(croppedFile));
+        startActivityForResult(intent, AppConstants.LAUNCH_CAMERA_REQUEST_CODE);
+    }
+
+    @Override
+    public void onGallerySelected() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(intent, AppConstants.LAUNCH_ALBUM_REQUEST_CODE);
+    }
+
+    private Uri getProfileImagePath() {
+        return Uri.fromFile(new File(CommonUtil.getPictureDirectory() + AppConstants.PROFILE_IMAGE_FILE_NAME + ".jpg"));
+    }
+
+    private Uri getBkUpProfileImagePath() {
+        return Uri.fromFile(new File(CommonUtil.getPictureDirectory() + AppConstants.PROFILE_IMAGE_FILE_NAME + "_bkup" + ".jpg"));
+    }
+
+    private Uri getCroppedImagePath() {
+        return Uri.fromFile(new File(CommonUtil.getPictureDirectory() + AppConstants.CROPPED_IMAGE_FILE_NAME + ".jpg"));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+
+            case AppConstants.LAUNCH_ALBUM_REQUEST_CODE:
+                if (RESULT_OK == resultCode) {
+                    File croppedFile = new File(CommonUtil.getPath(getActivity(), data.getData()));
+                    beginCrop(Uri.fromFile(croppedFile));
+                }
+                break;
+
+            case AppConstants.LAUNCH_CAMERA_REQUEST_CODE:
+                if (RESULT_OK == resultCode) {
+                    File croppedFile = new File(getCroppedImagePath().getPath());
+                    beginCrop(Uri.fromFile(croppedFile));
+                }
+                break;
+
+            case Crop.REQUEST_CROP:
+                if (resultCode == RESULT_OK) {
+                    final File croppedPic = new File(Crop.getOutput(data).getPath());
+                    if (croppedPic.length() / 1024 > AppConstants.MIN_PROFILE_SIZE_KB) {
+                        //Image size > 200KB
+                        //Do sampling
+                        BitmapFactory.Options options = new BitmapFactory.Options();
+                        options.inJustDecodeBounds = false;
+                        options.inDither = false;
+                        options.inSampleSize = 2;
+                        options.inScaled = false;
+                        options.inPreferredConfig = Bitmap.Config.ARGB_4444;
+                        options.inTempStorage = new byte[16384];
+                        Bitmap croppedBitmap = BitmapFactory.decodeFile(croppedPic.getAbsolutePath(), options);
+                        //profileImageView.setImageBitmap(croppedBitmap);
+
+                        try {
+                            if (croppedBitmap == null) {
+                                croppedBitmap = BitmapFactory.decodeStream(new FileInputStream(croppedPic), null, options);
+                            }
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        croppedBitmap = rotateImage(croppedBitmap, croppedPic.getAbsolutePath());
+                        profilePic = new File(getProfileImagePath().getPath());
+                        try {
+                            //Do Compress
+                            croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 50, new FileOutputStream(getProfileImagePath().getPath(), false));
+                            Glide.with(this).load(getProfileImagePath()).signature(new StringSignature(new Date() + "")).into(mCIVProfilePic);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                            //DialogUtils.show(this, getString(R.string.alert));
+                        }
+                    } else {
+                        profilePic = new File(getProfileImagePath().getPath());
+                        Glide.with(ProfileFragment.this).load(profilePic).signature(new StringSignature(new Date() + "")).into(mCIVProfilePic);
+                    }
+                } else if (resultCode == Crop.RESULT_ERROR) {
+                    DialogUtils.show(getActivity(), Crop.getError(data).getMessage(), getString(R.string.Dialog_title), getString(R.string.OK), new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+
+                        }
+                    });
+                }
+                break;
+        }
+    }
+
+    private void beginCrop(final Uri source) {
+        final File currentProfilePic = new File(getProfileImagePath().getPath());
+        if (currentProfilePic.exists() && currentProfilePic.isFile()) {
+            final File bkupFile = new File(getBkUpProfileImagePath().getPath());
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+                    try {
+                        CommonUtil.copy(currentProfilePic, bkupFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    Uri destination = getProfileImagePath();
+                    Crop.of(source, destination).asSquare().start(getActivity());
+                }
+            }.execute();
+        } else {
+            Uri destination = getProfileImagePath();
+            Crop.of(source, destination).asSquare().start(getActivity());
+        }
+    }
+
+    public static Bitmap rotateImage(Bitmap source, String imagePath) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate((float) getImageOrientation(imagePath));
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+
+    public static int getImageOrientation(String imagePath) {
+        try {
+            switch (new ExifInterface(new File(imagePath).getAbsolutePath()).getAttributeInt("Orientation", 1)) {
+                case 3 /*3*/:
+                    return 180;
+                case R.styleable.Toolbar_contentInsetEnd /*6*/:
+                    return 90;
+                case 8 /*8*/:
+                    return 270;
+                default:
+                    return 0;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 }

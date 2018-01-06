@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.cardyapp.R;
+import com.cardyapp.Utils.CommonUtil;
 import com.cardyapp.Utils.Preferences;
 import com.cardyapp.Webservices.IWebServicesAPI;
 import com.google.gson.Gson;
@@ -44,7 +45,7 @@ public class Cardy extends Application {
         gson = new GsonBuilder().setLenient().create();
 
         preferences = new Preferences(this);
-
+        CommonUtil.createDataDirIfNotExists();
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).connectTimeout(15, TimeUnit.SECONDS).build();

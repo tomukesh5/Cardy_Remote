@@ -47,7 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected abstract int getLayoutResourceId();
 
-    protected void requestForPermissions(@NonNull String[] permissions, String explaination, @NonNull PermissionCallback callback) {
+    public void requestForPermissions(@NonNull String[] permissions, String explaination, @NonNull PermissionCallback callback) {
 
         final List<String> requiredPermissions = new ArrayList<>();
         for(String permission : permissions) {

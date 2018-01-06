@@ -19,6 +19,13 @@ public class AppConstants {
     public static final long LOCATION_UPDATE_DISTANCE_METERS = 0;
     public static final int REQUEST_PERMISSION = 100;
 
+    public static final int LAUNCH_CAMERA_REQUEST_CODE = 10001;
+    public static final int LAUNCH_ALBUM_REQUEST_CODE = 10002;
+
+    public static final String PROFILE_IMAGE_FILE_NAME = "ProfileImage";
+    public static final String CROPPED_IMAGE_FILE_NAME = "CroppedImage";
+    public static final int MIN_PROFILE_SIZE_KB = 200;
+
     public enum DashboardMenu {
         CONNECTION,
         SEARCH,
