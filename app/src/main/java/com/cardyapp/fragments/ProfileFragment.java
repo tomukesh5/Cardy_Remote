@@ -9,6 +9,7 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -170,6 +171,10 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
         getActivity().setTitle("About");
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
         app = (Cardy) getActivity().getApplication();
         userdata = app.getPreferences().getLoggedInUser(app);
         mValidator = new Validator(this);
@@ -519,6 +524,9 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                         profilePic = new File(getProfileImagePath().getPath());
                         Glide.with(ProfileFragment.this).load(profilePic).signature(new StringSignature(new Date() + "")).into(mCIVProfilePic);
                     }
+
+                    final String base64String = ImageBase64Convertion.encode(imageBytes);
+                    request.setBase64Image(base64String);
                 } else if (resultCode == Crop.RESULT_ERROR) {
                     DialogUtils.show(getActivity(), Crop.getError(data).getMessage(), getString(R.string.Dialog_title), getString(R.string.OK), new DialogUtils.ActionListner() {
                         @Override
@@ -555,12 +563,12 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
                     Uri destination = getProfileImagePath();
-                    Crop.of(source, destination).asSquare().start(getActivity());
+                    Crop.of(source, destination).asSquare().start(getActivity(), ProfileFragment.this);
                 }
             }.execute();
         } else {
             Uri destination = getProfileImagePath();
-            Crop.of(source, destination).asSquare().start(getActivity());
+            Crop.of(source, destination).asSquare().start(getActivity(), ProfileFragment.this);
         }
     }
 

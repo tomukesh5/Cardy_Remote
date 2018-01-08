@@ -3,11 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Cardy_Remote.iml" filepath="$PROJECT_DIR$/Cardy_Remote.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Cardy_Remote.iml" filepath="$PROJECT_DIR$/Cardy_Remote.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/crop/crop.iml" filepath="$PROJECT_DIR$/crop/crop.iml" />
-      <module fileurl="file://$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" filepath="$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" />
       <module fileurl="file://$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" filepath="$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" />
     </modules>
   </component>
