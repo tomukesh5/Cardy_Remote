@@ -525,8 +525,6 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                         Glide.with(ProfileFragment.this).load(profilePic).signature(new StringSignature(new Date() + "")).into(mCIVProfilePic);
                     }
 
-                    final String base64String = ImageBase64Convertion.encode(imageBytes);
-                    request.setBase64Image(base64String);
                 } else if (resultCode == Crop.RESULT_ERROR) {
                     DialogUtils.show(getActivity(), Crop.getError(data).getMessage(), getString(R.string.Dialog_title), getString(R.string.OK), new DialogUtils.ActionListner() {
                         @Override
