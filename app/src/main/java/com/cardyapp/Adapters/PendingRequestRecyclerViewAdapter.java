@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardyapp.Models.ConnectionDTO;
+import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 
@@ -28,12 +29,12 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         void onClickedPendingBtn(int pos, String action);
     }
 
-    private List<ConnectionDTO> data = new ArrayList<>();
+    private List<Userdata> data = new ArrayList<>();
     private Context context;
     private LayoutInflater layoutInflater;
     private PendingRequestBtnClickListener pendingRequestBtnClickListener;
 
-    public PendingRequestRecyclerViewAdapter(Context context, List<ConnectionDTO> data, PendingRequestBtnClickListener pendingRequestBtnClickListener) {
+    public PendingRequestRecyclerViewAdapter(Context context, List<Userdata> data, PendingRequestBtnClickListener pendingRequestBtnClickListener) {
         this.context = context;
         this.data = data;
         this.layoutInflater = LayoutInflater.from(context);
@@ -42,18 +43,18 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = layoutInflater.inflate(R.layout.connection_row, viewGroup, false);
+        View view = layoutInflater.inflate(R.layout.pending_request_row, viewGroup, false);
         view.setTag(R.layout.pending_request_row, data.get(i));
         return new PendingRequestRecyclerViewAdapter.PendingRequestViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-        final ConnectionDTO connection = data.get(position);
+        final Userdata connection = data.get(position);
         final PendingRequestRecyclerViewAdapter.PendingRequestViewHolder connectionViewHolder = (PendingRequestRecyclerViewAdapter.PendingRequestViewHolder) viewHolder;
 
-        connectionViewHolder.mTvName.setText(connection.getName());
-        connectionViewHolder.mTvRole.setText(connection.getCompanyName());
+        connectionViewHolder.mTvName.setText(connection.getFirstname() + " " + connection.getLastname());
+        connectionViewHolder.mTvRole.setText(connection.getDesignation());
 
         connectionViewHolder.mTvAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +81,7 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         return data.size();
     }
 
-    public void setData(List<ConnectionDTO> data) {
+    public void setData(List<Userdata> data) {
         this.data = data;
         notifyDataSetChanged();
     }
@@ -105,5 +106,4 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             ButterKnife.bind(this, itemView);
         }
     }
-
 }

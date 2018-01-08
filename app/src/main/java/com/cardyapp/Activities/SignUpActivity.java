@@ -192,6 +192,7 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
                 userdata.setUserid(signUpModel.getUserid());
                 getApp().getPreferences().setLoggedInUser(userdata, getApp());
                 startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+                finish();
             } else {
                 DialogUtils.show(SignUpActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override

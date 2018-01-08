@@ -183,6 +183,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
             if (signInModel.getIsStatus()) {
                 getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
                 startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
+                finish();
             } else {
                 DialogUtils.show(SignInActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override

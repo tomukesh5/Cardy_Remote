@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,12 +25,14 @@ import com.bumptech.glide.signature.StringSignature;
 import com.cardyapp.Activities.BaseActivity;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
+import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.CardySingleton;
 import com.cardyapp.Utils.CommonUtil;
 import com.cardyapp.Utils.DialogUtils;
+import com.cardyapp.Utils.ImageBase64Convertion;
 import com.cardyapp.Utils.PictureSourceChooser;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -38,6 +41,7 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.soundcloud.android.crop.Crop;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -156,6 +160,7 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
     private Validator mValidator;
     private PictureSourceChooser pictureSourceChooser;
     private File profilePic;
+    String base64Profile;
 
     public ProfileFragment() {
 
@@ -372,7 +377,7 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
         user.setQualification(mEtQualification.getText() + "");
         user.setBiography(mEtBiography.getText() + "");
 
-        CardySingleton.getInstance().callToUpdateUserProfileAPI(userdata, new Callback<BaseResponse>() {
+        CardySingleton.getInstance().callToUpdateUserProfileAPI(user, new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 Log.d(AppConstants.TAG, response.toString());
@@ -510,6 +515,10 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        croppedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos); //bm is the bitmap object
+                        byte[] b = baos.toByteArray();
+                        base64Profile = ImageBase64Convertion.encode(b);
                         croppedBitmap = rotateImage(croppedBitmap, croppedPic.getAbsolutePath());
                         profilePic = new File(getProfileImagePath().getPath());
                         try {
@@ -524,7 +533,7 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                         profilePic = new File(getProfileImagePath().getPath());
                         Glide.with(ProfileFragment.this).load(profilePic).signature(new StringSignature(new Date() + "")).into(mCIVProfilePic);
                     }
-
+                    updateProfilePic();
                 } else if (resultCode == Crop.RESULT_ERROR) {
                     DialogUtils.show(getActivity(), Crop.getError(data).getMessage(), getString(R.string.Dialog_title), getString(R.string.OK), new DialogUtils.ActionListner() {
                         @Override
@@ -592,5 +601,36 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
             e.printStackTrace();
             return 0;
         }
+    }
+
+    private void updateProfilePic() {
+        if (base64Profile == null)
+            return;
+
+        UploadProfilePicModel uploadProfilePicModel = new UploadProfilePicModel();
+        uploadProfilePicModel.setUserid(userdata.getUserid());
+        uploadProfilePicModel.setProfilepic(base64Profile);
+        CardySingleton.getInstance().callToUpdateProfilePicAPI(uploadProfilePicModel, new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                Log.d(AppConstants.TAG, response.toString());
+                DialogUtils.show(getActivity(), response.body().getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+
+            }
+        });
     }
 }

@@ -2,8 +2,10 @@ package com.cardyapp.Utils;
 
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
+import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
+import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
 
 import okhttp3.ResponseBody;
@@ -49,5 +51,19 @@ public class CardySingleton {
     public void callToUpdateUserProfileAPI(Userdata userdata, Callback callback) {
         Call<BaseResponse> call = Cardy.instance().getApi().updateProfile(userdata);
         call.enqueue(callback);
+    }
+
+    public void callToUpdateProfilePicAPI(UploadProfilePicModel model, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().updateProfilePic(model);
+        call.enqueue(callback);
+    }
+
+    public void callToGetPendingRequestsAPI(String id, Callback callback) {
+        Call<PendingResuestModel> call = Cardy.instance().getApi().getPendingRequests(id);
+        call.enqueue(callback);
+    }
+
+    public void callToGetConnectionsAPI(String id, Callback callback){
+        Call<PendingResuestModel> call = Cardy.instance().getApi().getPendingRequests(id);
     }
 }

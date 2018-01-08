@@ -2,16 +2,21 @@ package com.cardyapp.Webservices;
 
 
 import com.cardyapp.Models.BaseResponse;
+import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
+import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by webwerks on 17/08/17.
@@ -42,4 +47,13 @@ public interface IWebServicesAPI {
 
     @POST("users_api/updateprofile")
     Call<BaseResponse> updateProfile(@Body Userdata userData);
+
+    @POST("users_api/uploadprofilepic")
+    Call<BaseResponse> updateProfilePic(@Body UploadProfilePicModel uploadProfilePicModel);
+
+    @GET("users_api/getpendingrequests")
+    Call<PendingResuestModel> getPendingRequests(@Query("id") String id);
+
+    @GET("users_api/getconnections")
+    Call<PendingResuestModel> getConnections(@Query("id") String id);
 }
