@@ -22,9 +22,11 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:paddingTop="24dp"
+        android:background="#ddd"
         android:weightSum="4">
 
         <com.cardyapp.Views.CustomTextView
+            android:id="@+id/tv_connections"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -32,6 +34,7 @@
             android:text="@string/connections_text" />
 
         <com.cardyapp.Views.CustomTextView
+            android:id="@+id/tv_search"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -39,6 +42,7 @@
             android:text="@string/search_text" />
 
         <com.cardyapp.Views.CustomTextView
+            android:id="@+id/tv_qrScanner"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -46,6 +50,7 @@
             android:text="@string/scanner_text" />
 
         <com.cardyapp.Views.CustomTextView
+            android:id="@+id/tv_profile"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

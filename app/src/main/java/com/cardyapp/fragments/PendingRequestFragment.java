@@ -9,13 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.cardyapp.Activities.SignUpActivity;
-import com.cardyapp.Adapters.ConnectionsRecyclerViewAdapter;
 import com.cardyapp.Adapters.PendingRequestRecyclerViewAdapter;
 import com.cardyapp.App.Cardy;
-import com.cardyapp.Models.ConnectionDTO;
+import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
@@ -74,7 +71,7 @@ public class PendingRequestFragment extends Fragment {
             public void onResponse(Call<PendingResuestModel> call, Response<PendingResuestModel> response) {
                 Log.d(AppConstants.TAG, response.toString());
                 PendingResuestModel model = response.body();
-                if (model.getIsStatus()){
+                if (model.getIsStatus()) {
                     list = model.getData();
                     if (list != null)
                         setAdapter();
@@ -95,7 +92,17 @@ public class PendingRequestFragment extends Fragment {
 
             @Override
             public void onFailure(Call<PendingResuestModel> call, Throwable t) {
+                DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
 
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+
+                    }
+                });
             }
         });
     }
@@ -107,11 +114,155 @@ public class PendingRequestFragment extends Fragment {
         list.addAll(list);
         PendingRequestRecyclerViewAdapter adapter = new PendingRequestRecyclerViewAdapter(getActivity(), list, new PendingRequestRecyclerViewAdapter.PendingRequestBtnClickListener() {
             @Override
-            public void onClickedPendingBtn(int pos, String action) {
-                Toast.makeText(getActivity(), action, Toast.LENGTH_LONG).show();
+            public void onClickedPendingBtn(String id, String action) {
+                if (AppConstants.PendingRequestAction.ACCEPT.name().equalsIgnoreCase(action)) {
+                    acceptRequest(id);
+                } else if (AppConstants.PendingRequestAction.REJECT.name().equalsIgnoreCase(action)) {
+                    rejectRequest(id);
+                } else if (AppConstants.PendingRequestAction.ACCEPT_AND_REVERT.name().equalsIgnoreCase(action)) {
+                    acceptAndRevertRequest(id);
+                }
             }
         });
         mRvPendingRequests.setAdapter(adapter);
         mRvPendingRequests.setLayoutManager(linearLayoutManager);
+    }
+
+    private void acceptRequest(String id) {
+        Userdata userdata = app.getPreferences().getLoggedInUser(app);
+
+        CardySingleton.getInstance().callToAcceptRequestAPI(userdata.getUserid(), id, new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                Log.d(AppConstants.TAG, response.toString());
+                BaseResponse model = response.body();
+                if (model.getIsStatus()) {
+                    DialogUtils.show(getActivity(), model.getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                } else {
+                    DialogUtils.show(getActivity(), response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+                    }
+                });
+            }
+        });
+    }
+
+    private void rejectRequest(String id) {
+        Userdata userdata = app.getPreferences().getLoggedInUser(app);
+
+        CardySingleton.getInstance().callToRejectRequestAPI(userdata.getUserid(), id, new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                Log.d(AppConstants.TAG, response.toString());
+                BaseResponse model = response.body();
+                if (model.getIsStatus()) {
+                    DialogUtils.show(getActivity(), model.getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                } else {
+                    DialogUtils.show(getActivity(), response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+                    }
+                });
+            }
+        });
+    }
+
+    private void acceptAndRevertRequest(String id) {
+        Userdata userdata = app.getPreferences().getLoggedInUser(app);
+
+        CardySingleton.getInstance().callToAcceptAndRevertRequestAPI(userdata.getUserid(), id, new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+                Log.d(AppConstants.TAG, response.toString());
+                BaseResponse model = response.body();
+                if (model.getIsStatus()) {
+                    DialogUtils.show(getActivity(), model.getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                } else {
+                    DialogUtils.show(getActivity(), response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+                    }
+                });
+            }
+        });
     }
 }

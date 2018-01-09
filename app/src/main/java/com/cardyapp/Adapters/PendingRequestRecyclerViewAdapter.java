@@ -26,7 +26,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface PendingRequestBtnClickListener {
-        void onClickedPendingBtn(int pos, String action);
+        void onClickedPendingBtn(String id, String action);
     }
 
     private List<Userdata> data = new ArrayList<>();
@@ -59,19 +59,19 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         connectionViewHolder.mTvAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pendingRequestBtnClickListener.onClickedPendingBtn(position, AppConstants.PendingRequestAction.ACCEPT.name());
+                pendingRequestBtnClickListener.onClickedPendingBtn(connection.getUserid(), AppConstants.PendingRequestAction.ACCEPT.name());
             }
         });
         connectionViewHolder.mTvReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pendingRequestBtnClickListener.onClickedPendingBtn(position, AppConstants.PendingRequestAction.REJECT.name());
+                pendingRequestBtnClickListener.onClickedPendingBtn(connection.getUserid(), AppConstants.PendingRequestAction.REJECT.name());
             }
         });
         connectionViewHolder.mTvAcceptAndReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pendingRequestBtnClickListener.onClickedPendingBtn(position, AppConstants.PendingRequestAction.ACCEPT_AND_REVERT.name());
+                pendingRequestBtnClickListener.onClickedPendingBtn(connection.getUserid(), AppConstants.PendingRequestAction.ACCEPT_AND_REVERT.name());
             }
         });
     }

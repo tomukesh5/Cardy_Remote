@@ -7,12 +7,13 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Gravity;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cardyapp.R;
@@ -21,10 +22,23 @@ import com.cardyapp.Utils.IntentExtras;
 import com.cardyapp.fragments.ConnectionListFragment;
 import com.cardyapp.fragments.PendingRequestFragment;
 import com.cardyapp.fragments.ProfileFragment;
+import com.cardyapp.fragments.SearchFragment;
 import com.cardyapp.services.LocationService;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 public class DrawerActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    @BindView(R.id.tv_connections)
+    public TextView mTvConnections;
+    @BindView(R.id.tv_search)
+    public TextView mTvSearch;
+    @BindView(R.id.tv_qrScanner)
+    public TextView mTvQrScanner;
+    @BindView(R.id.tv_profile)
+    public TextView mTvProfile;
 
     private Toast backToast;
     FragmentManager fragmentManager;
@@ -33,6 +47,7 @@ public class DrawerActivity extends BaseActivity
     private ProfileFragment profileFragment;
     private ConnectionListFragment connectionListFragment;
     private PendingRequestFragment pendingRequestFragment;
+    private SearchFragment searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +61,7 @@ public class DrawerActivity extends BaseActivity
         profileFragment = ProfileFragment.newInstance();
         connectionListFragment = ConnectionListFragment.newInstance();
         pendingRequestFragment = PendingRequestFragment.newIntence();
+        searchFragment = SearchFragment.newIntence();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -61,6 +77,7 @@ public class DrawerActivity extends BaseActivity
         String menu = (String) getIntent().getExtras().get(IntentExtras.DRAWER_MENU);
         if (menu != null) {
             if (menu.contentEquals(AppConstants.DashboardMenu.CONNECTION.name())) {
+                mTvConnections.setTextColor(getResources().getColor(R.color.colorPrimary));
                 fragment = connectionListFragment;
                 tag = "connectionListFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.PENDING_REQUST.name())) {
@@ -69,8 +86,11 @@ public class DrawerActivity extends BaseActivity
             } else if (menu.contentEquals(AppConstants.DashboardMenu.QR_SANNER.name())) {
 
             } else if (menu.contentEquals(AppConstants.DashboardMenu.SEARCH.name())) {
-
+                mTvSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
+                fragment = searchFragment;
+                tag = "searchFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.PROFILE.name())) {
+                mTvProfile.setTextColor(getResources().getColor(R.color.colorPrimary));
                 fragment = profileFragment;
                 tag = "profileFragment";
             }
@@ -133,7 +153,7 @@ public class DrawerActivity extends BaseActivity
             //fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, homeFragment, "homeFragment");
             finish();
         } else if (id == R.id.nav_myProfile) {
-            fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, profileFragment, "profileFragment");
+            loadProfileFragment();
         } else if (id == R.id.nav_share) {
             //fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, connectionListFragment, "connectionListFragment");
         } else if (id == R.id.nav_pendingRequest) {
@@ -160,5 +180,47 @@ public class DrawerActivity extends BaseActivity
             fragmentTransaction.addToBackStack("Later Transaction").commit();
         }
         return true;
+    }
+
+    private void loadProfileFragment() {
+        mTvProfile.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mTvConnections.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvSearch.setTextColor(getResources().getColor(R.color.editTextColor));
+        fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, profileFragment, "profileFragment");
+    }
+
+    @OnClick(R.id.tv_connections)
+    public void onClicktv_connections() {
+        mTvConnections.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mTvSearch.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvProfile.setTextColor(getResources().getColor(R.color.editTextColor));
+        fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, connectionListFragment, "connectionListFragment");
+        if (null != fragmentTransaction) {
+            fragmentTransaction.addToBackStack("Later Transaction").commit();
+        }
+    }
+
+    @OnClick(R.id.tv_search)
+    public void onClicktv_search() {
+        mTvSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mTvConnections.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvProfile.setTextColor(getResources().getColor(R.color.editTextColor));
+        fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, searchFragment, "searchFragment");
+        if (null != fragmentTransaction) {
+            fragmentTransaction.addToBackStack("Later Transaction").commit();
+        }
+    }
+
+    @OnClick(R.id.tv_qrScanner)
+    public void onClicktv_qrScanner() {
+
+    }
+
+    @OnClick(R.id.tv_profile)
+    public void onClicktv_profile() {
+        loadProfileFragment();
     }
 }

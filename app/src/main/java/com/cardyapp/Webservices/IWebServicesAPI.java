@@ -56,4 +56,20 @@ public interface IWebServicesAPI {
 
     @GET("users_api/getconnections")
     Call<PendingResuestModel> getConnections(@Query("id") String id);
+
+    @FormUrlEncoded
+    @POST("users_api/searchusers")
+    Call<PendingResuestModel> searchUserNearMe(@Field("userid") String userid);
+
+    @FormUrlEncoded
+    @POST("users_api/acceptrequest")
+    Call<BaseResponse> acceptRequest(@Field("userid") String userid, @Field("requestbyuserid") String requestbyuserid);
+
+    @FormUrlEncoded
+    @POST("users_api/rejectrequest")
+    Call<BaseResponse> rejectRequest(@Field("userid") String userid, @Field("requestbyuserid") String requestbyuserid);
+
+    @FormUrlEncoded
+    @POST("users_api/rejectrequest")
+    Call<BaseResponse> accepAndRevertRequest(@Field("userid") String userid, @Field("requestbyuserid") String requestbyuserid);
 }

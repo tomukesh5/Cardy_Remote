@@ -63,7 +63,28 @@ public class CardySingleton {
         call.enqueue(callback);
     }
 
-    public void callToGetConnectionsAPI(String id, Callback callback){
-        Call<PendingResuestModel> call = Cardy.instance().getApi().getPendingRequests(id);
+    public void callToGetConnectionsAPI(String id, Callback callback) {
+        Call<PendingResuestModel> call = Cardy.instance().getApi().getConnections(id);
+        call.enqueue(callback);
+    }
+
+    public void callToSearchUserNearMeAPI(String id, String distance, Callback callback) {
+        Call<PendingResuestModel> call = Cardy.instance().getApi().searchUserNearMe(id);
+        call.enqueue(callback);
+    }
+
+    public void callToAcceptRequestAPI(String id, String requestbyuserid, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().acceptRequest(id, requestbyuserid);
+        call.enqueue(callback);
+    }
+
+    public void callToRejectRequestAPI(String id, String requestbyuserid, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().rejectRequest(id, requestbyuserid);
+        call.enqueue(callback);
+    }
+
+    public void callToAcceptAndRevertRequestAPI(String id, String requestbyuserid, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().accepAndRevertRequest(id, requestbyuserid);
+        call.enqueue(callback);
     }
 }

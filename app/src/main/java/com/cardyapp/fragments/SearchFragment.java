@@ -29,40 +29,42 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by rac on 27/12/17.
+ * Created by rac on 9/1/18.
  */
 
-public class ConnectionListFragment extends Fragment {
+public class SearchFragment extends Fragment {
 
-    @BindView(R.id.rv_connection)
-    public RecyclerView mRvConnections;
+    @BindView(R.id.rv_searchResult)
+    public RecyclerView mRvSearchResult;
 
     private List<Userdata> list = new ArrayList<>();
 
     private Cardy app;
 
-    public ConnectionListFragment() {
+    public SearchFragment() {
 
     }
 
-    public static ConnectionListFragment newInstance() {
-        return new ConnectionListFragment();
+    public static SearchFragment newIntence() {
+        return new SearchFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_connection_list,container,false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
         app = (Cardy) getActivity().getApplication();
-        getConnections();
+
+        getPendingRequest();
+
         return view;
     }
 
-    private void getConnections() {
+    private void getPendingRequest() {
         Userdata userdata = app.getPreferences().getLoggedInUser(app);
 
-        CardySingleton.getInstance().callToGetConnectionsAPI(userdata.getUserid(), new Callback<PendingResuestModel>() {
+        CardySingleton.getInstance().callToSearchUserNearMeAPI(userdata.getUserid(), "5", new Callback<PendingResuestModel>() {
             @Override
             public void onResponse(Call<PendingResuestModel> call, Response<PendingResuestModel> response) {
                 Log.d(AppConstants.TAG, response.toString());
@@ -107,7 +109,7 @@ public class ConnectionListFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mRvConnections.setAdapter(new ConnectionsRecyclerViewAdapter(getActivity(), list, true));
-        mRvConnections.setLayoutManager(linearLayoutManager);
+        mRvSearchResult.setAdapter(new ConnectionsRecyclerViewAdapter(getActivity(), list, false));
+        mRvSearchResult.setLayoutManager(linearLayoutManager);
     }
 }
