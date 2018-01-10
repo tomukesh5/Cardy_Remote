@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.IntentExtras;
@@ -39,6 +40,9 @@ public class DrawerActivity extends BaseActivity
     public TextView mTvQrScanner;
     @BindView(R.id.tv_profile)
     public TextView mTvProfile;
+
+    private TextView mTvEmail;
+    private TextView mTvName;
 
     private Toast backToast;
     FragmentManager fragmentManager;
@@ -72,6 +76,9 @@ public class DrawerActivity extends BaseActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mTvName = navigationView.findViewById(R.id.tv_name);
+        mTvEmail = navigationView.findViewById(R.id.tv_email);
+
         Fragment fragment = null;
         String tag = null;
         String menu = (String) getIntent().getExtras().get(IntentExtras.DRAWER_MENU);
@@ -97,6 +104,15 @@ public class DrawerActivity extends BaseActivity
         }
         if (fragment != null)
             getFragmentManager().beginTransaction().replace(R.id.container, fragment, tag).addToBackStack(tag).commit();
+
+        Userdata userdata = getApp().getPreferences().getLoggedInUser(getApp());
+        /*if (userdata != null) {
+            mTvEmail.setText(userdata.getUser_email());
+            mTvName.setText((userdata.getFirstname() == null ? "" : userdata.getFirstname()) + " " + (userdata.getLastname() == null ? "" : userdata.getLastname()));
+        } else {
+            mTvEmail.setText("");
+            mTvName.setText("");
+        }*/
     }
 
     private void getPermissions() {

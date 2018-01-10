@@ -78,7 +78,7 @@
 
                 <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/cb_send"
-                    android:visibility="gone"
+                    style="@style/CustomCheckButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

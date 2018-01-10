@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cardyapp.Activities.DrawerActivity;
 import com.cardyapp.Adapters.PendingRequestRecyclerViewAdapter;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
@@ -65,11 +66,13 @@ public class PendingRequestFragment extends Fragment {
 
     private void getPendingRequest() {
         Userdata userdata = app.getPreferences().getLoggedInUser(app);
-
+        final DrawerActivity activity = (DrawerActivity) getActivity();
+        activity.showProgress("");
         CardySingleton.getInstance().callToGetPendingRequestsAPI(userdata.getUserid(), new Callback<PendingResuestModel>() {
             @Override
             public void onResponse(Call<PendingResuestModel> call, Response<PendingResuestModel> response) {
                 Log.d(AppConstants.TAG, response.toString());
+                activity.hideProgress();
                 PendingResuestModel model = response.body();
                 if (model.getIsStatus()) {
                     list = model.getData();
@@ -92,6 +95,7 @@ public class PendingRequestFragment extends Fragment {
 
             @Override
             public void onFailure(Call<PendingResuestModel> call, Throwable t) {
+                activity.hideProgress();
                 DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
@@ -131,10 +135,13 @@ public class PendingRequestFragment extends Fragment {
     private void acceptRequest(String id) {
         Userdata userdata = app.getPreferences().getLoggedInUser(app);
 
+        final DrawerActivity activity = (DrawerActivity) getActivity();
+        activity.showProgress("");
         CardySingleton.getInstance().callToAcceptRequestAPI(userdata.getUserid(), id, new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 Log.d(AppConstants.TAG, response.toString());
+                activity.hideProgress();
                 BaseResponse model = response.body();
                 if (model.getIsStatus()) {
                     DialogUtils.show(getActivity(), model.getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
@@ -161,6 +168,7 @@ public class PendingRequestFragment extends Fragment {
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
+                activity.hideProgress();
                 DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
@@ -176,11 +184,13 @@ public class PendingRequestFragment extends Fragment {
 
     private void rejectRequest(String id) {
         Userdata userdata = app.getPreferences().getLoggedInUser(app);
-
+        final DrawerActivity activity = (DrawerActivity) getActivity();
+        activity.showProgress("");
         CardySingleton.getInstance().callToRejectRequestAPI(userdata.getUserid(), id, new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 Log.d(AppConstants.TAG, response.toString());
+                activity.hideProgress();
                 BaseResponse model = response.body();
                 if (model.getIsStatus()) {
                     DialogUtils.show(getActivity(), model.getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
@@ -207,6 +217,7 @@ public class PendingRequestFragment extends Fragment {
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
+                activity.hideProgress();
                 DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
@@ -223,10 +234,13 @@ public class PendingRequestFragment extends Fragment {
     private void acceptAndRevertRequest(String id) {
         Userdata userdata = app.getPreferences().getLoggedInUser(app);
 
+        final DrawerActivity activity = (DrawerActivity) getActivity();
+        activity.showProgress("");
         CardySingleton.getInstance().callToAcceptAndRevertRequestAPI(userdata.getUserid(), id, new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 Log.d(AppConstants.TAG, response.toString());
+                activity.hideProgress();
                 BaseResponse model = response.body();
                 if (model.getIsStatus()) {
                     DialogUtils.show(getActivity(), model.getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
@@ -253,6 +267,7 @@ public class PendingRequestFragment extends Fragment {
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
+                activity.hideProgress();
                 DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {

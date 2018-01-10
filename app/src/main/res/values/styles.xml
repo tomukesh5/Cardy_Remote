@@ -50,6 +50,10 @@
         <item name="android:paddingLeft">10dip</item>
     </style>
 
+    <style name="CustomCheckButton" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/checkbox_bg</item>
+    </style>
+
     <style name="BottomSheetDialog">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:windowIsFloating">false</item>

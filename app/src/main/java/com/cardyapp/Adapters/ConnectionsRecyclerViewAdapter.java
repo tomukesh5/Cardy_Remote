@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.cardyapp.Models.Userdata;
@@ -24,6 +25,7 @@ public class ConnectionsRecyclerViewAdapter extends RecyclerView.Adapter<ViewHol
     private Context context;
     private LayoutInflater layoutInflater;
     private boolean isFromConnectionListFragment = false;
+    private List<String> selectedConnection = new ArrayList<>();
 
     public ConnectionsRecyclerViewAdapter(Context context, List<Userdata> data, boolean isFromConnectionListFragment) {
         this.context = context;
@@ -44,13 +46,34 @@ public class ConnectionsRecyclerViewAdapter extends RecyclerView.Adapter<ViewHol
         final Userdata connection = data.get(position);
         final ConnectionViewHolder connectionViewHolder = (ConnectionViewHolder) viewHolder;
 
+        connectionViewHolder.mCBSend.setOnCheckedChangeListener(null);
         if (isFromConnectionListFragment) {
             connectionViewHolder.mCBSend.setVisibility(View.GONE);
         } else {
             connectionViewHolder.mCBSend.setVisibility(View.VISIBLE);
+            if (selectedConnection.contains(connection.getUserid())) {
+                connectionViewHolder.mCBSend.setChecked(true);
+            } else {
+                connectionViewHolder.mCBSend.setChecked(false);
+            }
         }
+
         connectionViewHolder.mTvName.setText(connection.getFirstname() + " " + connection.getLastname());
         connectionViewHolder.mTvRole.setText(connection.getDesignation());
+        connectionViewHolder.mCBSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    if (!selectedConnection.contains(connection.getUserid())) {
+                        selectedConnection.add(connection.getUserid());
+                    }
+                } else {
+                    if (selectedConnection.contains(connection.getUserid())) {
+                        selectedConnection.remove(connection.getUserid());
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -76,5 +99,9 @@ public class ConnectionsRecyclerViewAdapter extends RecyclerView.Adapter<ViewHol
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public List<String> getSelectedUser() {
+        return selectedConnection;
     }
 }

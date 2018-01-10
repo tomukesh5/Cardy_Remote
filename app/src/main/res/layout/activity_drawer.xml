@@ -12,7 +12,6 @@
     <include
         layout="@layout/app_bar_dasboard"
         android:layout_width="match_parent"
-        android:layoutDirection="ltr"
         android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView

@@ -146,7 +146,7 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
     public void signUp(String email, String password, String socialusertype, String socialUserData) {
         this.email = email;
-        mProgress.setVisibility(View.VISIBLE);
+        showProgress("");
 
         CardySingleton.getInstance().callToSignUpAPI(email, password, socialusertype, socialUserData, Callback_SignUp);
     }
@@ -179,7 +179,7 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
         @Override
         public void onResponse(Call<SignUpModel> call, Response<SignUpModel> response) {
 
-            mProgress.setVisibility(View.GONE);
+            hideProgress();
             Log.d(AppConstants.TAG, response.toString());
 
             final SignUpModel signUpModel = response.body();
@@ -210,7 +210,7 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
         @Override
         public void onFailure(Call<SignUpModel> call, Throwable t) {
-            mProgress.setVisibility(View.GONE);
+            hideProgress();
             Log.d(AppConstants.TAG, "onFailure");
             DialogUtils.show(SignUpActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                 @Override

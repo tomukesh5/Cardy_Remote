@@ -1,5 +1,6 @@
 package com.cardyapp.Activities;
 
+import android.app.ProgressDialog;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +22,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
 
     private Cardy app;
+    private static ProgressDialog progressDialog;
 
     public interface PermissionCallback {
         /**
@@ -30,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         /**
          * Called when any one of the permission is denied
+         *
          * @param deniedPermissions Denied Permissions
          */
         void onPermissionsDenied(String[] deniedPermissions);
@@ -50,19 +53,19 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void requestForPermissions(@NonNull String[] permissions, String explaination, @NonNull PermissionCallback callback) {
 
         final List<String> requiredPermissions = new ArrayList<>();
-        for(String permission : permissions) {
+        for (String permission : permissions) {
             if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                 requiredPermissions.add(permission);
             }
         }
-        if(requiredPermissions.isEmpty()) {
+        if (requiredPermissions.isEmpty()) {
             callback.onAllPermissionGranted();
             return;
         }
         permissionCallback = callback;
         boolean showExplanation = false;
-        for(String permission : requiredPermissions) {
-            if(ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+        for (String permission : requiredPermissions) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
                 showExplanation = true;
                 break;
             }
@@ -88,13 +91,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         List<String> deniedPermissions = new ArrayList<>();
-        for(int i = 0; i < grantResults.length; i++) {
+        for (int i = 0; i < grantResults.length; i++) {
             int permissionStatus = grantResults[i];
-            if(permissionStatus != PackageManager.PERMISSION_GRANTED) {
+            if (permissionStatus != PackageManager.PERMISSION_GRANTED) {
                 deniedPermissions.add(permissions[i]);
             }
         }
-        if(deniedPermissions.isEmpty()) {
+        if (deniedPermissions.isEmpty()) {
             permissionCallback.onAllPermissionGranted();
             return;
         }
@@ -103,5 +106,33 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public Cardy getApp() {
         return app;
+    }
+
+    public void createProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setCancelable(false);
+    }
+
+    public void showProgress(final String message) {
+        createProgressDialog();
+        if (progressDialog.isShowing() == false) {
+            try {
+                progressDialog.setMessage(message);
+                progressDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void hideProgress() {
+        if (progressDialog != null && progressDialog.isShowing() == true) {
+            progressDialog.dismiss();
+        }
+        progressDialog = null;
     }
 }

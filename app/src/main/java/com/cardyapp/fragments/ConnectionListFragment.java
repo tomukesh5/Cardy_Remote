@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cardyapp.Activities.DrawerActivity;
 import com.cardyapp.Adapters.ConnectionsRecyclerViewAdapter;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.PendingResuestModel;
@@ -62,10 +63,13 @@ public class ConnectionListFragment extends Fragment {
     private void getConnections() {
         Userdata userdata = app.getPreferences().getLoggedInUser(app);
 
+        final DrawerActivity activity = (DrawerActivity) getActivity();
+        activity.showProgress("");
         CardySingleton.getInstance().callToGetConnectionsAPI(userdata.getUserid(), new Callback<PendingResuestModel>() {
             @Override
             public void onResponse(Call<PendingResuestModel> call, Response<PendingResuestModel> response) {
                 Log.d(AppConstants.TAG, response.toString());
+                activity.hideProgress();
                 PendingResuestModel model = response.body();
                 if (model.getIsStatus()) {
                     list = model.getData();
@@ -88,6 +92,7 @@ public class ConnectionListFragment extends Fragment {
 
             @Override
             public void onFailure(Call<PendingResuestModel> call, Throwable t) {
+                activity.hideProgress();
                 DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {

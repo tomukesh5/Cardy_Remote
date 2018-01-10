@@ -14,7 +14,7 @@ import butterknife.OnClick;
  * Created by Priyanka on 12/31/2017.
  */
 
-public class DashboardActivity extends BaseActivity {
+public class DashboardActivity extends BaseFullScreenActivity {
 
     private String menuAction;
 
