@@ -39,7 +39,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-public abstract class BaseSocialSignInActivity extends BaseFullScreenActivity implements GoogleApiClient.ConnectionCallbacks,
+public abstract class BaseSocialSignInActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
     public static final int REQUEST_GPLUS_SIGN_IN = 1000001;

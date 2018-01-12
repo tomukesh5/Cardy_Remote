@@ -175,7 +175,7 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, view);
-        getActivity().setTitle("About");
+        getActivity().setTitle(getResources().getString(R.string.Profile_title));
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());

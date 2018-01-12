@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cardyapp.Activities.DrawerActivity;
 import com.cardyapp.Adapters.PendingRequestRecyclerViewAdapter;
@@ -38,6 +39,8 @@ public class PendingRequestFragment extends Fragment {
 
     @BindView(R.id.rv_pendingRequest)
     public RecyclerView mRvPendingRequests;
+    @BindView(R.id.tv_emptyView)
+    public TextView mTvEmptyView;
 
     private List<Userdata> list = new ArrayList<>();
 
@@ -56,7 +59,7 @@ public class PendingRequestFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_pending_request, container, false);
         ButterKnife.bind(this, view);
-        getActivity().setTitle("About");
+        getActivity().setTitle(getResources().getString(R.string.Pending_request_title));
         app = (Cardy) getActivity().getApplication();
 
         getPendingRequest();
@@ -74,11 +77,19 @@ public class PendingRequestFragment extends Fragment {
                 Log.d(AppConstants.TAG, response.toString());
                 activity.hideProgress();
                 PendingResuestModel model = response.body();
-                if (model.getIsStatus()) {
+                if (model != null && model.getIsStatus()) {
                     list = model.getData();
-                    if (list != null)
+                    if (list != null && list.size() > 0) {
+                        mTvEmptyView.setVisibility(View.GONE);
+                        mRvPendingRequests.setVisibility(View.VISIBLE);
                         setAdapter();
+                    } else {
+                        mTvEmptyView.setVisibility(View.VISIBLE);
+                        mRvPendingRequests.setVisibility(View.GONE);
+                    }
                 } else {
+                    mTvEmptyView.setVisibility(View.VISIBLE);
+                    mRvPendingRequests.setVisibility(View.GONE);
                     DialogUtils.show(getActivity(), response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                         @Override
                         public void onPositiveAction() {
@@ -96,6 +107,9 @@ public class PendingRequestFragment extends Fragment {
             @Override
             public void onFailure(Call<PendingResuestModel> call, Throwable t) {
                 activity.hideProgress();
+                mTvEmptyView.setText(getResources().getString(R.string.Network_error));
+                mTvEmptyView.setVisibility(View.VISIBLE);
+                mRvPendingRequests.setVisibility(View.GONE);
                 DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
@@ -143,7 +157,8 @@ public class PendingRequestFragment extends Fragment {
                 Log.d(AppConstants.TAG, response.toString());
                 activity.hideProgress();
                 BaseResponse model = response.body();
-                if (model.getIsStatus()) {
+                if (model != null && model.getIsStatus()) {
+                    getPendingRequest();
                     DialogUtils.show(getActivity(), model.getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                         @Override
                         public void onPositiveAction() {
@@ -192,7 +207,8 @@ public class PendingRequestFragment extends Fragment {
                 Log.d(AppConstants.TAG, response.toString());
                 activity.hideProgress();
                 BaseResponse model = response.body();
-                if (model.getIsStatus()) {
+                if (model != null && model.getIsStatus()) {
+                    getPendingRequest();
                     DialogUtils.show(getActivity(), model.getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                         @Override
                         public void onPositiveAction() {
@@ -242,7 +258,8 @@ public class PendingRequestFragment extends Fragment {
                 Log.d(AppConstants.TAG, response.toString());
                 activity.hideProgress();
                 BaseResponse model = response.body();
-                if (model.getIsStatus()) {
+                if (model != null && model.getIsStatus()) {
+                    getPendingRequest();
                     DialogUtils.show(getActivity(), model.getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                         @Override
                         public void onPositiveAction() {

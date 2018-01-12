@@ -35,6 +35,8 @@ public class ForgotPasswordActivity extends BaseActivity implements Validator.Va
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setToolBar();
+        setTitle(getString(R.string.forgot_password_text));
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
         mValidator.setValidationMode(Validator.Mode.BURST);

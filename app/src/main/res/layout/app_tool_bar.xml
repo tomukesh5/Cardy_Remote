@@ -19,10 +19,13 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <com.cardyapp.Views.CustomTextView
+                android:id="@+id/toolbar_title"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="left|center_vertical"
                 android:text="ckskc"
+                android:paddingLeft="20dp"
+                android:textSize="18sp"
                 android:textColor="@color/white" />
         </android.support.v7.widget.Toolbar>
 

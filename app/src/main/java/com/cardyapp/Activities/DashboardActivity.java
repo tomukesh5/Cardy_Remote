@@ -14,13 +14,15 @@ import butterknife.OnClick;
  * Created by Priyanka on 12/31/2017.
  */
 
-public class DashboardActivity extends BaseFullScreenActivity {
+public class DashboardActivity extends BaseActivity {
 
     private String menuAction;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setToolBar();
+        setTitle(getString(R.string.Dashboard_label));
     }
 
     @Override

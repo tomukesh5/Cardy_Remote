@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_searchResult"
+    <com.cardyapp.Views.CustomTextView
+        android:id="@+id/tv_emptyView"
+        android:text="@string/NO_search"
+        android:visibility="gone"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none" />
+        android:layout_height="match_parent" />
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/listLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_searchResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="60dp"
+            android:scrollbars="none" />
+
+        <com.cardyapp.Views.CustomTextView
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/btn_bg_black"
+            android:paddingBottom="14dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:paddingTop="14dp"
+            android:text="@string/btn_send"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+</FrameLayout>

@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical">
 
+    <com.cardyapp.Views.CustomTextView
+        android:id="@+id/tv_emptyView"
+        android:text="@string/NO_pending_request"
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_pendingRequest"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" />
 
-</LinearLayout>
+</FrameLayout>

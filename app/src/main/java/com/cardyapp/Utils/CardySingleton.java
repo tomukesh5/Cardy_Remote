@@ -3,10 +3,13 @@ package com.cardyapp.Utils;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.PendingResuestModel;
+import com.cardyapp.Models.RequestConnection;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
 import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -85,6 +88,11 @@ public class CardySingleton {
 
     public void callToAcceptAndRevertRequestAPI(String id, String requestbyuserid, Callback callback) {
         Call<BaseResponse> call = Cardy.instance().getApi().accepAndRevertRequest(id, requestbyuserid);
+        call.enqueue(callback);
+    }
+
+    public void callToSendMultipleRequestAPI(List<RequestConnection> list, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().sendMultipleConnections(list);
         call.enqueue(callback);
     }
 }

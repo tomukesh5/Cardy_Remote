@@ -84,7 +84,7 @@
 
     <string name="LocationPermissionMessage">To search near by connection app needs your location permission.</string>
 
-    <string name="Dashboard_label">Dashboard</string>
+    <string name="Dashboard_label">Home</string>
     <string name="btn_accept_revert">Accept &amp; Revert</string>
 
     <string name="Network_error">Please check your internet connection and try again.</string>
@@ -92,4 +92,15 @@
     <string name="OK">OK</string>
 
     <string name="Camera_permission_dialog">"App needs your camera permission to set profile pic.</string>
+
+    <string name="NO_pending_request">No Pending requests found.</string>
+    <string name="NO_connection">No connections found.</string>
+    <string name="NO_search">No search result found.</string>
+
+    <string name="Connection_title">Connections</string>
+    <string name="Search_title">Search</string>
+    <string name="Pending_request_title">Pending request</string>
+    <string name="Profile_title">Profile</string>
+    <string name="btn_send">Send</string>
+    <string name="No_connection_selected_error">No connections are selected to send request.</string>
 </resources>

@@ -8,7 +8,7 @@ import android.util.Log;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 
-public class SplashActivity extends BaseFullScreenActivity {
+public class SplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

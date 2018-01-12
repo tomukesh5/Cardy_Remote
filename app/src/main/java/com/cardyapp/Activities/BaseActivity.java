@@ -1,13 +1,21 @@
 package com.cardyapp.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NavUtils;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.cardyapp.App.Cardy;
 import com.cardyapp.R;
@@ -46,6 +54,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutResourceId());
         ButterKnife.bind(this);
         app = (Cardy) getApplication();
+    }
+
+    public void setToolBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(null != toolbar) {
+            setSupportActionBar(toolbar);
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        super.setTitle(title);
+        TextView titleTv = (TextView) findViewById(R.id.toolbar_title);
+        if(null != titleTv)
+            titleTv.setText(title);
+    }
+
+    @Override
+    public void setTitle(int titleId) {
+        super.setTitle(titleId);
+        setTitle(getString(titleId));
     }
 
     protected abstract int getLayoutResourceId();
@@ -134,5 +166,19 @@ public abstract class BaseActivity extends AppCompatActivity {
             progressDialog.dismiss();
         }
         progressDialog = null;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            Intent intent = NavUtils.getParentActivityIntent(this);
+            if(null != intent) {
+                NavUtils.navigateUpTo(this, intent);
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

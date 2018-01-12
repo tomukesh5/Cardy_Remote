@@ -3,10 +3,13 @@ package com.cardyapp.Webservices;
 
 import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.PendingResuestModel;
+import com.cardyapp.Models.RequestConnection;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
 import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
+
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -72,4 +75,8 @@ public interface IWebServicesAPI {
     @FormUrlEncoded
     @POST("users_api/rejectrequest")
     Call<BaseResponse> accepAndRevertRequest(@Field("userid") String userid, @Field("requestbyuserid") String requestbyuserid);
+
+    @FormUrlEncoded
+    @POST("users_api/sendmultiplerequest")
+    Call<BaseResponse> sendMultipleConnections(@Field("requestdata") List<RequestConnection> productCodes);
 }

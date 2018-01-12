@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.cardyapp.Activities.DrawerActivity;
 import com.cardyapp.Adapters.ConnectionsRecyclerViewAdapter;
@@ -37,6 +38,8 @@ public class ConnectionListFragment extends Fragment {
 
     @BindView(R.id.rv_connection)
     public RecyclerView mRvConnections;
+    @BindView(R.id.tv_emptyView)
+    public TextView mTvEmptyView;
 
     private List<Userdata> list = new ArrayList<>();
 
@@ -53,9 +56,10 @@ public class ConnectionListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_connection_list,container,false);
+        View view = inflater.inflate(R.layout.fragment_connection_list, container, false);
         ButterKnife.bind(this, view);
         app = (Cardy) getActivity().getApplication();
+        getActivity().setTitle(getResources().getString(R.string.Connection_title));
         getConnections();
         return view;
     }
@@ -71,11 +75,19 @@ public class ConnectionListFragment extends Fragment {
                 Log.d(AppConstants.TAG, response.toString());
                 activity.hideProgress();
                 PendingResuestModel model = response.body();
-                if (model.getIsStatus()) {
+                if (model != null && model.getIsStatus()) {
                     list = model.getData();
-                    if (list != null)
+                    if (list != null && list.size() > 0) {
+                        mTvEmptyView.setVisibility(View.GONE);
+                        mRvConnections.setVisibility(View.VISIBLE);
                         setAdapter();
+                    } else {
+                        mTvEmptyView.setVisibility(View.VISIBLE);
+                        mRvConnections.setVisibility(View.GONE);
+                    }
                 } else {
+                    mTvEmptyView.setVisibility(View.VISIBLE);
+                    mRvConnections.setVisibility(View.GONE);
                     DialogUtils.show(getActivity(), response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                         @Override
                         public void onPositiveAction() {
@@ -93,6 +105,9 @@ public class ConnectionListFragment extends Fragment {
             @Override
             public void onFailure(Call<PendingResuestModel> call, Throwable t) {
                 activity.hideProgress();
+                mTvEmptyView.setText(getResources().getString(R.string.Network_error));
+                mTvEmptyView.setVisibility(View.VISIBLE);
+                mRvConnections.setVisibility(View.GONE);
                 DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
