@@ -2,12 +2,17 @@ package com.cardyapp.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.R;
@@ -25,6 +30,8 @@ import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,6 +74,29 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
         mValidator.setValidationMode(Validator.Mode.BURST);
+        //generateHashkey();
+    }
+
+    public void generateHashkey(){
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.cardyapp",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+
+                String str = Base64.encodeToString(md.digest(),
+                        Base64.NO_WRAP);
+                Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d("Name not found", e.getMessage(), e);
+
+        } catch (NoSuchAlgorithmException e) {
+            Log.d("Error", e.getMessage(), e);
+        }
     }
 
     @OnTextChanged(value = R.id.et_password,
@@ -176,7 +206,8 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
             Log.d(AppConstants.TAG, response.toString());
 
             final SignInModel signInModel = response.body();
-            Log.e(TAG, "Response : " + signInModel.toString());
+            if (signInModel != null)
+                Log.e(TAG, "Response : " + signInModel.toString());
             hideProgress();
             if (signInModel.getIsStatus()) {
                 getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());

@@ -29,8 +29,12 @@ import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIApiError;
 import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.ApiListener;
+import com.linkedin.platform.listeners.ApiResponse;
 import com.linkedin.platform.listeners.AuthListener;
 import com.linkedin.platform.utils.Scope;
 
@@ -42,6 +46,10 @@ import java.util.Arrays;
 public abstract class BaseSocialSignInActivity extends BaseActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
+    private static final String host = "api.linkedin.com";
+    private static final String url = "https://" + host
+            + "/v1/people/~:"
+            + "(email-address,formatted-name,phone-numbers,picture-urls::(original))";
     public static final int REQUEST_GPLUS_SIGN_IN = 1000001;
     public static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
@@ -194,6 +202,7 @@ public abstract class BaseSocialSignInActivity extends BaseActivity implements G
                                         LISessionManager.getInstance(getApplicationContext())
                                                 .getSession().getAccessToken().toString(),
                                 Toast.LENGTH_LONG).show();
+                        linkededinApiHelper();
                     }
 
                     @Override
@@ -210,6 +219,57 @@ public abstract class BaseSocialSignInActivity extends BaseActivity implements G
     private static Scope buildScope() {
         return Scope.build(Scope.R_BASICPROFILE,
                 Scope.R_EMAILADDRESS);
+    }
+
+    public void linkededinApiHelper(){
+
+        showProgress("");
+        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+        apiHelper.getRequest(this, url, new ApiListener() {
+            @Override
+            public void onApiSuccess(ApiResponse result) {
+                try {
+                    showResult(result.getResponseDataAsJson());
+                    hideProgress();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onApiError(LIApiError error) {
+                hideProgress();
+                Toast.makeText(getApplicationContext(), "failed "
+                                + error.toString(),
+                        Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public  void  showResult(JSONObject response){
+
+        try {
+
+            String fullName = response.get("formattedName").toString();
+            SocialUserData userData = new SocialUserData();
+            if (fullName != null && fullName.contains(" ")) {
+                userData.setFirstname(fullName.substring(0, fullName.indexOf(" ")));
+                userData.setLastname(fullName.substring(fullName.indexOf(" ") + 1, fullName.length()));
+            } else {
+                userData.setFirstname(fullName);
+                userData.setLastname(null);
+            }
+
+            userData.setLinkedinuserid(LISessionManager.getInstance(getApplicationContext())
+                    .getSession().getAccessToken().getValue());
+            userData.setFullname(fullName);
+            userData.setPersonalemail(response.get("emailAddress").toString());
+            String str = userData.toString();
+            getSocialData(response.get("emailAddress").toString(), response.get("emailAddress").toString(), AppConstants.LINKEDIN_LOGIN, str);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     public CallbackManager getCallbackManager() {
