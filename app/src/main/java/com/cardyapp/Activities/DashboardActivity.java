@@ -64,5 +64,6 @@ public class DashboardActivity extends BaseActivity {
         Intent intent = new Intent(DashboardActivity.this, DrawerActivity.class);
         intent.putExtra(IntentExtras.DRAWER_MENU, menuAction);
         startActivity(intent);
+        finish();
     }
 }

@@ -206,10 +206,9 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
             Log.d(AppConstants.TAG, response.toString());
 
             final SignInModel signInModel = response.body();
-            if (signInModel != null)
-                Log.e(TAG, "Response : " + signInModel.toString());
             hideProgress();
-            if (signInModel.getIsStatus()) {
+            if (signInModel != null && signInModel.getIsStatus()) {
+                Log.e(TAG, "Response : " + signInModel.toString());
                 getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
                 startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
                 finish();

@@ -184,9 +184,8 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
             final SignUpModel signUpModel = response.body();
 
-            Log.e(AppConstants.TAG, "Response :" + signUpModel.toString());
-
-            if (signUpModel.getIsStatus()) {
+            if (signUpModel != null && signUpModel.getIsStatus()) {
+                Log.e(AppConstants.TAG, "Response :" + signUpModel.toString());
                 Userdata userdata = new Userdata();
                 userdata.setUser_email(email);
                 userdata.setUserid(signUpModel.getUserid());

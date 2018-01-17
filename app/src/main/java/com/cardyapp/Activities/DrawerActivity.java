@@ -13,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,9 +22,12 @@ import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.IntentExtras;
 import com.cardyapp.fragments.ConnectionListFragment;
+import com.cardyapp.fragments.FeedbackFragment;
 import com.cardyapp.fragments.PendingRequestFragment;
 import com.cardyapp.fragments.ProfileFragment;
+import com.cardyapp.fragments.QRScannerFragment;
 import com.cardyapp.fragments.SearchFragment;
+import com.cardyapp.fragments.ShareFragment;
 import com.cardyapp.services.LocationService;
 
 import butterknife.BindView;
@@ -52,6 +56,9 @@ public class DrawerActivity extends BaseActivity
     private ConnectionListFragment connectionListFragment;
     private PendingRequestFragment pendingRequestFragment;
     private SearchFragment searchFragment;
+    private QRScannerFragment qrScannerFragment;
+    private FeedbackFragment feedbackFragment;
+    private ShareFragment shareFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,9 @@ public class DrawerActivity extends BaseActivity
         connectionListFragment = ConnectionListFragment.newInstance();
         pendingRequestFragment = PendingRequestFragment.newIntence();
         searchFragment = SearchFragment.newIntence();
+        qrScannerFragment = QRScannerFragment.newIntence();
+        feedbackFragment = FeedbackFragment.newIntence();
+        shareFragment = ShareFragment.newIntence();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -75,9 +85,6 @@ public class DrawerActivity extends BaseActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        mTvName = navigationView.findViewById(R.id.tv_name);
-        mTvEmail = navigationView.findViewById(R.id.tv_email);
 
         Fragment fragment = null;
         String tag = null;
@@ -91,7 +98,9 @@ public class DrawerActivity extends BaseActivity
                 fragment = pendingRequestFragment;
                 tag = "pendingRequestFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.QR_SANNER.name())) {
-
+                mTvQrScanner.setTextColor(getResources().getColor(R.color.colorPrimary));
+                fragment = qrScannerFragment;
+                tag = "qrScannerFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.SEARCH.name())) {
                 mTvSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
                 fragment = searchFragment;
@@ -106,13 +115,16 @@ public class DrawerActivity extends BaseActivity
             getFragmentManager().beginTransaction().replace(R.id.container, fragment, tag).addToBackStack(tag).commit();
 
         Userdata userdata = getApp().getPreferences().getLoggedInUser(getApp());
-        /*if (userdata != null) {
+        View headerView = navigationView.inflateHeaderView(R.layout.nav_header_dasboard);
+        mTvName = headerView.findViewById(R.id.tv_name);
+        mTvEmail = headerView.findViewById(R.id.tv_email);
+        if (userdata != null) {
             mTvEmail.setText(userdata.getUser_email());
             mTvName.setText((userdata.getFirstname() == null ? "" : userdata.getFirstname()) + " " + (userdata.getLastname() == null ? "" : userdata.getLastname()));
         } else {
             mTvEmail.setText("");
             mTvName.setText("");
-        }*/
+        }
     }
 
     private void getPermissions() {
@@ -146,7 +158,7 @@ public class DrawerActivity extends BaseActivity
         } else {
             if (backToast != null && backToast.getView().getWindowToken() != null) {
                 backToast.cancel();
-                super.onBackPressed();
+                finish();
             } else {
                 backToast = Toast.makeText(this, "Tap back button once more to exit", Toast.LENGTH_SHORT);
                 backToast.show();
@@ -165,19 +177,21 @@ public class DrawerActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_dashboard) {
-            // Handle the camera action
-            //fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, homeFragment, "homeFragment");
+            startActivity(new Intent(DrawerActivity.this, DashboardActivity.class));
             finish();
         } else if (id == R.id.nav_myProfile) {
             loadProfileFragment();
         } else if (id == R.id.nav_share) {
-            //fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, connectionListFragment, "connectionListFragment");
+            clearTabSelection();
+            fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, shareFragment, "shareFragment");
         } else if (id == R.id.nav_pendingRequest) {
+            clearTabSelection();
             fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, pendingRequestFragment, "pendingRequestFragment");
         } else if (id == R.id.nav_qrCode) {
-
+            loadQRScannerFragment();
         } else if (id == R.id.nav_feedback) {
-
+            clearTabSelection();
+            fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, feedbackFragment, "feedbackFragment");
         } else if (id == R.id.nav_logOut) {
             getApp().getPreferences().setLoggedInUser(null, getApp());
             new Handler().postDelayed(new Runnable() {
@@ -232,11 +246,32 @@ public class DrawerActivity extends BaseActivity
 
     @OnClick(R.id.tv_qrScanner)
     public void onClicktv_qrScanner() {
+        loadQRScannerFragment();
+        if (null != fragmentTransaction) {
+            fragmentTransaction.addToBackStack("Later Transaction").commit();
+        }
+    }
 
+    private void loadQRScannerFragment() {
+        mTvProfile.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvConnections.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.colorPrimary));
+        mTvSearch.setTextColor(getResources().getColor(R.color.editTextColor));
+        fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, qrScannerFragment, "qrScannerFragment");
     }
 
     @OnClick(R.id.tv_profile)
     public void onClicktv_profile() {
         loadProfileFragment();
+        if (null != fragmentTransaction) {
+            fragmentTransaction.addToBackStack("Later Transaction").commit();
+        }
+    }
+
+    private void clearTabSelection() {
+        mTvProfile.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvConnections.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvSearch.setTextColor(getResources().getColor(R.color.editTextColor));
     }
 }

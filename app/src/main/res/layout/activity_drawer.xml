@@ -21,7 +21,6 @@
         android:layout_gravity="right"
         android:fitsSystemWindows="true"
         android:layoutDirection="ltr"
-        app:headerLayout="@layout/nav_header_dasboard"
         app:menu="@menu/activity_dasboard_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

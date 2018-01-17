@@ -76,6 +76,7 @@ public interface IWebServicesAPI {
     @POST("users_api/rejectrequest")
     Call<BaseResponse> accepAndRevertRequest(@Field("userid") String userid, @Field("requestbyuserid") String requestbyuserid);
 
+    @FormUrlEncoded
     @POST("users_api/sendmultiplerequest")
-    Call<BaseResponse> sendMultipleConnections(@Body() List<RequestConnection> requestdata);
+    Call<BaseResponse> sendMultipleConnections(@Field("requestdata") List<RequestConnection> requestdata);
 }

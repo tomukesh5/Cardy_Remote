@@ -101,6 +101,9 @@
     <string name="Search_title">Search</string>
     <string name="Pending_request_title">Pending request</string>
     <string name="Profile_title">Profile</string>
+    <string name="QRScanner_title">QR scanner</string>
+    <string name="Feedback_title">Feedback</string>
+    <string name="Share_title">Share</string>
     <string name="btn_send">Send</string>
     <string name="No_connection_selected_error">No connections are selected to send request.</string>
 </resources>
