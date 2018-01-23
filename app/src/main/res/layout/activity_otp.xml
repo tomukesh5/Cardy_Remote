@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginTop="@dimen/card_padding_top_bottom"
+        android:src="@drawable/logo" />
+
+    <com.cardyapp.Views.CustomTextView
+        android:text="@string/Cardy_pro_text"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:textAllCaps="true"
+        android:textSize="@dimen/btn_text_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <View
+        android:background="@color/hintColor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <com.cardyapp.Views.CustomTextView
+        android:text="@string/Enter_verification_code"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</LinearLayout>

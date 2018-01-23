@@ -106,4 +106,7 @@
     <string name="Share_title">Share</string>
     <string name="btn_send">Send</string>
     <string name="No_connection_selected_error">No connections are selected to send request.</string>
+    
+    <string name="Cardy_pro_text">Cardy pro</string>
+    <string name="Enter_verification_code">Enter Verification Code</string>
 </resources>
