@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.cardyapp.Views.CustomEditText
-            android:id="@+id/et_email"
+            android:id="@+id/et_mobileNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/email_margin_left_right"
@@ -40,9 +40,11 @@
             android:background="@drawable/edit_text_bg"
             android:drawableLeft="@drawable/icon_email"
             android:drawablePadding="@dimen/text_drawable_padding"
-            android:hint="@string/email_address_hint"
-            android:inputType="textEmailAddress"
+            android:hint="@string/mobile_no_address_hint"
+            android:inputType="number"
             android:maxLines="1"
+            android:maxLength="10"
+            android:imeOptions="actionNext"
             android:paddingBottom="4dp"
             android:textSize="@dimen/text_size"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,13 +62,14 @@
             android:drawableLeft="@drawable/icon_password"
             android:drawablePadding="@dimen/text_drawable_padding"
             android:hint="@string/password_hint"
+            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:maxLines="1"
             android:paddingBottom="5dp"
             android:textSize="@dimen/text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_email" />
+            app:layout_constraintTop_toBottomOf="@+id/et_mobileNo" />
 
         <com.cardyapp.Views.CustomEditText
             android:id="@+id/et_confirmPassword"
@@ -81,6 +84,7 @@
             android:hint="@string/confirm_password_hint"
             android:inputType="textPassword"
             android:maxLines="1"
+            android:imeOptions="actionDone"
             android:paddingBottom="5dp"
             android:textSize="@dimen/text_size"
             app:layout_constraintEnd_toEndOf="parent"

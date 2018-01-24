@@ -36,8 +36,8 @@ public class CardySingleton {
         call.enqueue(callback);
     }
 
-    public void callToSignUpAPI(String email, String password, String socialusertype, String socialUserData, Callback callback) {
-        Call<SignUpModel> call = Cardy.instance().getApi().signUp(email, password, socialusertype, socialUserData, AppConstants.DEVICE_AOS);
+    public void callToSignUpAPI(String mobile, String password, String socialusertype, String socialUserData, Callback callback) {
+        Call<SignUpModel> call = Cardy.instance().getApi().signUp(mobile, password, socialusertype, socialUserData, AppConstants.DEVICE_AOS);
         call.enqueue(callback);
     }
 

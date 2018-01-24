@@ -23,4 +23,5 @@
     <color name="btn_accept_color">#00ff00</color>
     <color name="btn_reject_color">#ff0000</color>
     <color name="btn_accept_revert_color">#ddffaa</color>
+    <color name="yellow_app">#FF8C00</color>
 </resources>

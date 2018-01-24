@@ -38,7 +38,7 @@ public interface IWebServicesAPI {
 
     @FormUrlEncoded
     @POST("users_api/createuser")
-    Call<SignUpModel> signUp(@Field("email") String email, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
+    Call<SignUpModel> signUp(@Field("mobile") String mobile, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
 
     @FormUrlEncoded
     @POST("users_api/login")

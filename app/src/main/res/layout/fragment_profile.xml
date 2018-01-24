@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="80dp">
+                android:paddingBottom="8dp">
 
                 <FrameLayout
                     android:layout_width="match_parent"
@@ -331,27 +331,27 @@
                     android:maxLines="1"
                     android:paddingBottom="4dp"
                     android:textSize="@dimen/text_size" />
+
+                <com.cardyapp.Views.CustomTextView
+                    android:id="@+id/btn_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="12dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/btn_bg_black"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:paddingTop="12dp"
+                    android:text="@string/btn_submit"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
             </LinearLayout>
 
         </ScrollView>
 
-        <com.cardyapp.Views.CustomTextView
-            android:id="@+id/btn_submit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/btn_bg_black"
-            android:paddingBottom="12dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:paddingTop="12dp"
-            android:text="@string/btn_submit"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="18sp" />
     </RelativeLayout>
 
 </LinearLayout>

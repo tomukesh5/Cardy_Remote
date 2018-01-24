@@ -26,6 +26,7 @@ import com.linkedin.platform.LISessionManager;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
@@ -44,10 +45,10 @@ import retrofit2.Response;
 public class SignInActivity extends BaseSocialSignInActivity implements Validator.ValidationListener {
 
     @Order(1)
-    @NotEmpty(sequence = 1, message = "Please enter email address")
-    @Email(sequence = 2, message = "Invalid email address")
-    @BindView(R.id.et_email)
-    public EditText mEtEmail;
+    @NotEmpty(sequence = 1, message = "Please enter mobile number")
+    @Length(min = 10, max = 10, sequence = 2, message = "Mobile number must be 10 digits")
+    @BindView(R.id.et_mobileNo)
+    public EditText mEtMobileNo;
 
     @Order(2)
     @NotEmpty(sequence = 1, message = "Please enter Password")
@@ -111,7 +112,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
             callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void onTextChanged_Email(Editable editable) {
         if (editable.length() > 0) {
-            mEtEmail.setError(null);
+            mEtMobileNo.setError(null);
         }
     }
 
@@ -175,7 +176,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
 
     @Override
     public void onValidationSucceeded() {
-        signInWithSocial(mEtEmail.getText() + "", mEtPassword.getText() + "", "", "");
+        signInWithSocial(mEtMobileNo.getText() + "", mEtPassword.getText() + "", "", "");
     }
 
     @Override
