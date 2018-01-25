@@ -52,7 +52,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
 
     @Order(2)
     @NotEmpty(sequence = 1, message = "Please enter Password")
-    @Password(min = 5, message = "Please enter a min 5 digit Password")
+    //@Password(min = 5, message = "Please enter a min 5 digit Password")
     @BindView(R.id.et_password)
     public EditText mEtPassword;
 
@@ -108,7 +108,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
         }
     }
 
-    @OnTextChanged(value = R.id.et_email,
+    @OnTextChanged(value = R.id.et_mobileNo,
             callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void onTextChanged_Email(Editable editable) {
         if (editable.length() > 0) {

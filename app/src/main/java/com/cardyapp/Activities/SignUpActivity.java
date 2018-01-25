@@ -16,6 +16,7 @@ import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.CardySingleton;
 import com.cardyapp.Utils.DialogUtils;
+import com.cardyapp.Utils.IntentExtras;
 import com.cardyapp.Views.CardyProgressBar;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -48,7 +49,7 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
     @Order(2)
     @NotEmpty(sequence = 1, message = "Please enter Password")
-    @Password(min = 5, message = "Please enter a min 5 digit Password")
+    //@Password(min = 5, message = "Please enter a min 5 digit Password")
     @BindView(R.id.et_password)
     public EditText mEtPassword;
 
@@ -67,7 +68,11 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
     @Override
     protected void getSocialData(String email, String password, String socialType, String socialUserData) {
-        signUp(email, password, socialType, socialUserData);
+        Intent intent = new Intent(SignUpActivity.this, SocialSignUpMobileNumberActivity.class);
+        intent.putExtra(IntentExtras.SOCIAL_DATA, socialUserData);
+        intent.putExtra(IntentExtras.SOCIAL_TYPE, socialType);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -95,7 +100,7 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
         }
     }
 
-    @OnTextChanged(value = R.id.et_email,
+    @OnTextChanged(value = R.id.et_mobileNo,
             callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void onTextChanged_Email(Editable editable) {
         if (editable.length() > 0) {
@@ -190,8 +195,9 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
                 Userdata userdata = new Userdata();
                 userdata.setUser_email(email);
                 userdata.setUserid(signUpModel.getUserid());
-                getApp().getPreferences().setLoggedInUser(userdata, getApp());
-                startActivity(new Intent(SignUpActivity.this, DashboardActivity.class));
+                Intent intent = new Intent(SignUpActivity.this, OTPActivity.class);
+                intent.putExtra(IntentExtras.USER_DTO, userdata);
+                startActivity(intent);
                 finish();
             } else {
                 DialogUtils.show(SignUpActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {

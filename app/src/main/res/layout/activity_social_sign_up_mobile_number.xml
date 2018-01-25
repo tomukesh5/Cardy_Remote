@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.cardyapp.Views.CardyProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginTop="@dimen/card_padding_top_bottom"
+            android:src="@drawable/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.cardyapp.Views.CustomEditText
+            android:id="@+id/et_mobileNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/email_margin_left_right"
+            android:layout_marginStart="@dimen/email_margin_left_right"
+            android:layout_marginTop="@dimen/email_margin_left_right"
+            android:background="@drawable/edit_text_bg"
+            android:drawableLeft="@drawable/icon_email"
+            android:drawablePadding="@dimen/text_drawable_padding"
+            android:hint="@string/mobile_no_address_hint"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLength="10"
+            android:maxLines="1"
+            android:paddingBottom="4dp"
+            android:textSize="@dimen/text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
+
+        <com.cardyapp.Views.CustomEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/email_margin_left_right"
+            android:layout_marginStart="@dimen/email_margin_left_right"
+            android:layout_marginTop="@dimen/password_padding_top"
+            android:background="@drawable/edit_text_bg"
+            android:drawableLeft="@drawable/icon_password"
+            android:drawablePadding="@dimen/text_drawable_padding"
+            android:hint="@string/password_hint"
+            android:imeOptions="actionNext"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingBottom="5dp"
+            android:textSize="@dimen/text_size"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_mobileNo" />
+
+        <com.cardyapp.Views.CustomEditText
+            android:id="@+id/et_confirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/email_margin_left_right"
+            android:layout_marginStart="@dimen/email_margin_left_right"
+            android:layout_marginTop="@dimen/password_padding_top"
+            android:background="@drawable/edit_text_bg"
+            android:drawableLeft="@drawable/icon_confirm_password"
+            android:drawablePadding="@dimen/text_drawable_padding"
+            android:hint="@string/confirm_password_hint"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:paddingBottom="5dp"
+            android:textSize="@dimen/text_size"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_password" />
+
+        <com.cardyapp.Views.CustomTextView
+            android:id="@+id/btn_signUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/signup_btn_margin_top"
+            android:background="@drawable/btn_bg_black"
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp"
+            android:text="@string/btn_sign_up"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_confirmPassword" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

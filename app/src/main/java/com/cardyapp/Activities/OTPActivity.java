@@ -1,18 +1,29 @@
 package com.cardyapp.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
+import com.cardyapp.Models.BaseResponse;
+import com.cardyapp.Models.SignUpModel;
+import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
+import com.cardyapp.Utils.AppConstants;
+import com.cardyapp.Utils.CardySingleton;
 import com.cardyapp.Utils.DialogUtils;
+import com.cardyapp.Utils.IntentExtras;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnTextChanged;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Priyanka on 1/23/2018.
@@ -32,9 +43,14 @@ public class OTPActivity extends BaseActivity {
     @BindView(R.id.et_otp4)
     public EditText mEtOTP4;
 
+    private Userdata userdata;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getIntent().hasExtra(IntentExtras.USER_DTO))
+            userdata = (Userdata) getIntent().getExtras().get(IntentExtras.USER_DTO);
 
         mEtOTP2.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -121,7 +137,7 @@ public class OTPActivity extends BaseActivity {
     public void onClickSubmitBtn() {
         String str = mEtOTP1.getText() + "" + mEtOTP2.getText() + mEtOTP3.getText() + mEtOTP4.getText();
         if (str.length() == 4) {
-
+            verifyOTP(str);
         } else {
             DialogUtils.show(OTPActivity.this, getResources().getString(R.string.InvalidOTP), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                 @Override
@@ -134,4 +150,57 @@ public class OTPActivity extends BaseActivity {
             });
         }
     }
+
+    public void verifyOTP(String otp) {
+        showProgress("");
+
+        CardySingleton.getInstance().callToVerifyOTPAPI(userdata.getUserid(), otp, Callback_verifyOTP);
+    }
+
+    Callback<BaseResponse> Callback_verifyOTP = new Callback<BaseResponse>() {
+        @Override
+        public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+
+            hideProgress();
+            Log.d(AppConstants.TAG, response.toString());
+
+            final BaseResponse baseResponse = response.body();
+
+            if (baseResponse != null && baseResponse.getIsStatus()) {
+                Log.e(AppConstants.TAG, "Response :" + baseResponse.toString());
+                getApp().getPreferences().setLoggedInUser(userdata, getApp());
+                startActivity(new Intent(OTPActivity.this, DashboardActivity.class));
+                finish();
+            } else {
+                DialogUtils.show(OTPActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onFailure(Call<BaseResponse> call, Throwable t) {
+            hideProgress();
+            Log.d(AppConstants.TAG, "onFailure");
+            DialogUtils.show(OTPActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                @Override
+                public void onPositiveAction() {
+
+                }
+
+                @Override
+                public void onNegativeAction() {
+
+                }
+            });
+        }
+    };
 }

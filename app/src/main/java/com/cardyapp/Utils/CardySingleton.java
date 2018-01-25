@@ -46,6 +46,11 @@ public class CardySingleton {
         call.enqueue(callback);
     }
 
+    public void callToVerifyOTPAPI(String userid, String otp, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().verifyOTP(userid, otp);
+        call.enqueue(callback);
+    }
+
     public void callToUpdateUserLocationAPI(String userid, String latitude, String longitude, Callback callback) {
         Call<BaseResponse> call = Cardy.instance().getApi().updateLocation(userid, latitude, longitude);
         call.enqueue(callback);

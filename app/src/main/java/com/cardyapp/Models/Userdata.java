@@ -1,7 +1,8 @@
 package com.cardyapp.Models;
 
-public class Userdata
-{
+import java.io.Serializable;
+
+public class Userdata implements Serializable {
     private String user_fb_id;
 
     private String fbprofilelink;

@@ -45,6 +45,10 @@ public interface IWebServicesAPI {
     Call<SignInModel> signIn(@Field("email") String email, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
 
     @FormUrlEncoded
+    @POST("users_api/matchotp")
+    Call<BaseResponse> verifyOTP(@Field("userid") String userid, @Field("otp") String otp);
+
+    @FormUrlEncoded
     @POST("users_api/updateusersettings")
     Call<BaseResponse> updateLocation(@Field("userid") String userid, @Field("latitude") String latitude, @Field("longitude")String longitude);
 
