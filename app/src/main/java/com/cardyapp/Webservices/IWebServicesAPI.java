@@ -83,4 +83,8 @@ public interface IWebServicesAPI {
     @FormUrlEncoded
     @POST("users_api/sendmultiplerequest")
     Call<BaseResponse> sendMultipleConnections(@Field("requestdata") List<RequestConnection> requestdata);
+
+    @FormUrlEncoded
+    @POST("users_api/sendverificationotp")
+    Call<BaseResponse> sendVerificationOTP(@Field("userid") String userid);
 }

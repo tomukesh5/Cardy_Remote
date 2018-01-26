@@ -52,7 +52,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
 
     @Order(2)
     @NotEmpty(sequence = 1, message = "Please enter Password")
-    //@Password(min = 5, message = "Please enter a min 5 digit Password")
+    @Password(min = 5, message = "Please enter a min 5 digit Password")
     @BindView(R.id.et_password)
     public EditText mEtPassword;
 
@@ -149,7 +149,6 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
         startActivity(intent);*/
         getCallbackManager().onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN && resultCode == Activity.RESULT_OK) {
-
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             getDataFromGPlus(result);
         }

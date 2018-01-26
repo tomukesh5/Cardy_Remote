@@ -100,4 +100,9 @@ public class CardySingleton {
         Call<BaseResponse> call = Cardy.instance().getApi().sendMultipleConnections(list);
         call.enqueue(callback);
     }
+
+    public void callToSendVerificationAPI(String userid, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().sendVerificationOTP(userid);
+        call.enqueue(callback);
+    }
 }

@@ -67,7 +67,7 @@ public class SocialSignUpMobileNumberActivity extends BaseActivity implements Va
         return R.layout.activity_social_sign_up_mobile_number;
     }
 
-    @OnTextChanged(value = R.id.et_email,
+    @OnTextChanged(value = R.id.et_mobileNo,
             callback = OnTextChanged.Callback.AFTER_TEXT_CHANGED)
     public void onTextChanged_Email(Editable editable) {
         if (editable.length() > 0) {
@@ -86,7 +86,7 @@ public class SocialSignUpMobileNumberActivity extends BaseActivity implements Va
 
     @Override
     public void onValidationSucceeded() {
-        signUp(mEtMobileNo.getText() + "", "", socialType, socialData);
+        signUp(mEtMobileNo.getText() + "", AppConstants.SOCIAL__SIGN_UP_PASSWORD, socialType, socialData);
     }
 
     @Override
@@ -133,12 +133,10 @@ public class SocialSignUpMobileNumberActivity extends BaseActivity implements Va
                 DialogUtils.show(SocialSignUpMobileNumberActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
-
                     }
 
                     @Override
                     public void onNegativeAction() {
-
                     }
                 });
             }

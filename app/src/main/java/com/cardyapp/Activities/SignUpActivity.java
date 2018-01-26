@@ -49,7 +49,7 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
     @Order(2)
     @NotEmpty(sequence = 1, message = "Please enter Password")
-    //@Password(min = 5, message = "Please enter a min 5 digit Password")
+    @Password(min = 5, message = "Please enter a min 5 digit Password")
     @BindView(R.id.et_password)
     public EditText mEtPassword;
 
@@ -203,12 +203,10 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
                 DialogUtils.show(SignUpActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
-
                     }
 
                     @Override
                     public void onNegativeAction() {
-
                     }
                 });
             }
@@ -221,12 +219,10 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
             DialogUtils.show(SignUpActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                 @Override
                 public void onPositiveAction() {
-
                 }
 
                 @Override
                 public void onNegativeAction() {
-
                 }
             });
         }

@@ -12,6 +12,8 @@ public class AppConstants {
     public static String GOOGLE_LOGIN = "2";
     public static String LINKEDIN_LOGIN = "3";
 
+    public static String SOCIAL__SIGN_UP_PASSWORD = "12345";
+
     public static String F_GENDER = "1";
     public static String M_GENDER = "0";
 

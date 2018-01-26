@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.SignUpModel;
@@ -169,18 +170,18 @@ public class OTPActivity extends BaseActivity {
             if (baseResponse != null && baseResponse.getIsStatus()) {
                 Log.e(AppConstants.TAG, "Response :" + baseResponse.toString());
                 getApp().getPreferences().setLoggedInUser(userdata, getApp());
-                startActivity(new Intent(OTPActivity.this, DashboardActivity.class));
+                Intent intent = new Intent(OTPActivity.this, DashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 finish();
             } else {
                 DialogUtils.show(OTPActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
-
                     }
 
                     @Override
                     public void onNegativeAction() {
-
                     }
                 });
             }
@@ -193,14 +194,66 @@ public class OTPActivity extends BaseActivity {
             DialogUtils.show(OTPActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                 @Override
                 public void onPositiveAction() {
-
                 }
 
                 @Override
                 public void onNegativeAction() {
-
                 }
             });
         }
     };
+
+    @OnClick(R.id.tv_resendOTP)
+    public void onClickResendOTP() {
+
+        showProgress("");
+
+        CardySingleton.getInstance().callToSendVerificationAPI(userdata.getUserid(), new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                hideProgress();
+                Log.d(AppConstants.TAG, response.toString());
+
+                final BaseResponse baseResponse = (BaseResponse) response.body();
+
+                if (baseResponse != null && baseResponse.getIsStatus()) {
+                    Log.e(AppConstants.TAG, "Response :" + baseResponse.toString());
+                    DialogUtils.show(OTPActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                } else {
+                    DialogUtils.show(OTPActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                hideProgress();
+                Log.d(AppConstants.TAG, "onFailure");
+                DialogUtils.show(OTPActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+                    }
+                });
+            }
+        });
+    }
 }
