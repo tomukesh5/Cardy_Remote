@@ -5,6 +5,10 @@ import java.io.Serializable;
 public class Userdata implements Serializable {
     private String user_fb_id;
 
+    private String user_mobile_verify_otp;
+
+    private boolean user_is_mobile_verified;
+
     private String fbprofilelink;
 
     private String isProfileComplete;
@@ -373,6 +377,22 @@ public class Userdata implements Serializable {
     public void setLatitude (String latitude)
     {
         this.latitude = latitude;
+    }
+
+    public String getUser_mobile_verify_otp() {
+        return user_mobile_verify_otp;
+    }
+
+    public void setUser_mobile_verify_otp(String user_mobile_verify_otp) {
+        this.user_mobile_verify_otp = user_mobile_verify_otp;
+    }
+
+    public boolean isUser_is_mobile_verified() {
+        return user_is_mobile_verified;
+    }
+
+    public void setUser_is_mobile_verified(boolean user_is_mobile_verified) {
+        this.user_is_mobile_verified = user_is_mobile_verified;
     }
 
     @Override

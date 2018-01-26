@@ -14,6 +14,7 @@ import java.io.IOException;
 public class Preferences {
 
     private static final String LOGGED_IN_USER = "LOGGED_IN_USER";
+    private static final String VISIBILITY = "VISIBILITY";
 
     private Cardy app;
 
@@ -117,5 +118,13 @@ public class Preferences {
             ex.printStackTrace();
             setString(LOGGED_IN_USER, null);
         }
+    }
+
+    public synchronized void setIsVisible(boolean visibility) {
+        setBoolean(VISIBILITY, visibility);
+    }
+
+    public synchronized boolean getIsVisible() {
+        return getBoolean(VISIBILITY, false);
     }
 }

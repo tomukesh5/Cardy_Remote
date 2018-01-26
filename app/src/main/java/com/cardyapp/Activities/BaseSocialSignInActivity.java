@@ -198,10 +198,10 @@ public abstract class BaseSocialSignInActivity extends BaseActivity implements G
                     @Override
                     public void onAuthSuccess() {
 
-                        Toast.makeText(getApplicationContext(), "success" +
+                        /*Toast.makeText(getApplicationContext(), "success" +
                                         LISessionManager.getInstance(getApplicationContext())
                                                 .getSession().getAccessToken().toString(),
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_LONG).show();*/
                         linkededinApiHelper();
                     }
 

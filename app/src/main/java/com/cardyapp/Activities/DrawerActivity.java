@@ -1,6 +1,5 @@
 package com.cardyapp.Activities;
 
-import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -28,7 +27,6 @@ import com.cardyapp.fragments.ProfileFragment;
 import com.cardyapp.fragments.QRScannerFragment;
 import com.cardyapp.fragments.SearchFragment;
 import com.cardyapp.fragments.ShareFragment;
-import com.cardyapp.services.LocationService;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -66,8 +64,6 @@ public class DrawerActivity extends BaseActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        getPermissions();
 
         profileFragment = ProfileFragment.newInstance();
         connectionListFragment = ConnectionListFragment.newInstance();
@@ -127,24 +123,6 @@ public class DrawerActivity extends BaseActivity
         }
     }
 
-    private void getPermissions() {
-        String[] permissions = new String[]{
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-        };
-        requestForPermissions(permissions, getResources().getString(R.string.LocationPermissionMessage), new BaseActivity.PermissionCallback() {
-            @Override
-            public void onAllPermissionGranted() {
-                startService(new Intent(DrawerActivity.this, LocationService.class));
-            }
-
-            @Override
-            public void onPermissionsDenied(String[] deniedPermissions) {
-                getPermissions();
-            }
-        });
-    }
-
     @Override
     protected int getLayoutResourceId() {
         return R.layout.activity_drawer;
@@ -194,6 +172,7 @@ public class DrawerActivity extends BaseActivity
             fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, feedbackFragment, "feedbackFragment");
         } else if (id == R.id.nav_logOut) {
             getApp().getPreferences().setLoggedInUser(null, getApp());
+            getApp().getPreferences().setIsVisible(false);
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

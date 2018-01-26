@@ -113,4 +113,7 @@
 
     <string name="ResendOTP_txt">Resend OPT</string>
     <string name="InvalidOTP">Please enter 4 digits OTP.</string>
+
+    <string name="Visibility_On">Visibility on</string>
+    <string name="Visibility_off">Visibility off</string>
 </resources>

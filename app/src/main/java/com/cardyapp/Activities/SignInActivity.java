@@ -52,7 +52,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
 
     @Order(2)
     @NotEmpty(sequence = 1, message = "Please enter Password")
-    @Password(min = 5, message = "Please enter a min 5 digit Password")
+    @Password(min = 3, message = "Please enter a min 5 digit Password")
     @BindView(R.id.et_password)
     public EditText mEtPassword;
 
@@ -65,7 +65,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
 
     @Override
     protected void getSocialData(String email, String password, String socialType, String socialUserData) {
-        signInWithSocial(email, password, socialType, socialUserData);
+        signInWithSocial(email, AppConstants.SOCIAL__SIGN_UP_PASSWORD, socialType, socialUserData);
     }
 
     @Override
@@ -198,7 +198,6 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
         CardySingleton.getInstance().callToSignInAPI(email, password, socialusertype, socialUserData, Callback_SignIn);
     }
 
-
     Callback<SignInModel> Callback_SignIn = new Callback<SignInModel>() {
         @Override
         public void onResponse(Call<SignInModel> call, Response<SignInModel> response) {
@@ -213,6 +212,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
                 startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
                 finish();
             } else {
+                String msg = response.message();
                 DialogUtils.show(SignInActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
