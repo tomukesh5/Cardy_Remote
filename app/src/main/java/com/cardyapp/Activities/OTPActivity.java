@@ -45,6 +45,7 @@ public class OTPActivity extends BaseActivity {
     public EditText mEtOTP4;
 
     private Userdata userdata;
+    private String userid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +53,9 @@ public class OTPActivity extends BaseActivity {
 
         if (getIntent().hasExtra(IntentExtras.USER_DTO))
             userdata = (Userdata) getIntent().getExtras().get(IntentExtras.USER_DTO);
+        else if (getIntent().hasExtra(IntentExtras.USER_ID)) {
+            userid = (String) getIntent().getExtras().get(IntentExtras.USER_ID);
+        }
 
         mEtOTP2.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -138,7 +142,11 @@ public class OTPActivity extends BaseActivity {
     public void onClickSubmitBtn() {
         String str = mEtOTP1.getText() + "" + mEtOTP2.getText() + mEtOTP3.getText() + mEtOTP4.getText();
         if (str.length() == 4) {
-            verifyOTP(str);
+            if (getIntent().hasExtra(IntentExtras.USER_DTO))
+                verifyOTP(str);
+            else if (getIntent().hasExtra(IntentExtras.USER_ID))
+                resetPassword(str);
+
         } else {
             DialogUtils.show(OTPActivity.this, getResources().getString(R.string.InvalidOTP), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                 @Override
@@ -150,6 +158,51 @@ public class OTPActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    public void resetPassword(String otp) {
+        CardySingleton.getInstance().callToResetPasswordAPI(userid, otp, new Callback<BaseResponse>() {
+            @Override
+            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
+
+                hideProgress();
+                Log.d(AppConstants.TAG, response.toString());
+
+                final BaseResponse baseResponse = response.body();
+
+                if (baseResponse != null && baseResponse.getIsStatus()) {
+                    Log.e(AppConstants.TAG, "Response :" + baseResponse.toString());
+
+                    //finish();
+                } else {
+                    DialogUtils.show(OTPActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                hideProgress();
+                Log.d(AppConstants.TAG, "onFailure");
+                DialogUtils.show(OTPActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+                    }
+                });
+            }
+        });
     }
 
     public void verifyOTP(String otp) {

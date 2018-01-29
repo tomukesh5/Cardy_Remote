@@ -4,6 +4,7 @@ package com.cardyapp.Webservices;
 import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.RequestConnection;
+import com.cardyapp.Models.SendOTPForgotPasswordModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
 import com.cardyapp.Models.UploadProfilePicModel;
@@ -87,4 +88,12 @@ public interface IWebServicesAPI {
     @FormUrlEncoded
     @POST("users_api/sendverificationotp")
     Call<BaseResponse> sendVerificationOTP(@Field("userid") String userid);
+
+    @FormUrlEncoded
+    @POST("users_api/resetpassword")
+    Call<BaseResponse> resetPassword(@Field("userid") String userid, @Field("otp") String otp);
+
+    @FormUrlEncoded
+    @POST("users_api/sendotpforgotpassword")
+    Call<SendOTPForgotPasswordModel> sendOTPForgotPassword(@Field("mobile") String mobile);
 }

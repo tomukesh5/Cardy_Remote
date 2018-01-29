@@ -4,6 +4,7 @@ import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.RequestConnection;
+import com.cardyapp.Models.SendOTPForgotPasswordModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
 import com.cardyapp.Models.UploadProfilePicModel;
@@ -103,6 +104,16 @@ public class CardySingleton {
 
     public void callToSendVerificationAPI(String userid, Callback callback) {
         Call<BaseResponse> call = Cardy.instance().getApi().sendVerificationOTP(userid);
+        call.enqueue(callback);
+    }
+
+    public void callToResetPasswordAPI(String userid, String otp, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().resetPassword(userid, otp);
+        call.enqueue(callback);
+    }
+
+    public void callToSendOTPForgotPasswordAPI(String mobile, Callback callback) {
+        Call<SendOTPForgotPasswordModel> call = Cardy.instance().getApi().sendOTPForgotPassword(mobile);
         call.enqueue(callback);
     }
 }
