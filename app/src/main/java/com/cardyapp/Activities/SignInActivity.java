@@ -19,6 +19,7 @@ import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.CardySingleton;
 import com.cardyapp.Utils.DialogUtils;
+import com.cardyapp.Utils.IntentExtras;
 import com.cardyapp.Views.CardyProgressBar;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -208,20 +209,26 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
             hideProgress();
             if (signInModel != null && signInModel.getIsStatus()) {
                 Log.e(TAG, "Response : " + signInModel.toString());
-                getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
-                startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
+                if (signInModel.getUserdata().getUser_is_mobile_verified()) {
+                    getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
+                    if (signInModel.getUserdata().getIsProfileComplete())
+                        startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
+                    else startActivity(new Intent(SignInActivity.this, FirstTimeProfileActivity.class));
+                } else {
+                    Intent intent = new Intent(SignInActivity.this, OTPActivity.class);
+                    intent.putExtra(IntentExtras.USER_DTO, signInModel.getUserdata());
+                    startActivity(intent);
+                }
                 finish();
+
             } else {
-                String msg = response.message();
                 DialogUtils.show(SignInActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
-
                     }
 
                     @Override
                     public void onNegativeAction() {
-
                     }
                 });
             }

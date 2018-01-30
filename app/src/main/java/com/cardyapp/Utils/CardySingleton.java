@@ -57,6 +57,11 @@ public class CardySingleton {
         call.enqueue(callback);
     }
 
+    public void callToGetProfileAPI(String id, Callback callback) {
+        Call<SignInModel> call = Cardy.instance().getApi().getUserDetails(id);
+        call.enqueue(callback);
+    }
+
     public void callToUpdateUserProfileAPI(Userdata userdata, Callback callback) {
         Call<BaseResponse> call = Cardy.instance().getApi().updateProfile(userdata);
         call.enqueue(callback);

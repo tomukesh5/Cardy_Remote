@@ -53,6 +53,9 @@ public interface IWebServicesAPI {
     @POST("users_api/updateusersettings")
     Call<BaseResponse> updateLocation(@Field("userid") String userid, @Field("latitude") String latitude, @Field("longitude")String longitude);
 
+    @GET("users_api/user")
+    Call<SignInModel> getUserDetails(@Query("id") String id);
+
     @POST("users_api/updateprofile")
     Call<BaseResponse> updateProfile(@Body Userdata userData);
 

@@ -73,6 +73,9 @@
             android:name=".Activities.DashboardActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".Activities.FirstTimeProfileActivity"
+            android:screenOrientation="portrait" />
+
         <service
             android:name=".services.LocationService"
             android:enabled="true"

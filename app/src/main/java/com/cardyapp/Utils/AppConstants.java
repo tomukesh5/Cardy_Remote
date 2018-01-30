@@ -17,6 +17,9 @@ public class AppConstants {
     public static String F_GENDER = "1";
     public static String M_GENDER = "0";
 
+    public static String PROFILE_COMPLETE = "1";
+    public static String PROFILE_INCOMPLETE = "0";
+
     public static final long LOCATION_UPDATE_INTERVAL_MILLIS = 20000;
     public static final long LOCATION_UPDATE_DISTANCE_METERS = 0;
     public static final int REQUEST_PERMISSION = 100;

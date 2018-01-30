@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
+import com.cardyapp.Utils.AppConstants;
 
 public class SplashActivity extends BaseActivity {
 
@@ -24,7 +25,11 @@ public class SplashActivity extends BaseActivity {
 
                 if (userdata == null)
                     startActivity(new Intent(SplashActivity.this, SignInActivity.class));
-                else startActivity(new Intent(SplashActivity.this, DashboardActivity.class));
+                else {
+                    if (userdata.getIsProfileComplete())
+                        startActivity(new Intent(SplashActivity.this, DashboardActivity.class));
+                    else startActivity(new Intent(SplashActivity.this, FirstTimeProfileActivity.class));
+                }
                 finish();
             }
         }, 1000);

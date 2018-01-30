@@ -11,7 +11,7 @@ public class Userdata implements Serializable {
 
     private String fbprofilelink;
 
-    private String isProfileComplete;
+    private boolean isProfileComplete;
 
     private String user_registeredDate;
 
@@ -89,12 +89,12 @@ public class Userdata implements Serializable {
         this.fbprofilelink = fbprofilelink;
     }
 
-    public String getIsProfileComplete ()
+    public boolean getIsProfileComplete ()
     {
         return isProfileComplete;
     }
 
-    public void setIsProfileComplete (String isProfileComplete)
+    public void setIsProfileComplete (boolean isProfileComplete)
     {
         this.isProfileComplete = isProfileComplete;
     }
@@ -387,7 +387,7 @@ public class Userdata implements Serializable {
         this.user_mobile_verify_otp = user_mobile_verify_otp;
     }
 
-    public boolean isUser_is_mobile_verified() {
+    public boolean getUser_is_mobile_verified() {
         return user_is_mobile_verified;
     }
 

@@ -161,6 +161,8 @@ public class OTPActivity extends BaseActivity {
     }
 
     public void resetPassword(String otp) {
+        showProgress("");
+
         CardySingleton.getInstance().callToResetPasswordAPI(userid, otp, new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
@@ -223,9 +225,12 @@ public class OTPActivity extends BaseActivity {
             if (baseResponse != null && baseResponse.getIsStatus()) {
                 Log.e(AppConstants.TAG, "Response :" + baseResponse.toString());
                 getApp().getPreferences().setLoggedInUser(userdata, getApp());
-                Intent intent = new Intent(OTPActivity.this, DashboardActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+
+                if (userdata.getIsProfileComplete()) {
+                    Intent intent = new Intent(OTPActivity.this, DashboardActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                } else startActivity(new Intent(OTPActivity.this, FirstTimeProfileActivity.class));
                 finish();
             } else {
                 DialogUtils.show(OTPActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {

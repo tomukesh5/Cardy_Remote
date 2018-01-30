@@ -79,6 +79,8 @@ public class ForgotPasswordActivity extends BaseActivity implements Validator.Va
     public void onValidationSucceeded() {
         // TODO: 29/12/17 integrate forgot password api
 
+        showProgress("");
+
         CardySingleton.getInstance().callToSendOTPForgotPasswordAPI(mEtMobileNo.getText() + "", new Callback<SendOTPForgotPasswordModel>() {
             @Override
             public void onResponse(Call<SendOTPForgotPasswordModel> call, Response<SendOTPForgotPasswordModel> response) {

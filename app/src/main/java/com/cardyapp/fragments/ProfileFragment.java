@@ -23,8 +23,13 @@ import android.widget.RadioButton;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.signature.StringSignature;
 import com.cardyapp.Activities.BaseActivity;
+import com.cardyapp.Activities.DashboardActivity;
+import com.cardyapp.Activities.FirstTimeProfileActivity;
+import com.cardyapp.Activities.OTPActivity;
+import com.cardyapp.Activities.SignInActivity;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
+import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
@@ -33,6 +38,7 @@ import com.cardyapp.Utils.CardySingleton;
 import com.cardyapp.Utils.CommonUtil;
 import com.cardyapp.Utils.DialogUtils;
 import com.cardyapp.Utils.ImageBase64Convertion;
+import com.cardyapp.Utils.IntentExtras;
 import com.cardyapp.Utils.PictureSourceChooser;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -186,8 +192,42 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
         mValidator.setValidationListener(this);
         mValidator.setValidationMode(Validator.Mode.BURST);
 
-        initView();
+        getUserDetails();
         return view;
+    }
+
+    private void getUserDetails() {
+        ((BaseActivity)getActivity()).showProgress("");
+        CardySingleton.getInstance().callToGetProfileAPI(userdata.getUserid(), new Callback<SignInModel>() {
+            @Override
+            public void onResponse(Call<SignInModel> call, Response<SignInModel> response) {
+                ((BaseActivity)getActivity()).hideProgress();
+                final SignInModel signInModel = response.body();
+                if (signInModel != null && signInModel.getIsStatus()) {
+                    Log.e(AppConstants.TAG, "Response : " + signInModel.toString());
+                    app.getPreferences().setLoggedInUser(signInModel.getUserdata(), app);
+                    userdata = signInModel.getUserdata();
+                    initView();
+
+                } else {
+                    DialogUtils.show(getActivity(), response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignInModel> call, Throwable t) {
+                ((BaseActivity)getActivity()).hideProgress();
+                initView();
+            }
+        });
     }
 
     private void initView() {
