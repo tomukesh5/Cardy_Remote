@@ -115,7 +115,6 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="@dimen/signup_btn_margin_top"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_signUp">
@@ -148,7 +147,6 @@
             android:layout_marginTop="@dimen/signup_btn_margin_top"
             android:text="@string/sign_with_text"
             android:textSize="18sp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_or" />
@@ -163,7 +161,6 @@
             android:background="@drawable/btn_bg_fb"
             android:gravity="center_vertical"
             android:paddingLeft="14dp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_signWith">
@@ -202,7 +199,6 @@
             android:background="@drawable/btn_bg_google"
             android:gravity="center_vertical"
             android:paddingLeft="14dp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_fb">
@@ -242,7 +238,6 @@
             android:background="@drawable/btn_bg_linkedin"
             android:gravity="center_vertical"
             android:paddingLeft="14dp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ll_google">

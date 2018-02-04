@@ -1,5 +1,6 @@
 package com.cardyapp.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
@@ -11,7 +12,7 @@ import com.cardyapp.fragments.ProfileFragment;
  * Created by Priyanka on 1/30/2018.
  */
 
-public class FirstTimeProfileActivity extends BaseActivity {
+public class FirstTimeProfileActivity extends BaseActivity implements ProfileFragment.onProfileUpdateListener {
 
     private Toast backToast;
 
@@ -25,7 +26,9 @@ public class FirstTimeProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.Profile_title));
 
-        getFragmentManager().beginTransaction().replace(R.id.container, ProfileFragment.newInstance()).commit();
+        ProfileFragment fragment = ProfileFragment.newInstance();
+        fragment.setListener(this);
+        getFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
     }
 
     @Override
@@ -37,5 +40,11 @@ public class FirstTimeProfileActivity extends BaseActivity {
             backToast = Toast.makeText(this, "Tap back button once more to exit", Toast.LENGTH_SHORT);
             backToast.show();
         }
+    }
+
+    @Override
+    public void onProfileUpdated() {
+        startActivity(new Intent(FirstTimeProfileActivity.this, DashboardActivity.class));
+        finish();
     }
 }

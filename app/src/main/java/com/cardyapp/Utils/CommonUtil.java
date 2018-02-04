@@ -11,6 +11,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -81,5 +82,23 @@ public class CommonUtil {
 		}
 		in.close();
 		out.close();
+	}
+
+	public static String getMimeType(File file) {
+		String mimeType = null;
+		try {
+			String extension = MimeTypeMap.getFileExtensionFromUrl(file.getAbsolutePath().replaceAll("[(,), ,_]", ""));
+			if (null != extension) {
+				if (extension.equals("JPG")) {
+					extension = "jpg";
+					mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+				} else {
+					mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return mimeType;
 	}
 }

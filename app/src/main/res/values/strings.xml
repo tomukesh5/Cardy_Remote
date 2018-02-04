@@ -4,6 +4,7 @@
 
     <string name="email_address_hint">Email Address</string>
     <string name="password_hint">Password</string>
+    <string name="new_password_hint">New Password</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="mobile_no_address_hint">Mobile Number</string>
 

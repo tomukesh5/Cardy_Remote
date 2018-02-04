@@ -75,6 +75,12 @@ import static com.cardyapp.Utils.AppConstants.M_GENDER;
 public class ProfileFragment extends Fragment implements Validator.ValidationListener, PictureSourceChooser.OnGallerySource,
         PictureSourceChooser.OnCameraSource {
 
+    public interface onProfileUpdateListener {
+        void onProfileUpdated();
+    }
+
+    public onProfileUpdateListener listener;
+
     @Order(1)
     @NotEmpty(sequence = 1, message = "Please enter first name")
     @BindView(R.id.et_firstName)
@@ -176,6 +182,10 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
         return new ProfileFragment();
     }
 
+    public void setListener(onProfileUpdateListener listener) {
+        this.listener = listener;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -205,8 +215,10 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                 final SignInModel signInModel = response.body();
                 if (signInModel != null && signInModel.getIsStatus()) {
                     Log.e(AppConstants.TAG, "Response : " + signInModel.toString());
-                    app.getPreferences().setLoggedInUser(signInModel.getUserdata(), app);
-                    userdata = signInModel.getUserdata();
+                    if (signInModel.getUserdata() != null) {
+                        app.getPreferences().setLoggedInUser(signInModel.getUserdata(), app);
+                        userdata = signInModel.getUserdata();
+                    }
                     initView();
 
                 } else {
@@ -441,18 +453,24 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                     userdata.setBiography(mEtBiography.getText() + "");
 
                     app.getPreferences().setLoggedInUser(userdata, app);
+
+                    if (listener != null) {
+                        listener.onProfileUpdated();
+                    }
+
+                } else {
+                    DialogUtils.show(getActivity(), response.body().getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+
+                        }
+                    });
                 }
-                DialogUtils.show(getActivity(), response.body().getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
-                    @Override
-                    public void onPositiveAction() {
-
-                    }
-
-                    @Override
-                    public void onNegativeAction() {
-
-                    }
-                });
             }
 
             @Override
@@ -644,17 +662,46 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
     }
 
     private void updateProfilePic() {
-        if (base64Profile == null)
+        if (profilePic == null)
             return;
 
-        UploadProfilePicModel uploadProfilePicModel = new UploadProfilePicModel();
-        uploadProfilePicModel.setUserid(userdata.getUserid());
-        uploadProfilePicModel.setProfilepic(base64Profile);
-        CardySingleton.getInstance().callToUpdateProfilePicAPI(uploadProfilePicModel, new Callback<BaseResponse>() {
+//        UploadProfilePicModel uploadProfilePicModel = new UploadProfilePicModel();
+//        uploadProfilePicModel.setUserid(userdata.getUserid());
+//        uploadProfilePicModel.setProfilepic(profilePic);
+        CardySingleton.getInstance().callToUpdateProfilePicAPI(userdata.getUserid(), profilePic, new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 Log.d(AppConstants.TAG, response.toString());
-                DialogUtils.show(getActivity(), response.body().getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                if (response.body() != null) {
+                    DialogUtils.show(getActivity(), response.body().getMessage(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+
+                        }
+                    });
+                } else {
+                    DialogUtils.show(getActivity(), response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+
+                        }
+
+                        @Override
+                        public void onNegativeAction() {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BaseResponse> call, Throwable t) {
+                DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
 
@@ -665,11 +712,6 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
 
                     }
                 });
-            }
-
-            @Override
-            public void onFailure(Call<BaseResponse> call, Throwable t) {
-
             }
         });
     }

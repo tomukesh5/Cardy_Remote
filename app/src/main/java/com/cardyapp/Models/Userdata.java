@@ -7,7 +7,7 @@ public class Userdata implements Serializable {
 
     private String user_mobile_verify_otp;
 
-    private boolean user_is_mobile_verified;
+    private String user_is_mobile_verified;
 
     private String fbprofilelink;
 
@@ -387,11 +387,11 @@ public class Userdata implements Serializable {
         this.user_mobile_verify_otp = user_mobile_verify_otp;
     }
 
-    public boolean getUser_is_mobile_verified() {
+    public String getUser_is_mobile_verified() {
         return user_is_mobile_verified;
     }
 
-    public void setUser_is_mobile_verified(boolean user_is_mobile_verified) {
+    public void setUser_is_mobile_verified(String user_is_mobile_verified) {
         this.user_is_mobile_verified = user_is_mobile_verified;
     }
 

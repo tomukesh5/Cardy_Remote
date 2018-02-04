@@ -266,7 +266,8 @@ public abstract class BaseSocialSignInActivity extends BaseActivity implements G
             userData.setFullname(fullName);
             userData.setPersonalemail(response.get("emailAddress").toString());
             String str = userData.toString();
-            getSocialData(response.get("emailAddress").toString(), response.get("emailAddress").toString(), AppConstants.LINKEDIN_LOGIN, str);
+            getSocialData(response.get("emailAddress").toString(), LISessionManager.getInstance(getApplicationContext())
+                    .getSession().getAccessToken().getValue(), AppConstants.LINKEDIN_LOGIN, str);
         } catch (Exception e){
             e.printStackTrace();
         }

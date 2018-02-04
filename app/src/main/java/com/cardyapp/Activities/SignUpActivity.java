@@ -68,11 +68,17 @@ public class SignUpActivity extends BaseSocialSignInActivity implements Validato
 
     @Override
     protected void getSocialData(String email, String password, String socialType, String socialUserData) {
-        Intent intent = new Intent(SignUpActivity.this, SocialSignUpMobileNumberActivity.class);
+        /*Intent intent = new Intent(SignUpActivity.this, SocialSignUpMobileNumberActivity.class);
         intent.putExtra(IntentExtras.SOCIAL_DATA, socialUserData);
         intent.putExtra(IntentExtras.SOCIAL_TYPE, socialType);
         startActivity(intent);
-        finish();
+        finish();*/
+
+        Intent intent = new Intent(SignUpActivity.this, ForgotPasswordActivity.class);
+        intent.putExtra(IntentExtras.SOCIAL_LOGIN_TOKEN, password);
+        intent.putExtra(IntentExtras.SOCIAL_TYPE, socialType);
+        intent.putExtra(IntentExtras.SOCIAL_DATA, socialUserData);
+        startActivity(intent);
     }
 
     @Override

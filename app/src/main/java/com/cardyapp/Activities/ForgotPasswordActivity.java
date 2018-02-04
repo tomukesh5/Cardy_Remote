@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.SendOTPForgotPasswordModel;
+import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
@@ -43,6 +46,14 @@ public class ForgotPasswordActivity extends BaseActivity implements Validator.Va
     @BindView(R.id.et_mobileNo)
     public EditText mEtMobileNo;
 
+    @BindView(R.id.btn_reset)
+    public TextView mBtnReset;
+
+    private String password;
+    private String socialType;
+    private String userData;
+
+    private String TAG = getClass().getSimpleName();
     private Validator mValidator;
 
     @Override
@@ -50,7 +61,17 @@ public class ForgotPasswordActivity extends BaseActivity implements Validator.Va
         super.onCreate(savedInstanceState);
 
         setToolBar();
-        setTitle(getString(R.string.forgot_password_text));
+
+        if (getIntent().hasExtra(IntentExtras.SOCIAL_LOGIN_TOKEN)) {
+            setTitle(getString(R.string.btn_sign_in));
+            password = (String) getIntent().getExtras().get(IntentExtras.SOCIAL_LOGIN_TOKEN);
+            socialType = (String) getIntent().getExtras().get(IntentExtras.SOCIAL_TYPE);
+            userData = (String) getIntent().getExtras().get(IntentExtras.SOCIAL_DATA);
+            mBtnReset.setText(getString(R.string.btn_sign_in));
+        } else {
+            setTitle(getString(R.string.forgot_password_text));
+            mBtnReset.setText("Get OTP");
+        }
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
         mValidator.setValidationMode(Validator.Mode.BURST);
@@ -78,7 +99,74 @@ public class ForgotPasswordActivity extends BaseActivity implements Validator.Va
     @Override
     public void onValidationSucceeded() {
         // TODO: 29/12/17 integrate forgot password api
+        if (getIntent().hasExtra(IntentExtras.SOCIAL_LOGIN_TOKEN)) {
+            socialLogIn();
+        } else {
+          forgotPassword();
+        }
 
+    }
+
+    private void socialLogIn() {
+        showProgress("");
+        CardySingleton.getInstance().callToSignInAPI(mEtMobileNo.getText() + "", password, socialType, userData, Callback_SignIn);
+    }
+
+
+    Callback<SignInModel> Callback_SignIn = new Callback<SignInModel>() {
+        @Override
+        public void onResponse(Call<SignInModel> call, Response<SignInModel> response) {
+
+            Log.d(AppConstants.TAG, response.toString());
+
+            final SignInModel signInModel = response.body();
+            hideProgress();
+            if (signInModel != null && signInModel.getIsStatus()) {
+                Log.e(TAG, "Response : " + signInModel.toString());
+                if (signInModel.getUserdata() != null && signInModel.getUserdata().getUser_is_mobile_verified()!= null && signInModel.getUserdata().getUser_is_mobile_verified().equals(AppConstants.MOBILE_VERIFIED)) {
+                    getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
+                    if (signInModel.getUserdata().getIsProfileComplete())
+                        startActivity(new Intent(ForgotPasswordActivity.this, DashboardActivity.class));
+                    else startActivity(new Intent(ForgotPasswordActivity.this, FirstTimeProfileActivity.class));
+                } else {
+                    Intent intent = new Intent(ForgotPasswordActivity.this, OTPActivity.class);
+                    intent.putExtra(IntentExtras.USER_DTO, signInModel.getUserdata());
+                    startActivity(intent);
+                }
+                finish();
+
+            } else {
+                DialogUtils.show(ForgotPasswordActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                    @Override
+                    public void onPositiveAction() {
+                    }
+
+                    @Override
+                    public void onNegativeAction() {
+                    }
+                });
+            }
+        }
+
+        @Override
+        public void onFailure(Call<SignInModel> call, Throwable t) {
+            hideProgress();
+            Log.d(AppConstants.TAG, "onFailure");
+            DialogUtils.show(ForgotPasswordActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                @Override
+                public void onPositiveAction() {
+
+                }
+
+                @Override
+                public void onNegativeAction() {
+
+                }
+            });
+        }
+    };
+
+    private void forgotPassword() {
         showProgress("");
 
         CardySingleton.getInstance().callToSendOTPForgotPasswordAPI(mEtMobileNo.getText() + "", new Callback<SendOTPForgotPasswordModel>() {

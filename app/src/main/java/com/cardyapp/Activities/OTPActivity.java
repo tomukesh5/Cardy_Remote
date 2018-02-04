@@ -143,7 +143,7 @@ public class OTPActivity extends BaseActivity {
         String str = mEtOTP1.getText() + "" + mEtOTP2.getText() + mEtOTP3.getText() + mEtOTP4.getText();
         if (str.length() == 4) {
             if (getIntent().hasExtra(IntentExtras.USER_DTO))
-                verifyOTP(str);
+                verifyOTP(userdata.getUserid(), str);
             else if (getIntent().hasExtra(IntentExtras.USER_ID))
                 resetPassword(str);
 
@@ -161,56 +161,13 @@ public class OTPActivity extends BaseActivity {
     }
 
     public void resetPassword(String otp) {
-        showProgress("");
-
-        CardySingleton.getInstance().callToResetPasswordAPI(userid, otp, new Callback<BaseResponse>() {
-            @Override
-            public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
-
-                hideProgress();
-                Log.d(AppConstants.TAG, response.toString());
-
-                final BaseResponse baseResponse = response.body();
-
-                if (baseResponse != null && baseResponse.getIsStatus()) {
-                    Log.e(AppConstants.TAG, "Response :" + baseResponse.toString());
-
-                    //finish();
-                } else {
-                    DialogUtils.show(OTPActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
-                        @Override
-                        public void onPositiveAction() {
-                        }
-
-                        @Override
-                        public void onNegativeAction() {
-                        }
-                    });
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<BaseResponse> call, Throwable t) {
-                hideProgress();
-                Log.d(AppConstants.TAG, "onFailure");
-                DialogUtils.show(OTPActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
-                    @Override
-                    public void onPositiveAction() {
-                    }
-
-                    @Override
-                    public void onNegativeAction() {
-                    }
-                });
-            }
-        });
+        verifyOTP(userid, otp);
     }
 
-    public void verifyOTP(String otp) {
+    public void verifyOTP(String userid, String otp) {
         showProgress("");
 
-        CardySingleton.getInstance().callToVerifyOTPAPI(userdata.getUserid(), otp, Callback_verifyOTP);
+        CardySingleton.getInstance().callToVerifyOTPAPI(userid, otp, Callback_verifyOTP);
     }
 
     Callback<BaseResponse> Callback_verifyOTP = new Callback<BaseResponse>() {
@@ -224,6 +181,14 @@ public class OTPActivity extends BaseActivity {
 
             if (baseResponse != null && baseResponse.getIsStatus()) {
                 Log.e(AppConstants.TAG, "Response :" + baseResponse.toString());
+
+                if (getIntent().hasExtra(IntentExtras.USER_ID)) {
+                    Intent intent = new Intent(OTPActivity.this, ResetPasswordActivity.class);
+                    intent.putExtra(IntentExtras.USER_ID, userid);
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
                 getApp().getPreferences().setLoggedInUser(userdata, getApp());
 
                 if (userdata.getIsProfileComplete()) {

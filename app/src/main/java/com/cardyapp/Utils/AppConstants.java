@@ -17,6 +17,9 @@ public class AppConstants {
     public static String F_GENDER = "1";
     public static String M_GENDER = "0";
 
+    public static String MOBILE_VERIFIED = "1";
+    public static String MOBILE_NOT_VERIFIED = "1";
+
     public static String PROFILE_COMPLETE = "1";
     public static String PROFILE_INCOMPLETE = "0";
 

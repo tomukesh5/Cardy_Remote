@@ -12,6 +12,7 @@ import com.cardyapp.Models.Userdata;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,7 +20,9 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 /**
@@ -43,7 +46,7 @@ public interface IWebServicesAPI {
 
     @FormUrlEncoded
     @POST("users_api/login")
-    Call<SignInModel> signIn(@Field("email") String email, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
+    Call<SignInModel> signIn(@Field("mobile") String mobile, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
 
     @FormUrlEncoded
     @POST("users_api/matchotp")
@@ -59,8 +62,9 @@ public interface IWebServicesAPI {
     @POST("users_api/updateprofile")
     Call<BaseResponse> updateProfile(@Body Userdata userData);
 
+    @Multipart
     @POST("users_api/uploadprofilepic")
-    Call<BaseResponse> updateProfilePic(@Body UploadProfilePicModel uploadProfilePicModel);
+    Call<BaseResponse> updateProfilePic(@Part("userid") String userid, @Part MultipartBody.Part profilepic);
 
     @GET("users_api/getpendingrequests")
     Call<PendingResuestModel> getPendingRequests(@Query("id") String id);
@@ -94,7 +98,7 @@ public interface IWebServicesAPI {
 
     @FormUrlEncoded
     @POST("users_api/resetpassword")
-    Call<BaseResponse> resetPassword(@Field("userid") String userid, @Field("otp") String otp);
+    Call<BaseResponse> resetPassword(@Field("userid") String userid, @Field("newpassword") String newpassword);
 
     @FormUrlEncoded
     @POST("users_api/sendotpforgotpassword")

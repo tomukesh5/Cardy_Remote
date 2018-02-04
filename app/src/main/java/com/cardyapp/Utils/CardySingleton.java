@@ -10,8 +10,12 @@ import com.cardyapp.Models.SignUpModel;
 import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
 
+import java.io.File;
 import java.util.List;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -67,8 +71,13 @@ public class CardySingleton {
         call.enqueue(callback);
     }
 
-    public void callToUpdateProfilePicAPI(UploadProfilePicModel model, Callback callback) {
-        Call<BaseResponse> call = Cardy.instance().getApi().updateProfilePic(model);
+    public void callToUpdateProfilePicAPI(String userid, File profilepic, Callback callback) {
+
+        MultipartBody.Part file = null;
+        if (null != profilepic)
+            file = MultipartBody.Part.createFormData("profilePic", profilepic.getName(), RequestBody.create(MediaType.parse(CommonUtil.getMimeType(profilepic)), profilepic));
+
+        Call<BaseResponse> call = Cardy.instance().getApi().updateProfilePic(userid, file);
         call.enqueue(callback);
     }
 
@@ -112,8 +121,8 @@ public class CardySingleton {
         call.enqueue(callback);
     }
 
-    public void callToResetPasswordAPI(String userid, String otp, Callback callback) {
-        Call<BaseResponse> call = Cardy.instance().getApi().resetPassword(userid, otp);
+    public void callToResetPasswordAPI(String userid, String newpassword, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().resetPassword(userid, newpassword);
         call.enqueue(callback);
     }
 

@@ -2,6 +2,8 @@ package com.cardyapp.Models;
 
 import com.google.gson.Gson;
 
+import java.io.File;
+
 /**
  * Created by Priyanka on 1/8/2018.
  */
@@ -9,7 +11,7 @@ import com.google.gson.Gson;
 public class UploadProfilePicModel {
 
     private String userid;
-    private String profilepic;
+    private File profilepic;
 
     public UploadProfilePicModel() {
 
@@ -23,11 +25,11 @@ public class UploadProfilePicModel {
         this.userid = userid;
     }
 
-    public String getProfilepic() {
+    public File getProfilepic() {
         return profilepic;
     }
 
-    public void setProfilepic(String profilepic) {
+    public void setProfilepic(File profilepic) {
         this.profilepic = profilepic;
     }
 

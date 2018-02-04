@@ -66,7 +66,13 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
 
     @Override
     protected void getSocialData(String email, String password, String socialType, String socialUserData) {
-        signInWithSocial(email, AppConstants.SOCIAL__SIGN_UP_PASSWORD, socialType, socialUserData);
+        //signInWithSocial(email, password, socialType, socialUserData);
+
+        Intent intent = new Intent(SignInActivity.this, ForgotPasswordActivity.class);
+        intent.putExtra(IntentExtras.SOCIAL_LOGIN_TOKEN, password);
+        intent.putExtra(IntentExtras.SOCIAL_TYPE, socialType);
+        intent.putExtra(IntentExtras.SOCIAL_DATA, socialUserData);
+        startActivity(intent);
     }
 
     @Override
@@ -209,7 +215,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
             hideProgress();
             if (signInModel != null && signInModel.getIsStatus()) {
                 Log.e(TAG, "Response : " + signInModel.toString());
-                if (signInModel.getUserdata().getUser_is_mobile_verified()) {
+                if (signInModel.getUserdata() != null && signInModel.getUserdata().getUser_is_mobile_verified()!= null && signInModel.getUserdata().getUser_is_mobile_verified().equals(AppConstants.MOBILE_VERIFIED)) {
                     getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
                     if (signInModel.getUserdata().getIsProfileComplete())
                         startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
