@@ -31,6 +31,7 @@ public class DashboardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
        // setToolBar();
         setTitle(getString(R.string.Dashboard_label));
+        setVisibility(getApp().getPreferences().getIsVisible());
     }
 
     @OnClick(R.id.btn_visibility)

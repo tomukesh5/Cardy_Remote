@@ -87,22 +87,22 @@ public class DrawerActivity extends BaseActivity
         String menu = (String) getIntent().getExtras().get(IntentExtras.DRAWER_MENU);
         if (menu != null) {
             if (menu.contentEquals(AppConstants.DashboardMenu.CONNECTION.name())) {
-                mTvConnections.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mTvConnections.setTextColor(getResources().getColor(R.color.yellow_app));
                 fragment = connectionListFragment;
                 tag = "connectionListFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.PENDING_REQUST.name())) {
                 fragment = pendingRequestFragment;
                 tag = "pendingRequestFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.QR_SANNER.name())) {
-                mTvQrScanner.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mTvQrScanner.setTextColor(getResources().getColor(R.color.yellow_app));
                 fragment = qrScannerFragment;
                 tag = "qrScannerFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.SEARCH.name())) {
-                mTvSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mTvSearch.setTextColor(getResources().getColor(R.color.yellow_app));
                 fragment = searchFragment;
                 tag = "searchFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.PROFILE.name())) {
-                mTvProfile.setTextColor(getResources().getColor(R.color.colorPrimary));
+                mTvProfile.setTextColor(getResources().getColor(R.color.yellow_app));
                 fragment = profileFragment;
                 tag = "profileFragment";
             }
@@ -192,19 +192,19 @@ public class DrawerActivity extends BaseActivity
     }
 
     private void loadProfileFragment() {
-        mTvProfile.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mTvConnections.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvQrScanner.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvSearch.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvProfile.setTextColor(getResources().getColor(R.color.yellow_app));
+        mTvConnections.setTextColor(getResources().getColor(R.color.white));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.white));
+        mTvSearch.setTextColor(getResources().getColor(R.color.white));
         fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, profileFragment, "profileFragment");
     }
 
     @OnClick(R.id.tv_connections)
     public void onClicktv_connections() {
-        mTvConnections.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mTvSearch.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvQrScanner.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvProfile.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvConnections.setTextColor(getResources().getColor(R.color.yellow_app));
+        mTvSearch.setTextColor(getResources().getColor(R.color.white));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.white));
+        mTvProfile.setTextColor(getResources().getColor(R.color.white));
         fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, connectionListFragment, "connectionListFragment");
         if (null != fragmentTransaction) {
             fragmentTransaction.addToBackStack("Later Transaction").commit();
@@ -213,10 +213,10 @@ public class DrawerActivity extends BaseActivity
 
     @OnClick(R.id.tv_search)
     public void onClicktv_search() {
-        mTvSearch.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mTvConnections.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvQrScanner.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvProfile.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvSearch.setTextColor(getResources().getColor(R.color.yellow_app));
+        mTvConnections.setTextColor(getResources().getColor(R.color.white));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.white));
+        mTvProfile.setTextColor(getResources().getColor(R.color.white));
         fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, searchFragment, "searchFragment");
         if (null != fragmentTransaction) {
             fragmentTransaction.addToBackStack("Later Transaction").commit();
@@ -232,10 +232,10 @@ public class DrawerActivity extends BaseActivity
     }
 
     private void loadQRScannerFragment() {
-        mTvProfile.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvConnections.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvQrScanner.setTextColor(getResources().getColor(R.color.colorPrimary));
-        mTvSearch.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvProfile.setTextColor(getResources().getColor(R.color.white));
+        mTvConnections.setTextColor(getResources().getColor(R.color.white));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.yellow_app));
+        mTvSearch.setTextColor(getResources().getColor(R.color.white));
         fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, qrScannerFragment, "qrScannerFragment");
     }
 
@@ -248,9 +248,9 @@ public class DrawerActivity extends BaseActivity
     }
 
     private void clearTabSelection() {
-        mTvProfile.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvConnections.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvQrScanner.setTextColor(getResources().getColor(R.color.editTextColor));
-        mTvSearch.setTextColor(getResources().getColor(R.color.editTextColor));
+        mTvProfile.setTextColor(getResources().getColor(R.color.white));
+        mTvConnections.setTextColor(getResources().getColor(R.color.white));
+        mTvQrScanner.setTextColor(getResources().getColor(R.color.white));
+        mTvSearch.setTextColor(getResources().getColor(R.color.white));
     }
 }

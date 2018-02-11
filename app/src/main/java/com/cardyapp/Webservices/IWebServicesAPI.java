@@ -2,11 +2,13 @@ package com.cardyapp.Webservices;
 
 
 import com.cardyapp.Models.BaseResponse;
+import com.cardyapp.Models.GetUserProfileModel;
 import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.RequestConnection;
 import com.cardyapp.Models.SendOTPForgotPasswordModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
+import com.cardyapp.Models.SocialSignInModel;
 import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
 
@@ -49,6 +51,10 @@ public interface IWebServicesAPI {
     Call<SignInModel> signIn(@Field("mobile") String mobile, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
 
     @FormUrlEncoded
+    @POST("users_api/login")
+    Call<SocialSignInModel> socialSignIn(@Field("mobile") String mobile, @Field("password") String password, @Field("socialusertype") String socialusertype, @Field("socialuserdata") String socialuserdata, @Field("devicetype") String devicetype);
+
+    @FormUrlEncoded
     @POST("users_api/matchotp")
     Call<BaseResponse> verifyOTP(@Field("userid") String userid, @Field("otp") String otp);
 
@@ -57,7 +63,7 @@ public interface IWebServicesAPI {
     Call<BaseResponse> updateLocation(@Field("userid") String userid, @Field("latitude") String latitude, @Field("longitude")String longitude);
 
     @GET("users_api/user")
-    Call<SignInModel> getUserDetails(@Query("id") String id);
+    Call<GetUserProfileModel> getUserDetails(@Query("id") String id);
 
     @POST("users_api/updateprofile")
     Call<BaseResponse> updateProfile(@Body Userdata userData);
@@ -85,7 +91,7 @@ public interface IWebServicesAPI {
     Call<BaseResponse> rejectRequest(@Field("userid") String userid, @Field("requestbyuserid") String requestbyuserid);
 
     @FormUrlEncoded
-    @POST("users_api/rejectrequest")
+    @POST("users_api/acceptandrevertrequest")
     Call<BaseResponse> accepAndRevertRequest(@Field("userid") String userid, @Field("requestbyuserid") String requestbyuserid);
 
     @FormUrlEncoded

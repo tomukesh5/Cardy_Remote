@@ -129,7 +129,6 @@ public class PendingRequestFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        list.addAll(list);
         PendingRequestRecyclerViewAdapter adapter = new PendingRequestRecyclerViewAdapter(getActivity(), list, new PendingRequestRecyclerViewAdapter.PendingRequestBtnClickListener() {
             @Override
             public void onClickedPendingBtn(String id, String action) {

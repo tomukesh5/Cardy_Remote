@@ -13,6 +13,7 @@ import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.SendOTPForgotPasswordModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
+import com.cardyapp.Models.SocialSignInModel;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
@@ -109,28 +110,28 @@ public class ForgotPasswordActivity extends BaseActivity implements Validator.Va
 
     private void socialLogIn() {
         showProgress("");
-        CardySingleton.getInstance().callToSignInAPI(mEtMobileNo.getText() + "", password, socialType, userData, Callback_SignIn);
+        CardySingleton.getInstance().callToSocialSignInAPI(mEtMobileNo.getText() + "", password, socialType, userData, Callback_SignIn);
     }
 
 
-    Callback<SignInModel> Callback_SignIn = new Callback<SignInModel>() {
+    Callback<SocialSignInModel> Callback_SignIn = new Callback<SocialSignInModel>() {
         @Override
-        public void onResponse(Call<SignInModel> call, Response<SignInModel> response) {
+        public void onResponse(Call<SocialSignInModel> call, Response<SocialSignInModel> response) {
 
             Log.d(AppConstants.TAG, response.toString());
 
-            final SignInModel signInModel = response.body();
+            final SocialSignInModel signInModel = response.body();
             hideProgress();
             if (signInModel != null && signInModel.getIsStatus()) {
                 Log.e(TAG, "Response : " + signInModel.toString());
-                if (signInModel.getUserdata() != null && signInModel.getUserdata().getUser_is_mobile_verified()!= null && signInModel.getUserdata().getUser_is_mobile_verified().equals(AppConstants.MOBILE_VERIFIED)) {
-                    getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
-                    if (signInModel.getUserdata().getIsProfileComplete())
+                if (signInModel.getIs_social_account_verified()) {
+                    getApp().getPreferences().setLoggedInUser(signInModel.getData(), getApp());
+                    if (signInModel.getData().getIsProfileComplete())
                         startActivity(new Intent(ForgotPasswordActivity.this, DashboardActivity.class));
                     else startActivity(new Intent(ForgotPasswordActivity.this, FirstTimeProfileActivity.class));
                 } else {
                     Intent intent = new Intent(ForgotPasswordActivity.this, OTPActivity.class);
-                    intent.putExtra(IntentExtras.USER_DTO, signInModel.getUserdata());
+                    intent.putExtra(IntentExtras.USER_DTO, signInModel.getData());
                     startActivity(intent);
                 }
                 finish();
@@ -149,7 +150,7 @@ public class ForgotPasswordActivity extends BaseActivity implements Validator.Va
         }
 
         @Override
-        public void onFailure(Call<SignInModel> call, Throwable t) {
+        public void onFailure(Call<SocialSignInModel> call, Throwable t) {
             hideProgress();
             Log.d(AppConstants.TAG, "onFailure");
             DialogUtils.show(ForgotPasswordActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {

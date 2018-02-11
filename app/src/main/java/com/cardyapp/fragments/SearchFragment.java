@@ -43,6 +43,8 @@ public class SearchFragment extends Fragment {
     public RecyclerView mRvSearchResult;
     @BindView(R.id.tv_emptyView)
     public TextView mTvEmptyView;
+    @BindView(R.id.btn_send)
+    public TextView mBtnSend;
 
     private List<Userdata> list = new ArrayList<>();
     private ConnectionsRecyclerViewAdapter adapter;
@@ -85,14 +87,17 @@ public class SearchFragment extends Fragment {
                     if (list != null && list.size() > 0) {
                         mTvEmptyView.setVisibility(View.GONE);
                         mRvSearchResult.setVisibility(View.VISIBLE);
+                        mBtnSend.setVisibility(View.VISIBLE);
                         setAdapter();
                     } else {
                         mTvEmptyView.setVisibility(View.VISIBLE);
                         mRvSearchResult.setVisibility(View.GONE);
+                        mBtnSend.setVisibility(View.GONE);
                     }
                 } else {
                     mTvEmptyView.setVisibility(View.VISIBLE);
                     mRvSearchResult.setVisibility(View.GONE);
+                    mBtnSend.setVisibility(View.GONE);
                     DialogUtils.show(getActivity(), response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                         @Override
                         public void onPositiveAction() {
@@ -113,6 +118,7 @@ public class SearchFragment extends Fragment {
                 mTvEmptyView.setText(getResources().getString(R.string.Network_error));
                 mTvEmptyView.setVisibility(View.VISIBLE);
                 mRvSearchResult.setVisibility(View.GONE);
+                mBtnSend.setVisibility(View.GONE);
                 DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {

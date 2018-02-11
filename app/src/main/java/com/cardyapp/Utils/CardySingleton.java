@@ -2,11 +2,13 @@ package com.cardyapp.Utils;
 
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
+import com.cardyapp.Models.GetUserProfileModel;
 import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.RequestConnection;
 import com.cardyapp.Models.SendOTPForgotPasswordModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
+import com.cardyapp.Models.SocialSignInModel;
 import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
 
@@ -51,6 +53,11 @@ public class CardySingleton {
         call.enqueue(callback);
     }
 
+    public void callToSocialSignInAPI(String email, String password, String socialusertype, String socialUserData, Callback callback) {
+        Call<SocialSignInModel> call = Cardy.instance().getApi().socialSignIn(email, password, socialusertype, socialUserData, AppConstants.DEVICE_AOS);
+        call.enqueue(callback);
+    }
+
     public void callToVerifyOTPAPI(String userid, String otp, Callback callback) {
         Call<BaseResponse> call = Cardy.instance().getApi().verifyOTP(userid, otp);
         call.enqueue(callback);
@@ -62,7 +69,7 @@ public class CardySingleton {
     }
 
     public void callToGetProfileAPI(String id, Callback callback) {
-        Call<SignInModel> call = Cardy.instance().getApi().getUserDetails(id);
+        Call<GetUserProfileModel> call = Cardy.instance().getApi().getUserDetails(id);
         call.enqueue(callback);
     }
 

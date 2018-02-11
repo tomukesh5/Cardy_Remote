@@ -50,6 +50,7 @@
     <string name="pending_request_text">Pending Request</string>
     <string name="scanner_text">QR Scanner</string>
     <string name="connections_text">Connections</string>
+    <string name="faceRecognition_text">Face Recognition</string>
 
     <string name="facebook_app_id">533423587025682</string>
     <string name="fb_login_protocol_scheme">fb533423587025682</string>

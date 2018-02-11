@@ -29,6 +29,7 @@ import com.cardyapp.Activities.OTPActivity;
 import com.cardyapp.Activities.SignInActivity;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
+import com.cardyapp.Models.GetUserProfileModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
@@ -208,16 +209,16 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
 
     private void getUserDetails() {
         ((BaseActivity)getActivity()).showProgress("");
-        CardySingleton.getInstance().callToGetProfileAPI(userdata.getUserid(), new Callback<SignInModel>() {
+        CardySingleton.getInstance().callToGetProfileAPI(userdata.getUserid(), new Callback<GetUserProfileModel>() {
             @Override
-            public void onResponse(Call<SignInModel> call, Response<SignInModel> response) {
+            public void onResponse(Call<GetUserProfileModel> call, Response<GetUserProfileModel> response) {
                 ((BaseActivity)getActivity()).hideProgress();
-                final SignInModel signInModel = response.body();
+                final GetUserProfileModel signInModel = response.body();
                 if (signInModel != null && signInModel.getIsStatus()) {
                     Log.e(AppConstants.TAG, "Response : " + signInModel.toString());
-                    if (signInModel.getUserdata() != null) {
-                        app.getPreferences().setLoggedInUser(signInModel.getUserdata(), app);
-                        userdata = signInModel.getUserdata();
+                    if (signInModel.getData() != null) {
+                        app.getPreferences().setLoggedInUser(signInModel.getData(), app);
+                        userdata = signInModel.getData();
                     }
                     initView();
 
@@ -235,7 +236,7 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
             }
 
             @Override
-            public void onFailure(Call<SignInModel> call, Throwable t) {
+            public void onFailure(Call<GetUserProfileModel> call, Throwable t) {
                 ((BaseActivity)getActivity()).hideProgress();
                 initView();
             }
