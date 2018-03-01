@@ -6,31 +6,41 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_dashboard"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/drawer_dashboard"
             android:title="Dashboard" />
         <item
             android:id="@+id/nav_qrCode"
             android:icon="@drawable/ic_menu_gallery"
+            android:visible="false"
             android:title="QR Code" />
-        <item
-            android:id="@+id/nav_pendingRequest"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Pending Request" />
+
         <item
             android:id="@+id/nav_myProfile"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/drawer_profile"
             android:title="My Profile" />
+
+        <item
+            android:id="@+id/nav_pendingRequest"
+            android:icon="@drawable/drawer_pending"
+            android:title="Pending Request" />
+
         <item
             android:id="@+id/nav_share"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/drawer_share"
             android:title="Share" />
         <item
             android:id="@+id/nav_feedback"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/drawer_feedback"
             android:title="Feedback" />
+
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/drawer_setting"
+            android:title="Log out" />
+
         <item
             android:id="@+id/nav_logOut"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/drawer_sharing"
             android:title="Log out" />
     </group>
 

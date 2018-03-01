@@ -170,7 +170,9 @@ public class DrawerActivity extends BaseActivity
         } else if (id == R.id.nav_feedback) {
             clearTabSelection();
             fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, feedbackFragment, "feedbackFragment");
-        } else if (id == R.id.nav_logOut) {
+        }else if (id == R.id.nav_setting){
+            clearTabSelection();
+        }else if (id == R.id.nav_logOut) {
             getApp().getPreferences().setLoggedInUser(null, getApp());
             getApp().getPreferences().setIsVisible(false);
             new Handler().postDelayed(new Runnable() {

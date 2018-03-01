@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
 import com.bumptech.glide.Glide;
@@ -168,6 +169,18 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
     @BindView(R.id.civ_profile)
     public CircleImageView mCIVProfilePic;
 
+    @BindView(R.id.ll_basic)
+    public LinearLayout llBasic;
+
+    @BindView(R.id.ll_advance)
+    public LinearLayout llAdvance;
+
+    @BindView(R.id.view_basic)
+    public View viewBasic;
+
+    @BindView(R.id.view_advance)
+    public View viewAdvance;
+
     private Userdata userdata;
     private Cardy app;
     private Validator mValidator;
@@ -205,6 +218,24 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
 
         getUserDetails();
         return view;
+    }
+
+    @OnClick({R.id.tv_basic, R.id.tv_advance})
+    public void onClickView(View view) {
+        switch (view.getId()) {
+            case R.id.tv_basic :
+                llBasic.setVisibility(View.VISIBLE);
+                llAdvance.setVisibility(View.GONE);
+                viewBasic.setBackgroundColor(getResources().getColor(R.color.yellow_app));
+                viewAdvance.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                break;
+            case R.id.tv_advance :
+                llBasic.setVisibility(View.GONE);
+                llAdvance.setVisibility(View.VISIBLE);
+                viewBasic.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                viewAdvance.setBackgroundColor(getResources().getColor(R.color.yellow_app));
+                break;
+        }
     }
 
     private void getUserDetails() {
@@ -409,7 +440,8 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
 
     @Override
     public void onValidationSucceeded() {
-        // TODO: 12/30/2017 Integrated update profile api
+
+        ((BaseActivity)getActivity()).showProgress("");
         final Userdata user = new Userdata();
         user.setUserid(userdata.getUserid());
         user.setFirstname(mEtFName.getText() + "");
@@ -434,6 +466,7 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 Log.d(AppConstants.TAG, response.toString());
+                ((BaseActivity)getActivity()).hideProgress();
                 if (response.body().getIsStatus()) {
                     userdata.setFirstname(mEtFName.getText() + "");
                     userdata.setLastname(mEtLName.getText() + "");
@@ -476,6 +509,7 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
 
             @Override
             public void onFailure(Call<BaseResponse> call, Throwable t) {
+                ((BaseActivity)getActivity()).hideProgress();
                 DialogUtils.show(getActivity(), getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
