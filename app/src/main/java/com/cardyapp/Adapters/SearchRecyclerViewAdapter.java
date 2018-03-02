@@ -19,7 +19,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ConnectionsRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     private List<Userdata> data = new ArrayList<>();
     private Context context;
@@ -27,7 +27,7 @@ public class ConnectionsRecyclerViewAdapter extends RecyclerView.Adapter<ViewHol
     private boolean isFromConnectionListFragment = false;
     private List<String> selectedConnection = new ArrayList<>();
 
-    public ConnectionsRecyclerViewAdapter(Context context, List<Userdata> data, boolean isFromConnectionListFragment) {
+    public SearchRecyclerViewAdapter(Context context, List<Userdata> data, boolean isFromConnectionListFragment) {
         this.context = context;
         this.data = data;
         this.layoutInflater = LayoutInflater.from(context);

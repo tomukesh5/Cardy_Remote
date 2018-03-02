@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardyapp.Activities.DrawerActivity;
-import com.cardyapp.Adapters.ConnectionsRecyclerViewAdapter;
+import com.cardyapp.Adapters.SearchRecyclerViewAdapter;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.Userdata;
@@ -127,7 +127,7 @@ public class ConnectionListFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mRvConnections.setAdapter(new ConnectionsRecyclerViewAdapter(getActivity(), list, true));
+        mRvConnections.setAdapter(new SearchRecyclerViewAdapter(getActivity(), list, true));
         mRvConnections.setLayoutManager(linearLayoutManager);
     }
 }

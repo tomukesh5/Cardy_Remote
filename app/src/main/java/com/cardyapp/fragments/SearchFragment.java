@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cardyapp.Activities.DrawerActivity;
-import com.cardyapp.Adapters.ConnectionsRecyclerViewAdapter;
+import com.cardyapp.Adapters.SearchRecyclerViewAdapter;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.PendingResuestModel;
@@ -47,7 +47,7 @@ public class SearchFragment extends Fragment {
     public TextView mBtnSend;
 
     private List<Userdata> list = new ArrayList<>();
-    private ConnectionsRecyclerViewAdapter adapter;
+    private SearchRecyclerViewAdapter adapter;
 
     private Cardy app;
 
@@ -138,7 +138,7 @@ public class SearchFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        adapter = new ConnectionsRecyclerViewAdapter(getActivity(), list, false);
+        adapter = new SearchRecyclerViewAdapter(getActivity(), list, false);
         mRvSearchResult.setAdapter(adapter);
         mRvSearchResult.setLayoutManager(linearLayoutManager);
     }
