@@ -95,6 +95,7 @@
     <string name="OK">OK</string>
 
     <string name="Camera_permission_dialog">"App needs your camera permission to set profile pic.</string>
+    <string name="Contact_permission_dialog">"App needs access your contacts.</string>
 
     <string name="NO_pending_request">No Pending requests found.</string>
     <string name="NO_connection">No connections found.</string>
@@ -107,6 +108,7 @@
     <string name="QRScanner_title">QR scanner</string>
     <string name="Feedback_title">Feedback</string>
     <string name="Share_title">Share</string>
+    <string name="Setting_title">Settings</string>
     <string name="btn_send">Send</string>
     <string name="No_connection_selected_error">No connections are selected to send request.</string>
     

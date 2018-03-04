@@ -36,7 +36,7 @@
         <item
             android:id="@+id/nav_setting"
             android:icon="@drawable/drawer_setting"
-            android:title="Log out" />
+            android:title="Setting" />
 
         <item
             android:id="@+id/nav_logOut"

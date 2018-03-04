@@ -34,6 +34,7 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     private Context context;
     private LayoutInflater layoutInflater;
     private PendingRequestBtnClickListener pendingRequestBtnClickListener;
+    private int expandedViewPosition = -1;
 
     public PendingRequestRecyclerViewAdapter(Context context, List<Userdata> data, PendingRequestBtnClickListener pendingRequestBtnClickListener) {
         this.context = context;
@@ -54,7 +55,12 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         final Userdata connection = data.get(position);
         final PendingRequestRecyclerViewAdapter.PendingRequestViewHolder connectionViewHolder = (PendingRequestRecyclerViewAdapter.PendingRequestViewHolder) viewHolder;
 
-        connectionViewHolder.buttonLayout.setVisibility(View.GONE);
+        if (expandedViewPosition == position){
+            connectionViewHolder.buttonLayout.setVisibility(View.VISIBLE);
+        } else {
+            connectionViewHolder.buttonLayout.setVisibility(View.GONE);
+        }
+
         connectionViewHolder.mTvName.setText(connection.getFirstname() + " " + connection.getLastname());
         connectionViewHolder.mTvRole.setText(connection.getDesignation());
 
@@ -86,9 +92,12 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             public void onClick(View view) {
                 if (connectionViewHolder.buttonLayout.getVisibility() == View.VISIBLE) {
                     connectionViewHolder.buttonLayout.setVisibility(View.GONE);
+                    expandedViewPosition = -1;
                 } else {
                     connectionViewHolder.buttonLayout.setVisibility(View.VISIBLE);
+                    expandedViewPosition = position;
                 }
+                notifyDataSetChanged();
             }
         });
     }

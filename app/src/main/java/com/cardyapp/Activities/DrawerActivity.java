@@ -26,6 +26,7 @@ import com.cardyapp.fragments.PendingRequestFragment;
 import com.cardyapp.fragments.ProfileFragment;
 import com.cardyapp.fragments.QRScannerFragment;
 import com.cardyapp.fragments.SearchFragment;
+import com.cardyapp.fragments.SettingFragment;
 import com.cardyapp.fragments.ShareFragment;
 
 import butterknife.BindView;
@@ -57,6 +58,7 @@ public class DrawerActivity extends BaseActivity
     private QRScannerFragment qrScannerFragment;
     private FeedbackFragment feedbackFragment;
     private ShareFragment shareFragment;
+    private SettingFragment settingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class DrawerActivity extends BaseActivity
         qrScannerFragment = QRScannerFragment.newIntence();
         feedbackFragment = FeedbackFragment.newIntence();
         shareFragment = ShareFragment.newIntence();
+        settingFragment = SettingFragment.newIntence();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -172,6 +175,7 @@ public class DrawerActivity extends BaseActivity
             fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, feedbackFragment, "feedbackFragment");
         }else if (id == R.id.nav_setting){
             clearTabSelection();
+            fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, settingFragment, "settingFragment");
         }else if (id == R.id.nav_logOut) {
             getApp().getPreferences().setLoggedInUser(null, getApp());
             getApp().getPreferences().setIsVisible(false);

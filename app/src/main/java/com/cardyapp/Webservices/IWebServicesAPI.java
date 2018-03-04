@@ -109,4 +109,8 @@ public interface IWebServicesAPI {
     @FormUrlEncoded
     @POST("users_api/sendotpforgotpassword")
     Call<SendOTPForgotPasswordModel> sendOTPForgotPassword(@Field("mobile") String mobile);
+
+    @FormUrlEncoded
+    @POST("users_api/synccontact")
+    Call<BaseResponse> syncContacts(@Field("userid") String userid, @Field("contactsdata") List<String> contactsdata);
 }

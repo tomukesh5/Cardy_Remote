@@ -137,4 +137,9 @@ public class CardySingleton {
         Call<SendOTPForgotPasswordModel> call = Cardy.instance().getApi().sendOTPForgotPassword(mobile);
         call.enqueue(callback);
     }
+
+    public void callToSyncContactAPI(String userid, List<String> contactsdata, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().syncContacts(userid, contactsdata);
+        call.enqueue(callback);
+    }
 }
