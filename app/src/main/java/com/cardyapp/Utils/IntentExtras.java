@@ -13,4 +13,6 @@ public class IntentExtras {
     public static final String USER_ID = "USER_ID";
 
     public static String SOCIAL_LOGIN_TOKEN = "SOCIAL_LOGIN_TOKEN";
+
+    public static String CONNECTION_DTO = "CONNECTION_DTO";
 }

@@ -1,6 +1,8 @@
 package com.cardyapp.fragments;
 
 import android.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.cardyapp.Activities.ConnectionDetailsActivity;
 import com.cardyapp.Activities.DrawerActivity;
+import com.cardyapp.Adapters.ConnectionListRecyclerViewAdapter;
 import com.cardyapp.Adapters.SearchRecyclerViewAdapter;
 import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.PendingResuestModel;
@@ -20,6 +24,7 @@ import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
 import com.cardyapp.Utils.CardySingleton;
 import com.cardyapp.Utils.DialogUtils;
+import com.cardyapp.Utils.IntentExtras;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +39,7 @@ import retrofit2.Response;
  * Created by rac on 27/12/17.
  */
 
-public class ConnectionListFragment extends Fragment {
+public class ConnectionListFragment extends Fragment implements ConnectionListRecyclerViewAdapter.onClickConnectionButton {
 
     @BindView(R.id.rv_connection)
     public RecyclerView mRvConnections;
@@ -127,7 +132,48 @@ public class ConnectionListFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        mRvConnections.setAdapter(new SearchRecyclerViewAdapter(getActivity(), list, true));
+        mRvConnections.setAdapter(new ConnectionListRecyclerViewAdapter(getActivity(), list, this));
         mRvConnections.setLayoutManager(linearLayoutManager);
+    }
+
+    @Override
+    public void onClickedCallButton(int position) {
+        String number = "tel:9999999999";
+        if (list.get(position) != null)
+            number = "tel:" + list.get(position).getMobileno();
+
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse(number));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onClickedMailButton(int position) {
+        String str = "to@email.com";
+        if (list.get(position) != null)
+            str = list.get(position).getUser_email();
+
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("plain/text");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{str});
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject");
+        emailIntent.putExtra(android.content.Intent.EXTRA_TEXT, "Text");
+        startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    }
+
+    @Override
+    public void onClickedWhatsappButton(int position) {
+        Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+        whatsappIntent.setType("text/plain");
+        whatsappIntent.setPackage("com.whatsapp");
+        whatsappIntent.putExtra(Intent.EXTRA_TEXT, "The text you wanted to share");
+        startActivity(whatsappIntent);
+    }
+
+    @Override
+    public void onItemClicked(int position) {
+        Intent intent = new Intent(getActivity(), ConnectionDetailsActivity.class);
+        intent.putExtra(IntentExtras.CONNECTION_DTO, list.get(position));
+        startActivity(intent);
     }
 }

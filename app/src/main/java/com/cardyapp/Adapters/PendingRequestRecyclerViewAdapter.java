@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cardyapp.Models.ConnectionDTO;
@@ -53,8 +54,13 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         final Userdata connection = data.get(position);
         final PendingRequestRecyclerViewAdapter.PendingRequestViewHolder connectionViewHolder = (PendingRequestRecyclerViewAdapter.PendingRequestViewHolder) viewHolder;
 
+        connectionViewHolder.buttonLayout.setVisibility(View.GONE);
         connectionViewHolder.mTvName.setText(connection.getFirstname() + " " + connection.getLastname());
         connectionViewHolder.mTvRole.setText(connection.getDesignation());
+
+        connectionViewHolder.tvCurrentCompany.setText(connection.getCurcompany());
+        connectionViewHolder.tvEmail.setText(connection.getUser_email());
+        connectionViewHolder.tvContactNumber.setText(connection.getMobileno());
 
         connectionViewHolder.mTvAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +78,17 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             @Override
             public void onClick(View view) {
                 pendingRequestBtnClickListener.onClickedPendingBtn(connection.getUserid(), AppConstants.PendingRequestAction.ACCEPT_AND_REVERT.name());
+            }
+        });
+
+        connectionViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (connectionViewHolder.buttonLayout.getVisibility() == View.VISIBLE) {
+                    connectionViewHolder.buttonLayout.setVisibility(View.GONE);
+                } else {
+                    connectionViewHolder.buttonLayout.setVisibility(View.VISIBLE);
+                }
             }
         });
     }
@@ -100,6 +117,14 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         TextView mTvReject;
         @BindView(R.id.tv_acceptAndRevert)
         TextView mTvAcceptAndReject;
+        @BindView(R.id.tv_currentCompany)
+        TextView tvCurrentCompany;
+        @BindView(R.id.tv_email)
+        TextView tvEmail;
+        @BindView(R.id.tv_contactNumber)
+        TextView tvContactNumber;
+        @BindView(R.id.buttonContainer)
+        LinearLayout buttonLayout;
 
         private PendingRequestViewHolder(final View itemView) {
             super(itemView);

@@ -99,7 +99,7 @@ public class CardySingleton {
     }
 
     public void callToSearchUserNearMeAPI(String id, String distance, Callback callback) {
-        Call<PendingResuestModel> call = Cardy.instance().getApi().searchUserNearMe(id);
+        Call<PendingResuestModel> call = Cardy.instance().getApi().searchUserNearMe(id, distance);
         call.enqueue(callback);
     }
 

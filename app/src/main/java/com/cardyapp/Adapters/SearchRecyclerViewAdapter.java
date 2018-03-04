@@ -36,15 +36,15 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = layoutInflater.inflate(R.layout.connection_row, viewGroup, false);
-        view.setTag(R.layout.connection_row, data.get(i));
-        return new ConnectionViewHolder(view);
+        View view = layoutInflater.inflate(R.layout.search_row, viewGroup, false);
+        view.setTag(R.layout.search_row, data.get(i));
+        return new SearchViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         final Userdata connection = data.get(position);
-        final ConnectionViewHolder connectionViewHolder = (ConnectionViewHolder) viewHolder;
+        final SearchViewHolder connectionViewHolder = (SearchViewHolder) viewHolder;
 
         connectionViewHolder.mCBSend.setOnCheckedChangeListener(null);
         if (isFromConnectionListFragment) {
@@ -86,7 +86,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> 
         notifyDataSetChanged();
     }
 
-    class ConnectionViewHolder extends ViewHolder {
+    class SearchViewHolder extends ViewHolder {
 
         @BindView(R.id.tv_name)
         TextView mTvName;
@@ -95,7 +95,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> 
         @BindView(R.id.cb_send)
         CheckBox mCBSend;
 
-        private ConnectionViewHolder(final View itemView) {
+        private SearchViewHolder(final View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

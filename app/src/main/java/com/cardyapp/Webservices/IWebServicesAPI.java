@@ -80,7 +80,7 @@ public interface IWebServicesAPI {
 
     @FormUrlEncoded
     @POST("users_api/searchusers")
-    Call<PendingResuestModel> searchUserNearMe(@Field("userid") String userid);
+    Call<PendingResuestModel> searchUserNearMe(@Field("userid") String userid, @Field("distance") String distance);
 
     @FormUrlEncoded
     @POST("users_api/acceptrequest")
