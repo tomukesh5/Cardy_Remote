@@ -65,8 +65,8 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         connectionViewHolder.mTvRole.setText(connection.getDesignation());
 
         connectionViewHolder.tvCurrentCompany.setText(connection.getCurcompany());
-        connectionViewHolder.tvEmail.setText(connection.getUser_email());
-        connectionViewHolder.tvContactNumber.setText(connection.getMobileno());
+        connectionViewHolder.tvEmail.setText(connection.getPersonalemail());
+        connectionViewHolder.tvContactNumber.setText(connection.getUser_mobile());
 
         connectionViewHolder.mTvAccept.setOnClickListener(new View.OnClickListener() {
             @Override

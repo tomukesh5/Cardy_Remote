@@ -111,7 +111,7 @@ public class ResetPasswordActivity extends BaseActivity implements Validator.Val
                     Log.e(AppConstants.TAG, "Response :" + baseResponse.toString());
 
                     Intent intent = new Intent(ResetPasswordActivity.this, SignInActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                 } else {
                     DialogUtils.show(ResetPasswordActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {

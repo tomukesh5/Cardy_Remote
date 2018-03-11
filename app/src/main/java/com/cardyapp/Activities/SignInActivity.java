@@ -82,7 +82,7 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
         mValidator.setValidationMode(Validator.Mode.BURST);
-        //generateHashkey();
+        generateHashkey();
     }
 
     public void generateHashkey(){
@@ -200,61 +200,60 @@ public class SignInActivity extends BaseSocialSignInActivity implements Validato
         }
     }
 
-    private void signInWithSocial(String email, String password, String socialusertype, String socialUserData) {
+    private void signInWithSocial(final String email, String password, String socialusertype, String socialUserData) {
         showProgress("");
-        CardySingleton.getInstance().callToSignInAPI(email, password, socialusertype, socialUserData, Callback_SignIn);
-    }
+        CardySingleton.getInstance().callToSignInAPI(email, password, socialusertype, socialUserData, new Callback<SignInModel>() {
+            @Override
+            public void onResponse(Call<SignInModel> call, Response<SignInModel> response) {
 
-    Callback<SignInModel> Callback_SignIn = new Callback<SignInModel>() {
-        @Override
-        public void onResponse(Call<SignInModel> call, Response<SignInModel> response) {
+                Log.d(AppConstants.TAG, response.toString());
 
-            Log.d(AppConstants.TAG, response.toString());
+                final SignInModel signInModel = response.body();
+                hideProgress();
+                if (signInModel != null && signInModel.getIsStatus()) {
+                    Log.e(TAG, "Response : " + signInModel.toString());
+                    if (signInModel.getUserdata() != null && signInModel.getUserdata().getUser_is_mobile_verified()!= null && signInModel.getUserdata().getUser_is_mobile_verified().equals(AppConstants.MOBILE_VERIFIED)) {
+                        signInModel.getUserdata().setUser_mobile(email);
+                        getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
+                        if (signInModel.getUserdata().getIsProfileComplete())
+                            startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
+                        else startActivity(new Intent(SignInActivity.this, FirstTimeProfileActivity.class));
+                    } else {
+                        Intent intent = new Intent(SignInActivity.this, OTPActivity.class);
+                        intent.putExtra(IntentExtras.USER_DTO, signInModel.getUserdata());
+                        startActivity(intent);
+                    }
+                    finish();
 
-            final SignInModel signInModel = response.body();
-            hideProgress();
-            if (signInModel != null && signInModel.getIsStatus()) {
-                Log.e(TAG, "Response : " + signInModel.toString());
-                if (signInModel.getUserdata() != null && signInModel.getUserdata().getUser_is_mobile_verified()!= null && signInModel.getUserdata().getUser_is_mobile_verified().equals(AppConstants.MOBILE_VERIFIED)) {
-                    getApp().getPreferences().setLoggedInUser(signInModel.getUserdata(), getApp());
-                    if (signInModel.getUserdata().getIsProfileComplete())
-                        startActivity(new Intent(SignInActivity.this, DashboardActivity.class));
-                    else startActivity(new Intent(SignInActivity.this, FirstTimeProfileActivity.class));
                 } else {
-                    Intent intent = new Intent(SignInActivity.this, OTPActivity.class);
-                    intent.putExtra(IntentExtras.USER_DTO, signInModel.getUserdata());
-                    startActivity(intent);
-                }
-                finish();
+                    DialogUtils.show(SignInActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onPositiveAction() {
+                        }
 
-            } else {
-                DialogUtils.show(SignInActivity.this, response.message(), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
+                        @Override
+                        public void onNegativeAction() {
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignInModel> call, Throwable t) {
+                hideProgress();
+                Log.d(AppConstants.TAG, "onFailure");
+                DialogUtils.show(SignInActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
                     @Override
                     public void onPositiveAction() {
+
                     }
 
                     @Override
                     public void onNegativeAction() {
+
                     }
                 });
             }
-        }
-
-        @Override
-        public void onFailure(Call<SignInModel> call, Throwable t) {
-            hideProgress();
-            Log.d(AppConstants.TAG, "onFailure");
-            DialogUtils.show(SignInActivity.this, getResources().getString(R.string.Network_error), getResources().getString(R.string.Dialog_title), getResources().getString(R.string.OK), false, false, new DialogUtils.ActionListner() {
-                @Override
-                public void onPositiveAction() {
-
-                }
-
-                @Override
-                public void onNegativeAction() {
-
-                }
-            });
-        }
-    };
+        });
+    }
 }

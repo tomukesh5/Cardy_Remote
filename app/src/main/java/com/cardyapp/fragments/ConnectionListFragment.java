@@ -140,7 +140,7 @@ public class ConnectionListFragment extends Fragment implements ConnectionListRe
     public void onClickedCallButton(int position) {
         String number = "tel:9999999999";
         if (list.get(position) != null)
-            number = "tel:" + list.get(position).getMobileno();
+            number = "tel:" + list.get(position).getUser_mobile();
 
         Intent intent = new Intent(Intent.ACTION_DIAL);
         intent.setData(Uri.parse(number));
@@ -151,7 +151,7 @@ public class ConnectionListFragment extends Fragment implements ConnectionListRe
     public void onClickedMailButton(int position) {
         String str = "to@email.com";
         if (list.get(position) != null)
-            str = list.get(position).getUser_email();
+            str = list.get(position).getPersonalemail();
 
         Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("plain/text");

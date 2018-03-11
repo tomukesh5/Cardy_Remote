@@ -127,7 +127,7 @@ public class SettingFragment extends Fragment {
                     phoneNumber = "91" + numbers;
                 }
             }
-            if(phoneNumbers.contains(phoneNumber) || phoneNumber.contentEquals(app.getPreferences().getLoggedInUser(app).getMobileno()))
+            if(phoneNumbers.contains(phoneNumber) || phoneNumber.contentEquals(app.getPreferences().getLoggedInUser(app).getUser_mobile()))
                 continue;
 
             phoneNumbers.add(phoneNumber);

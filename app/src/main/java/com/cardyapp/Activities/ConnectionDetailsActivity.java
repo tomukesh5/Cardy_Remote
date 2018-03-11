@@ -77,7 +77,7 @@ public class ConnectionDetailsActivity extends BaseActivity {
             case R.id.tv_email:
                 String str = "to@email.com";
                 if (userdata != null)
-                    str = userdata.getUser_email();
+                    str = userdata.getPersonalemail();
                 Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
                 emailIntent.setType("plain/text");
                 emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{str});
@@ -88,7 +88,7 @@ public class ConnectionDetailsActivity extends BaseActivity {
             case R.id.tv_call:
                 String number = "tel:9999999999";
                 if (userdata != null)
-                    number = "tel:" + userdata.getMobileno();
+                    number = "tel:" + userdata.getUser_mobile();
                 Intent intent = new Intent(Intent.ACTION_DIAL);
                 intent.setData(Uri.parse(number));
                 startActivity(intent);

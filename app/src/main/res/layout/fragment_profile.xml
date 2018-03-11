@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -11,10 +12,10 @@
         android:weightSum="2">
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <com.cardyapp.Views.CustomTextView
                 android:id="@+id/tv_basic"
@@ -26,19 +27,20 @@
                 android:paddingBottom="16dp"
                 android:paddingTop="16dp"
                 android:text="@string/Basic" />
+
             <View
                 android:id="@+id/view_basic"
-                android:background="@color/yellow_app"
                 android:layout_width="match_parent"
-                android:layout_height="2dp" />
+                android:layout_height="2dp"
+                android:background="@color/yellow_app" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <com.cardyapp.Views.CustomTextView
                 android:id="@+id/tv_advance"
@@ -53,9 +55,9 @@
 
             <View
                 android:id="@+id/view_advance"
-                android:background="@color/colorPrimary"
                 android:layout_width="match_parent"
-                android:layout_height="2dp" />
+                android:layout_height="2dp"
+                android:background="@color/colorPrimary" />
         </LinearLayout>
     </LinearLayout>
 
@@ -102,44 +104,51 @@
                     android:id="@+id/ll_basic"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:orientation="vertical">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_firstName"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/til_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/FName"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_lastName"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_firstName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/LName"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
+
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_lastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="textCapWords|textNoSuggestions"
+                            android:maxLines="1"
+                            android:text="bbcb"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
 
                     <com.cardyapp.Views.CustomTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
+                        android:layout_marginTop="6dp"
                         android:text="@string/Gender"
                         android:textColor="@color/hintColor"
                         android:textSize="@dimen/text_size" />
@@ -147,9 +156,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
+                        android:layout_marginTop="12dp"
                         android:weightSum="2">
 
                         <RadioButton
@@ -174,23 +181,18 @@
                         android:id="@+id/et_dateOfBirth"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
                         android:background="@drawable/edit_text_bg"
                         android:hint="@string/Date_of_birth"
                         android:inputType="none"
                         android:maxLines="1"
                         android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:textSize="@dimen/text_size"
+                        android:visibility="gone" />
 
                     <com.cardyapp.Views.CustomEditText
                         android:id="@+id/et_availability"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
                         android:background="@drawable/edit_text_bg"
                         android:hint="@string/Availability"
                         android:imeOptions="actionNext"
@@ -200,35 +202,44 @@
                         android:textSize="@dimen/text_size"
                         android:visibility="gone" />
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_mobileNo"
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
+                        android:layout_marginTop="12dp"
                         android:hint="@string/Mobile_No"
-                        android:imeOptions="actionNext"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_email"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_mobileNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:editable="false"
+                            android:enabled="false"
+                            android:focusable="false"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/email_address_hint"
-                        android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
+
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
 
                 </LinearLayout>
 
@@ -236,143 +247,164 @@
                     android:id="@+id/ll_advance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:orientation="vertical"
                     android:visibility="gone">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_currentCompany"
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/Current_Company"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_designation"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_currentCompany"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/Designation"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_officialEmailAddress"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_designation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/Official_Email_address"
-                        android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_previousCompany"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_officialEmailAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="textEmailAddress|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/Previous_Company"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_fbProfileLink"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_previousCompany"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/FB_profile_link"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_googleProfileLink"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_fbProfileLink"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/Google_profile_link"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_linkedinProfileLink"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_googleProfileLink"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/Linkedin_profile_link"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_qualification"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_linkedinProfileLink"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/Qualification"
-                        android:imeOptions="actionNext"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
 
-                    <com.cardyapp.Views.CustomEditText
-                        android:id="@+id/et_biography"
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_qualification"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/email_margin_left_right"
-                        android:layout_marginStart="@dimen/email_margin_left_right"
-                        android:layout_marginTop="@dimen/signup_btn_margin_top"
-                        android:background="@drawable/edit_text_bg"
                         android:hint="@string/Biography"
-                        android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingBottom="4dp"
-                        android:textSize="@dimen/text_size" />
+                        android:theme="@style/ProfileInputLayout"
+                        app:hintTextAppearance="@style/TextInputLayoutHintTextAppearance">
+
+                        <com.cardyapp.Views.CustomEditText
+                            android:id="@+id/et_biography"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionDone"
+                            android:inputType="text|textNoSuggestions"
+                            android:maxLines="1"
+                            android:translationY="-6dp" />
+                    </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
 

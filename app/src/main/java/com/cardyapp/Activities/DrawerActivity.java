@@ -91,6 +91,7 @@ public class DrawerActivity extends BaseActivity
         if (menu != null) {
             if (menu.contentEquals(AppConstants.DashboardMenu.CONNECTION.name())) {
                 mTvConnections.setTextColor(getResources().getColor(R.color.yellow_app));
+                mTvConnections.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_conection_s), null, null);
                 fragment = connectionListFragment;
                 tag = "connectionListFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.PENDING_REQUST.name())) {
@@ -98,14 +99,17 @@ public class DrawerActivity extends BaseActivity
                 tag = "pendingRequestFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.QR_SANNER.name())) {
                 mTvQrScanner.setTextColor(getResources().getColor(R.color.yellow_app));
+                mTvQrScanner.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_scnner_s), null, null);
                 fragment = qrScannerFragment;
                 tag = "qrScannerFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.SEARCH.name())) {
                 mTvSearch.setTextColor(getResources().getColor(R.color.yellow_app));
+                mTvSearch.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_search_s), null, null);
                 fragment = searchFragment;
                 tag = "searchFragment";
             } else if (menu.contentEquals(AppConstants.DashboardMenu.PROFILE.name())) {
                 mTvProfile.setTextColor(getResources().getColor(R.color.yellow_app));
+                mTvProfile.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_profile_s), null, null);
                 fragment = profileFragment;
                 tag = "profileFragment";
             }
@@ -118,7 +122,7 @@ public class DrawerActivity extends BaseActivity
         mTvName = headerView.findViewById(R.id.tv_name);
         mTvEmail = headerView.findViewById(R.id.tv_email);
         if (userdata != null) {
-            mTvEmail.setText(userdata.getUser_email());
+            mTvEmail.setText(userdata.getPersonalemail());
             mTvName.setText((userdata.getFirstname() == null ? "" : userdata.getFirstname()) + " " + (userdata.getLastname() == null ? "" : userdata.getLastname()));
         } else {
             mTvEmail.setText("");
@@ -173,10 +177,10 @@ public class DrawerActivity extends BaseActivity
         } else if (id == R.id.nav_feedback) {
             clearTabSelection();
             fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, feedbackFragment, "feedbackFragment");
-        }else if (id == R.id.nav_setting){
+        } else if (id == R.id.nav_setting) {
             clearTabSelection();
             fragmentTransaction = fragmentManager.beginTransaction().replace(R.id.container, settingFragment, "settingFragment");
-        }else if (id == R.id.nav_logOut) {
+        } else if (id == R.id.nav_logOut) {
             getApp().getPreferences().setLoggedInUser(null, getApp());
             getApp().getPreferences().setIsVisible(false);
             new Handler().postDelayed(new Runnable() {
@@ -199,18 +203,26 @@ public class DrawerActivity extends BaseActivity
 
     private void loadProfileFragment() {
         mTvProfile.setTextColor(getResources().getColor(R.color.yellow_app));
+        mTvProfile.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_profile_s), null, null);
         mTvConnections.setTextColor(getResources().getColor(R.color.white));
+        mTvConnections.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_conection), null, null);
         mTvQrScanner.setTextColor(getResources().getColor(R.color.white));
+        mTvQrScanner.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_scnner), null, null);
         mTvSearch.setTextColor(getResources().getColor(R.color.white));
+        mTvSearch.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_search), null, null);
         fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, profileFragment, "profileFragment");
     }
 
     @OnClick(R.id.tv_connections)
     public void onClicktv_connections() {
         mTvConnections.setTextColor(getResources().getColor(R.color.yellow_app));
+        mTvConnections.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_conection_s), null, null);
         mTvSearch.setTextColor(getResources().getColor(R.color.white));
+        mTvSearch.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_search), null, null);
         mTvQrScanner.setTextColor(getResources().getColor(R.color.white));
+        mTvQrScanner.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_scnner), null, null);
         mTvProfile.setTextColor(getResources().getColor(R.color.white));
+        mTvProfile.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_profile), null, null);
         fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, connectionListFragment, "connectionListFragment");
         if (null != fragmentTransaction) {
             fragmentTransaction.addToBackStack("Later Transaction").commit();
@@ -220,9 +232,13 @@ public class DrawerActivity extends BaseActivity
     @OnClick(R.id.tv_search)
     public void onClicktv_search() {
         mTvSearch.setTextColor(getResources().getColor(R.color.yellow_app));
+        mTvSearch.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_search_s), null, null);
         mTvConnections.setTextColor(getResources().getColor(R.color.white));
+        mTvConnections.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_conection), null, null);
         mTvQrScanner.setTextColor(getResources().getColor(R.color.white));
+        mTvQrScanner.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_scnner), null, null);
         mTvProfile.setTextColor(getResources().getColor(R.color.white));
+        mTvProfile.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_profile), null, null);
         fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, searchFragment, "searchFragment");
         if (null != fragmentTransaction) {
             fragmentTransaction.addToBackStack("Later Transaction").commit();
@@ -239,9 +255,13 @@ public class DrawerActivity extends BaseActivity
 
     private void loadQRScannerFragment() {
         mTvProfile.setTextColor(getResources().getColor(R.color.white));
+        mTvProfile.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_profile), null, null);
         mTvConnections.setTextColor(getResources().getColor(R.color.white));
+        mTvConnections.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_conection), null, null);
         mTvQrScanner.setTextColor(getResources().getColor(R.color.yellow_app));
+        mTvQrScanner.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_scnner_s), null, null);
         mTvSearch.setTextColor(getResources().getColor(R.color.white));
+        mTvSearch.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_search), null, null);
         fragmentTransaction = getFragmentManager().beginTransaction().replace(R.id.container, qrScannerFragment, "qrScannerFragment");
     }
 
@@ -255,8 +275,12 @@ public class DrawerActivity extends BaseActivity
 
     private void clearTabSelection() {
         mTvProfile.setTextColor(getResources().getColor(R.color.white));
+        mTvProfile.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_profile), null, null);
         mTvConnections.setTextColor(getResources().getColor(R.color.white));
+        mTvConnections.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_conection), null, null);
         mTvQrScanner.setTextColor(getResources().getColor(R.color.white));
+        mTvQrScanner.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_scnner), null, null);
         mTvSearch.setTextColor(getResources().getColor(R.color.white));
+        mTvSearch.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.ic_b_search), null, null);
     }
 }

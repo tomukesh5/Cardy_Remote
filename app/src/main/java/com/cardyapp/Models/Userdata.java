@@ -19,6 +19,8 @@ public class Userdata implements Serializable {
 
     private String userid;
 
+    private String user_mobile;
+
     private String designation;
 
     private String linkedinprofilelink;
@@ -393,6 +395,14 @@ public class Userdata implements Serializable {
 
     public void setUser_is_mobile_verified(String user_is_mobile_verified) {
         this.user_is_mobile_verified = user_is_mobile_verified;
+    }
+
+    public String getUser_mobile() {
+        return user_mobile;
+    }
+
+    public void setUser_mobile(String user_mobile) {
+        this.user_mobile = user_mobile;
     }
 
     @Override

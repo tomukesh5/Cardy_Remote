@@ -83,56 +83,63 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
 
     public onProfileUpdateListener listener;
 
+
+    @BindView(R.id.et_firstName)
     @Order(1)
     @NotEmpty(sequence = 1, message = "Please enter first name")
-    @BindView(R.id.et_firstName)
     public EditText mEtFName;
 
+
+    @BindView(R.id.et_lastName)
     @Order(2)
     @NotEmpty(sequence = 1, message = "Please enter last name")
-    @BindView(R.id.et_lastName)
     public EditText mEtLName;
 
+
+    @BindView(R.id.et_dateOfBirth)
     @Order(3)
     @NotEmpty(sequence = 1, message = "Please enter date of birth")
-    @BindView(R.id.et_dateOfBirth)
     public EditText mEtDateOfBirth;
 
+
+    @BindView(R.id.et_availability)
     @Order(4)
     @NotEmpty(sequence = 1, message = "Please enter availability")
-    @BindView(R.id.et_availability)
     public EditText mEtAvailability;
 
+
+    @BindView(R.id.et_mobileNo)
     @Order(5)
     @NotEmpty(sequence = 1, message = "Please enter mobile number")
-    @BindView(R.id.et_mobileNo)
     public EditText mEtMobileNo;
 
+
+    @BindView(R.id.et_email)
     @Order(6)
     @NotEmpty(sequence = 1, message = "Please enter email address")
     @Email(sequence = 2, message = "Invalid email address")
-    @BindView(R.id.et_email)
     public EditText mEtEmail;
 
+
+    @BindView(R.id.et_currentCompany)
     @Order(7)
     @NotEmpty(sequence = 1, message = "Please enter current company")
-    @BindView(R.id.et_currentCompany)
     public EditText mEtCurrentCompany;
 
+    @BindView(R.id.et_designation)
     @Order(8)
     @NotEmpty(sequence = 1, message = "Please enter designation")
-    @BindView(R.id.et_designation)
     public EditText mEtDesignation;
 
+    @BindView(R.id.et_officialEmailAddress)
     @Order(9)
     @NotEmpty(sequence = 1, message = "Please enter official email address")
     @Email(sequence = 2, message = "Invalid email address")
-    @BindView(R.id.et_officialEmailAddress)
     public EditText mEtOfficialEmail;
 
+    @BindView(R.id.et_previousCompany)
     @Order(10)
     @NotEmpty(sequence = 1, message = "Please enter previous company")
-    @BindView(R.id.et_previousCompany)
     public EditText mEtPreviousCompany;
 
     @Order(11)
@@ -140,24 +147,24 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
     @BindView(R.id.et_fbProfileLink)
     public EditText mEtFBProfileLink;
 
+    @BindView(R.id.et_googleProfileLink)
     @Order(12)
     @NotEmpty(sequence = 1, message = "Please enter google profile link")
-    @BindView(R.id.et_googleProfileLink)
     public EditText mEtGoogleProfileLink;
 
+    @BindView(R.id.et_linkedinProfileLink)
     @Order(13)
     @NotEmpty(sequence = 1, message = "Please enter linkedin profile link")
-    @BindView(R.id.et_linkedinProfileLink)
     public EditText mEtLinkedinProfileLink;
 
+    @BindView(R.id.et_qualification)
     @Order(14)
     @NotEmpty(sequence = 1, message = "Please enter qualification")
-    @BindView(R.id.et_qualification)
     public EditText mEtQualification;
 
+    @BindView(R.id.et_biography)
     @Order(15)
     @NotEmpty(sequence = 1, message = "Please enter Biography")
-    @BindView(R.id.et_biography)
     public EditText mEtBiography;
 
     @BindView(R.id.rb_Male)
@@ -187,6 +194,7 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
     private PictureSourceChooser pictureSourceChooser;
     private File profilePic;
     String base64Profile;
+    private String mobileNumber = "";
 
     public ProfileFragment() {
 
@@ -215,6 +223,9 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
         mValidator.setValidationMode(Validator.Mode.BURST);
+
+        if (userdata != null)
+            mobileNumber = userdata.getUser_mobile();
 
         getUserDetails();
         return view;
@@ -275,6 +286,9 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
     }
 
     private void initView() {
+
+        mEtMobileNo.setText(mobileNumber);
+
         if (userdata == null)
             return;
 
@@ -282,8 +296,8 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
         mEtLName.setText(userdata.getLastname() == null ? "" : userdata.getLastname());
         mEtDateOfBirth.setText(userdata.getDob() == null ? "" : userdata.getDob());
         mEtAvailability.setText("");
-        mEtMobileNo.setText(userdata.getMobileno() == null ? "" : userdata.getMobileno());
-        mEtEmail.setText(userdata.getUser_email() == null ? "" : userdata.getUser_email());
+        //mEtMobileNo.setText(userdata.getMobileno() == null ? "" : userdata.getMobileno());
+        mEtEmail.setText(userdata.getPersonalemail() == null ? "" : userdata.getPersonalemail());
         mEtCurrentCompany.setText(userdata.getCurcompany() == null ? "" : userdata.getCurcompany());
         mEtDesignation.setText(userdata.getDesignation() == null ? "" : userdata.getDesignation());
         mEtOfficialEmail.setText(userdata.getOfficialemail() == null ? "" : userdata.getOfficialemail());
@@ -450,8 +464,8 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
             user.setGender(F_GENDER);
         else user.setGender(M_GENDER);
         user.setDob(mEtDateOfBirth.getText() + "");
-        user.setMobileno(mEtMobileNo.getText() + "");
-        user.setUser_email(mEtEmail.getText() + "");
+        user.setUser_mobile(mEtMobileNo.getText() + "");
+        user.setPersonalemail(mEtEmail.getText() + "");
         user.setCurcompany(mEtCurrentCompany.getText() + "");
         user.setDesignation(mEtDesignation.getText() + "");
         user.setOfficialemail(mEtOfficialEmail.getText() + "");
@@ -474,8 +488,8 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
                         userdata.setGender(F_GENDER);
                     else userdata.setGender(M_GENDER);
                     userdata.setDob(mEtDateOfBirth.getText() + "");
-                    userdata.setMobileno(mEtMobileNo.getText() + "");
-                    userdata.setUser_email(mEtEmail.getText() + "");
+                    userdata.setUser_mobile(mEtMobileNo.getText() + "");
+                    userdata.setPersonalemail(mEtEmail.getText() + "");
                     userdata.setCurcompany(mEtCurrentCompany.getText() + "");
                     userdata.setDesignation(mEtDesignation.getText() + "");
                     userdata.setOfficialemail(mEtOfficialEmail.getText() + "");

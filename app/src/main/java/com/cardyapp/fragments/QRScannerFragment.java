@@ -46,9 +46,9 @@ public class QRScannerFragment extends Fragment {
 
     @OnClick(R.id.btn_scan)
     public void onClickedScanned() {
-        Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+        /*Intent intent = new Intent("com.google.zxing.client.android.SCAN");
         intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
-        startActivityForResult(intent, 0);
+        startActivityForResult(intent, 0);*/
     }
 
     @Override

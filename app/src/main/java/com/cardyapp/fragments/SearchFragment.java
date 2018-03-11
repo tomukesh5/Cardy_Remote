@@ -76,7 +76,7 @@ public class SearchFragment extends Fragment {
 
         final DrawerActivity activity = (DrawerActivity) getActivity();
         activity.showProgress("");
-        CardySingleton.getInstance().callToSearchUserNearMeAPI(userdata.getUserid(), "60", new Callback<PendingResuestModel>() {
+        CardySingleton.getInstance().callToSearchUserNearMeAPI(userdata.getUserid(), "300", new Callback<PendingResuestModel>() {
             @Override
             public void onResponse(Call<PendingResuestModel> call, Response<PendingResuestModel> response) {
                 Log.d(AppConstants.TAG, response.toString());

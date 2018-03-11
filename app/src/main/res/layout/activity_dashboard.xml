@@ -36,52 +36,80 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:orientation="vertical"
         android:weightSum="3">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/yellow_app" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:weightSum="2">
 
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/tv_pendingRequest"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/yellow_react_bg">
+                android:layout_weight="1">
 
-                <com.cardyapp.Views.CustomTextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawablePadding="14dp"
-                    android:drawableTop="@drawable/ic_d_pending_request"
-                    android:text="@string/pending_request_text" />
-            </FrameLayout>
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_d_pending_request" />
 
-            <FrameLayout
+                <com.cardyapp.Views.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="@string/pending_request_text"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/yellow_app" />
+
+            <RelativeLayout
                 android:id="@+id/tv_search"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/yellow_react_bg">
+                android:layout_weight="1">
 
-                <com.cardyapp.Views.CustomTextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawablePadding="14dp"
-                    android:drawableTop="@drawable/ic_d_search"
-                    android:text="@string/search_text" />
-            </FrameLayout>
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_d_search" />
+
+                <com.cardyapp.Views.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="@string/search_text"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/yellow_app" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,41 +117,67 @@
             android:layout_weight="1"
             android:weightSum="2">
 
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/tv_connections"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/yellow_react_bg">
+                android:layout_weight="1">
 
-                <com.cardyapp.Views.CustomTextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawablePadding="14dp"
-                    android:drawableTop="@drawable/ic_d_connection"
-                    android:text="@string/connections_text" />
-            </FrameLayout>
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_d_connection" />
 
-            <FrameLayout
+                <com.cardyapp.Views.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="@string/connections_text"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/yellow_app" />
+
+            <RelativeLayout
                 android:id="@+id/tv_profile"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/yellow_react_bg">
+                android:layout_weight="1">
 
-                <com.cardyapp.Views.CustomTextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawablePadding="14dp"
-                    android:drawableTop="@drawable/ic_d_profile"
-                    android:text="@string/profile_text" />
-            </FrameLayout>
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_d_profile" />
+
+                <com.cardyapp.Views.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="@string/profile_text"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/yellow_app" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,39 +185,65 @@
             android:layout_weight="1"
             android:weightSum="2">
 
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/tv_qrScanner"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/yellow_react_bg">
+                android:layout_weight="1">
 
-                <com.cardyapp.Views.CustomTextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawablePadding="14dp"
-                    android:drawableTop="@drawable/ic_d_scanner"
-                    android:text="@string/scanner_text" />
-            </FrameLayout>
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_d_scanner" />
 
-            <FrameLayout
+                <com.cardyapp.Views.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="@string/scanner_text"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/yellow_app" />
+
+            <RelativeLayout
                 android:id="@+id/tv_faceRecognition"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                android:layout_weight="1"
-                android:background="@drawable/yellow_react_bg">
+                android:layout_weight="1">
 
-                <com.cardyapp.Views.CustomTextView
+                <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:drawablePadding="14dp"
-                    android:drawableTop="@drawable/ic_d_face_recognition"
-                    android:text="@string/faceRecognition_text" />
-            </FrameLayout>
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_d_face_recognition" />
+
+                <com.cardyapp.Views.CustomTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="@string/faceRecognition_text"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/yellow_app" />
     </LinearLayout>
 </LinearLayout>
