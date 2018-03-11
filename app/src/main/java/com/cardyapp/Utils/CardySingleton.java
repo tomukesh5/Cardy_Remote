@@ -5,10 +5,12 @@ import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.GetUserProfileModel;
 import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.RequestConnection;
+import com.cardyapp.Models.SendMultipleRequest;
 import com.cardyapp.Models.SendOTPForgotPasswordModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
 import com.cardyapp.Models.SocialSignInModel;
+import com.cardyapp.Models.UpdateProfilePicRequest;
 import com.cardyapp.Models.UploadProfilePicModel;
 import com.cardyapp.Models.Userdata;
 
@@ -84,6 +86,9 @@ public class CardySingleton {
         if (null != profilepic)
             file = MultipartBody.Part.createFormData("profilePic", profilepic.getName(), RequestBody.create(MediaType.parse(CommonUtil.getMimeType(profilepic)), profilepic));
 
+        UpdateProfilePicRequest request = new UpdateProfilePicRequest();
+        request.setUserid(userid);
+        request.setProfilepic(file);
         Call<BaseResponse> call = Cardy.instance().getApi().updateProfilePic(userid, file);
         call.enqueue(callback);
     }
@@ -118,8 +123,8 @@ public class CardySingleton {
         call.enqueue(callback);
     }
 
-    public void callToSendMultipleRequestAPI(List<RequestConnection> list, Callback callback) {
-        Call<BaseResponse> call = Cardy.instance().getApi().sendMultipleConnections(list);
+    public void callToSendMultipleRequestAPI(SendMultipleRequest request, Callback callback) {
+        Call<BaseResponse> call = Cardy.instance().getApi().sendMultipleConnections(request);
         call.enqueue(callback);
     }
 

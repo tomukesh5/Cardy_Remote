@@ -2,6 +2,8 @@
     <string name="app_name">CardyApp</string>
     <string name="BASE_URL">http://cardy.in/schoolmanagement/api/</string>
 
+    <string name="BASE_PROFILE_URL">http://cardy.in/schoolmanagement/uploads/</string>
+
     <string name="email_address_hint">Email Address</string>
     <string name="password_hint">Password</string>
     <string name="new_password_hint">New Password</string>

@@ -9,14 +9,19 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
+import com.cardyapp.Utils.CommonUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Priyanka on 3/2/2018.
@@ -59,6 +64,12 @@ public class ConnectionListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         connectionViewHolder.mTvName.setText(connection.getFirstname() + " " + connection.getLastname());
         connectionViewHolder.mTvRole.setText(connection.getDesignation());
 
+        if (!CommonUtil.isEmpty(connection.getProfilepic())) {
+            Glide.with(context).load(context.getResources().getString(R.string.BASE_PROFILE_URL) + connection.getProfilepic()).signature(new StringSignature(new Date() + "")).error(setDefaultProfilePic()).into(connectionViewHolder.civProfile);
+        } else {
+            connectionViewHolder.civProfile.setImageResource(setDefaultProfilePic());
+        }
+
         connectionViewHolder.ivCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +99,10 @@ public class ConnectionListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         });
     }
 
+    private int setDefaultProfilePic() {
+        return R.drawable.blank_profile;
+    }
+
     @Override
     public int getItemCount() {
         return data.size();
@@ -110,6 +125,8 @@ public class ConnectionListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         ImageView ivMail;
         @BindView(R.id.iv_whatsapp)
         ImageView ivWhatsapp;
+        @BindView(R.id.civ_profile)
+        CircleImageView civProfile;
 
         private ConnectionViewHolder(final View itemView) {
             super(itemView);

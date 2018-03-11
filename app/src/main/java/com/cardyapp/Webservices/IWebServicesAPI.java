@@ -5,6 +5,7 @@ import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.GetUserProfileModel;
 import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.RequestConnection;
+import com.cardyapp.Models.SendMultipleRequest;
 import com.cardyapp.Models.SendOTPForgotPasswordModel;
 import com.cardyapp.Models.SignInModel;
 import com.cardyapp.Models.SignUpModel;
@@ -94,9 +95,9 @@ public interface IWebServicesAPI {
     @POST("users_api/acceptandrevertrequest")
     Call<BaseResponse> accepAndRevertRequest(@Field("userid") String userid, @Field("requestbyuserid") String requestbyuserid);
 
-    @FormUrlEncoded
+
     @POST("users_api/sendmultiplerequest")
-    Call<BaseResponse> sendMultipleConnections(@Field("requestdata") List<RequestConnection> requestdata);
+    Call<BaseResponse> sendMultipleConnections(@Body SendMultipleRequest request);
 
     @FormUrlEncoded
     @POST("users_api/sendverificationotp")

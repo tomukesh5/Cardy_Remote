@@ -40,7 +40,7 @@
                             android:layout_width="@dimen/connection_row_profile_width"
                             android:layout_height="@dimen/connection_row_profile_height"
                             android:background="@drawable/connection_row_bg"
-                            android:src="@android:color/black" />
+                            android:src="@drawable/blank_profile" />
 
                         <View
                             android:layout_width="@dimen/connection_row_profile_width"

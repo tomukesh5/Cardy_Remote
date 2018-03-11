@@ -16,9 +16,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
+import com.cardyapp.Utils.CommonUtil;
 import com.cardyapp.Utils.IntentExtras;
 import com.cardyapp.fragments.ConnectionListFragment;
 import com.cardyapp.fragments.FeedbackFragment;
@@ -29,8 +32,11 @@ import com.cardyapp.fragments.SearchFragment;
 import com.cardyapp.fragments.SettingFragment;
 import com.cardyapp.fragments.ShareFragment;
 
+import java.util.Date;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DrawerActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,6 +52,7 @@ public class DrawerActivity extends BaseActivity
 
     private TextView mTvEmail;
     private TextView mTvName;
+    private CircleImageView mCIVProfilePic;
 
     private Toast backToast;
     FragmentManager fragmentManager;
@@ -121,13 +128,28 @@ public class DrawerActivity extends BaseActivity
         View headerView = navigationView.inflateHeaderView(R.layout.nav_header_dasboard);
         mTvName = headerView.findViewById(R.id.tv_name);
         mTvEmail = headerView.findViewById(R.id.tv_email);
+        mCIVProfilePic = headerView.findViewById(R.id.civ_profile);
         if (userdata != null) {
-            mTvEmail.setText(userdata.getPersonalemail());
+            mTvEmail.setText(userdata.getUser_mobile());
             mTvName.setText((userdata.getFirstname() == null ? "" : userdata.getFirstname()) + " " + (userdata.getLastname() == null ? "" : userdata.getLastname()));
+            loadProfilePic(userdata.getProfilepic());
         } else {
             mTvEmail.setText("");
             mTvName.setText("");
         }
+    }
+
+    private void loadProfilePic(String url) {
+
+        if (!CommonUtil.isEmpty(url)) {
+            Glide.with(this).load(getResources().getString(R.string.BASE_PROFILE_URL) + url).signature(new StringSignature(new Date() + "")).error(setDefaultProfilePic()).into(mCIVProfilePic);
+        } else {
+            mCIVProfilePic.setImageResource(setDefaultProfilePic());
+        }
+    }
+
+    private int setDefaultProfilePic() {
+        return R.drawable.blank_profile;
     }
 
     @Override

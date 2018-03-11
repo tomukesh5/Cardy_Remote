@@ -8,12 +8,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.cardyapp.Models.ConnectionDTO;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
+import com.cardyapp.Utils.CommonUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -50,6 +54,10 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         return new PendingRequestRecyclerViewAdapter.PendingRequestViewHolder(view);
     }
 
+    private int setDefaultProfilePic() {
+        return R.drawable.blank_profile;
+    }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         final Userdata connection = data.get(position);
@@ -59,6 +67,12 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
             connectionViewHolder.buttonLayout.setVisibility(View.VISIBLE);
         } else {
             connectionViewHolder.buttonLayout.setVisibility(View.GONE);
+        }
+
+        if (!CommonUtil.isEmpty(connection.getProfilepic())) {
+            Glide.with(context).load(context.getResources().getString(R.string.BASE_PROFILE_URL) + connection.getProfilepic()).signature(new StringSignature(new Date() + "")).error(setDefaultProfilePic()).into(connectionViewHolder.civProfile);
+        } else {
+            connectionViewHolder.civProfile.setImageResource(setDefaultProfilePic());
         }
 
         connectionViewHolder.mTvName.setText(connection.getFirstname() + " " + connection.getLastname());
@@ -114,8 +128,6 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
 
     class PendingRequestViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.civ_profile)
-        CircleImageView mCIVProfile;
         @BindView(R.id.tv_name)
         TextView mTvName;
         @BindView(R.id.tv_role)
@@ -134,6 +146,8 @@ public class PendingRequestRecyclerViewAdapter extends RecyclerView.Adapter<Recy
         TextView tvContactNumber;
         @BindView(R.id.buttonContainer)
         LinearLayout buttonLayout;
+        @BindView(R.id.civ_profile)
+        CircleImageView civProfile;
 
         private PendingRequestViewHolder(final View itemView) {
             super(itemView);

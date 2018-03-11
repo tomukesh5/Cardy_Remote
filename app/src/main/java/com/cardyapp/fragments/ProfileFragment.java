@@ -319,7 +319,7 @@ public class ProfileFragment extends Fragment implements Validator.ValidationLis
     private void loadProfilePic(String url) {
 
         if (!CommonUtil.isEmpty(url)) {
-            Glide.with(getActivity()).load(getResources().getString(R.string.BASE_URL) + url).signature(new StringSignature(new Date() + "")).error(setDefaultProfilePic()).into(mCIVProfilePic);
+            Glide.with(getActivity()).load(getResources().getString(R.string.BASE_PROFILE_URL) + url).signature(new StringSignature(new Date() + "")).error(setDefaultProfilePic()).into(mCIVProfilePic);
         } else {
             mCIVProfilePic.setImageResource(setDefaultProfilePic());
         }

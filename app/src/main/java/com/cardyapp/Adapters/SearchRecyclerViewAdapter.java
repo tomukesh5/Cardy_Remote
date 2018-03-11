@@ -10,14 +10,19 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.signature.StringSignature;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
+import com.cardyapp.Utils.CommonUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> {
 
@@ -45,6 +50,12 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> 
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
         final Userdata connection = data.get(position);
         final SearchViewHolder connectionViewHolder = (SearchViewHolder) viewHolder;
+
+        if (!CommonUtil.isEmpty(connection.getProfilepic())) {
+            Glide.with(context).load(context.getResources().getString(R.string.BASE_PROFILE_URL) + connection.getProfilepic()).signature(new StringSignature(new Date() + "")).error(setDefaultProfilePic()).into(connectionViewHolder.civProfile);
+        } else {
+            connectionViewHolder.civProfile.setImageResource(setDefaultProfilePic());
+        }
 
         connectionViewHolder.mCBSend.setOnCheckedChangeListener(null);
         if (isFromConnectionListFragment) {
@@ -76,6 +87,10 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> 
         });
     }
 
+    private int setDefaultProfilePic() {
+        return R.drawable.blank_profile;
+    }
+
     @Override
     public int getItemCount() {
         return data.size();
@@ -94,6 +109,8 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<ViewHolder> 
         TextView mTvRole;
         @BindView(R.id.cb_send)
         CheckBox mCBSend;
+        @BindView(R.id.civ_profile)
+        CircleImageView civProfile;
 
         private SearchViewHolder(final View itemView) {
             super(itemView);

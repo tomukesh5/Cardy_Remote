@@ -17,6 +17,7 @@ import com.cardyapp.App.Cardy;
 import com.cardyapp.Models.BaseResponse;
 import com.cardyapp.Models.PendingResuestModel;
 import com.cardyapp.Models.RequestConnection;
+import com.cardyapp.Models.SendMultipleRequest;
 import com.cardyapp.Models.Userdata;
 import com.cardyapp.R;
 import com.cardyapp.Utils.AppConstants;
@@ -76,7 +77,7 @@ public class SearchFragment extends Fragment {
 
         final DrawerActivity activity = (DrawerActivity) getActivity();
         activity.showProgress("");
-        CardySingleton.getInstance().callToSearchUserNearMeAPI(userdata.getUserid(), "300", new Callback<PendingResuestModel>() {
+        CardySingleton.getInstance().callToSearchUserNearMeAPI(userdata.getUserid(), "70000", new Callback<PendingResuestModel>() {
             @Override
             public void onResponse(Call<PendingResuestModel> call, Response<PendingResuestModel> response) {
                 Log.d(AppConstants.TAG, response.toString());
@@ -151,8 +152,8 @@ public class SearchFragment extends Fragment {
                 List<RequestConnection> list = new ArrayList<>();
                 for (String str : adapter.getSelectedUser()) {
                     RequestConnection connection = new RequestConnection();
-                    connection.setUserid(userdata.getUserid());
-                    connection.setRequesttouserid(str);
+                    connection.setUserid(str);
+                    connection.setRequesttouserid(userdata.getUserid());
                     list.add(connection);
                 }
 
@@ -187,9 +188,11 @@ public class SearchFragment extends Fragment {
     }
 
     private void sendMultipleRequest(List<RequestConnection> list) {
+        SendMultipleRequest request = new SendMultipleRequest();
+        request.setRequestdata(list);
         final DrawerActivity activity = (DrawerActivity) getActivity();
         activity.showProgress("");
-        CardySingleton.getInstance().callToSendMultipleRequestAPI(list, new Callback<BaseResponse>() {
+        CardySingleton.getInstance().callToSendMultipleRequestAPI(request, new Callback<BaseResponse>() {
             @Override
             public void onResponse(Call<BaseResponse> call, Response<BaseResponse> response) {
                 Log.d(AppConstants.TAG, response.toString());
