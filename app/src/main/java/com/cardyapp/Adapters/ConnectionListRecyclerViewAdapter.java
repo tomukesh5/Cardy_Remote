@@ -1,11 +1,14 @@
 package com.cardyapp.Adapters;
 
 import android.content.Context;
+import android.icu.lang.UScript;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,11 +30,57 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by Priyanka on 3/2/2018.
  */
 
-public class ConnectionListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ConnectionListRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private List<Userdata> data = new ArrayList<>();
+    private List<Userdata> dataBackup = new ArrayList<>();
     private Context context;
     private LayoutInflater layoutInflater;
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                FilterResults result = new FilterResults();
+                if(null != constraint && !constraint.toString().isEmpty()) {
+                    ArrayList<Userdata> filter = new ArrayList<Userdata>();
+                    ArrayList<Userdata> items = new ArrayList<Userdata>();
+                    synchronized (this) {
+                        items.addAll(dataBackup);
+                    }
+                    for (Userdata item : items) {
+                        if((item.getFirstname()+item.getLastname()).toLowerCase().contains(constraint) ||
+                                (item.getDesignation()).toLowerCase().contains(constraint)) {
+                            filter.add(item);
+                        }
+                    }
+                    result.count = filter.size();
+                    result.values = filter;
+                } else {
+                    synchronized (this) {
+                        result.count = dataBackup.size();
+                        result.values = dataBackup;
+                    }
+                }
+
+                return result;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                if(results.count == 0) {
+                    notifyDataSetChanged();
+                    data = new ArrayList<>();
+                } else {
+                    data = (List<Userdata>) results.values;
+                    notifyDataSetChanged();
+                }
+            }
+        };
+    }
 
     public interface onClickConnectionButton {
         void onClickedCallButton(int position);
@@ -45,6 +94,7 @@ public class ConnectionListRecyclerViewAdapter extends RecyclerView.Adapter<Recy
     public ConnectionListRecyclerViewAdapter(Context context, List<Userdata> data, onClickConnectionButton callback) {
         this.context = context;
         this.data = data;
+        this.dataBackup.addAll(data);
         this.callback = callback;
         this.layoutInflater = LayoutInflater.from(context);
     }
